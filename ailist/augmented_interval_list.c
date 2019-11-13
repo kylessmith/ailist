@@ -309,11 +309,11 @@ ailist_t *ailist_query_length(ailist_t *ail, uint32_t qs, uint32_t qe, int min_l
 }
 
 
-ailist_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long ends[], const long indices[], int length)
+array_query_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long ends[], const long indices[], int length)
 {   /* Find overlaps from array */
     int k;
 
-    ailist_t *overlaps = ailist_init();
+    array_query_t *aq = array_query_init();
 
     // Iterate over queries
     int i;
@@ -337,7 +337,8 @@ ailist_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long
                 {
                     if (ail->interval_list[t].end > qs)
                     {               	
-                        ailist_add(overlaps, ail->interval_list[t].start, ail->interval_list[t].end, ail->interval_list[t].index, (double)index);
+                        array_query_add(aq, index, ail->interval_list[t].index);
+                        //ailist_add(overlaps, ail->interval_list[t].start, ail->interval_list[t].end, ail->interval_list[t].index, (double)index);
                     }
 
                     t--;
@@ -348,14 +349,20 @@ ailist_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long
                 {
                     if (ail->interval_list[t].start < qe && ail->interval_list[t].end > qs)
                     {
-                        ailist_add(overlaps, ail->interval_list[t].start, ail->interval_list[t].end, ail->interval_list[t].index, (double)index);
+                        array_query_add(aq, index, ail->interval_list[t].index);
+                        //ailist_add(overlaps, ail->interval_list[t].start, ail->interval_list[t].end, ail->interval_list[t].index, (double)index);
                     }
                 }                      
             }
         }
     }
 
-    return overlaps;                            
+    // reallocate to remove extra memory
+    aq->ref_index = (long *)realloc(aq->ref_index, sizeof(long) * aq->size);
+    aq->query_index = (long *)realloc(aq->query_index, sizeof(long) * aq->size);
+    aq->max_size = aq->size;
+
+    return aq;                            
 }
 
 

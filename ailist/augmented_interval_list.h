@@ -12,6 +12,7 @@
 #include <time.h>
 #include <ctype.h>
 #include <math.h>
+#include "array_query_utilities.h"
 
 //-------------------------------------------------------------------------------------
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
@@ -55,7 +56,7 @@ uint32_t binary_search(interval_t* As, uint32_t idxS, uint32_t idxE, uint32_t qe
 ailist_t *ailist_query(ailist_t *ail, uint32_t qs, uint32_t qe);
 
 // Find overlaps from array
-ailist_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long ends[], const long indices[], int length);
+array_query_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long ends[], const long indices[], int length);
 
 // Query ailist intervals within lengths
 ailist_t *ailist_query_length(ailist_t *ail, uint32_t qs, uint32_t qe, int min_length, int max_length);
@@ -125,6 +126,7 @@ void ailist_nhits_from_array_length(ailist_t *ail, const long starts[], const lo
 
 // Print AIList
 void display_list(ailist_t *ail);
+
 
 /*********************
  * Convenient macros *

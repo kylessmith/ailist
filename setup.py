@@ -27,10 +27,10 @@ standard_doc_exts = [".md", ".rst", ".txt", ""]
 # Init
 #########################################################
 
-# check for Python 2.7 or later
+# check for Python 3.0 or later
 import sys
-if sys.version_info < (2,7):
-    sys.exit('Sorry, Python < 2.7 is not supported')
+if sys.version_info < (3,0):
+    sys.exit('Sorry, Python < 3.0 is not supported')
 
 import os
 
@@ -179,7 +179,7 @@ cython_ext_modules = [ext_module_AIList]
 # Call cythonize() explicitly, as recommended in the Cython documentation. See
 # This will favor Cython's own handling of '.pyx' sources over that provided by setuptools.
 # cythonize() just performs the Cython-level processing, and returns a list of Extension objects.
-my_ext_modules = cythonize(cython_ext_modules, include_path=my_include_dirs, gdb_debug=my_debug, language_level='3')
+my_ext_modules = cythonize(cython_ext_modules, include_path=my_include_dirs, gdb_debug=my_debug, language_level=3)
 
 #########################################################
 # Call setup()
@@ -209,7 +209,8 @@ setup(
                     "Topic :: Scientific/Engineering",
                     "Topic :: Scientific/Engineering :: Mathematics",
                     "Topic :: Software Development :: Libraries",
-                    "Topic :: Software Development :: Libraries :: Python Modules"
+                    "Topic :: Software Development :: Libraries :: Python Modules",
+                    "Topic :: Scientific/Engineering :: Bio-Informatic"
                   ],
     setup_requires = ["cython", "numpy"],
     install_requires = ["numpy"],

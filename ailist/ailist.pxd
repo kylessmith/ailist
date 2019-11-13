@@ -4,6 +4,19 @@ cimport cython
 from libc.stdint cimport uint32_t, int32_t, int64_t
 from libc.stdlib cimport malloc, free
 
+cdef extern from "array_query_utilities.c":
+	# C is include here so that it doesn't need to be compiled externally
+	pass
+
+cdef extern from "array_query_utilities.h":
+	# C is include here so that it doesn't need to be compiled externally
+	ctypedef struct array_query_t:
+		long *ref_index
+		long *query_index
+		int size
+		int max_size
+	
+	void array_query_destroy(array_query_t *aq) nogil
 
 cdef extern from "augmented_interval_list.c":
 	# C is include here so that it doesn't need to be compiled externally
@@ -35,7 +48,7 @@ cdef extern from "augmented_interval_list.h":
 	# Query ailist intervals
 	ailist_t *ailist_query(ailist_t *ail, uint32_t qs, uint32_t qe) nogil
 	# Find overlaps from array
-	ailist_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long ends[], const long indices[], int length) nogil
+	array_query_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long ends[], const long indices[], int length) nogil
 	# Query ailist intervals within lengths
 	ailist_t *ailist_query_length(ailist_t *ail, uint32_t qs, uint32_t qe, int min_length, int max_length) nogil
 	# Free ailist data
@@ -81,6 +94,7 @@ cdef extern from "augmented_interval_list.h":
 
 
 cpdef object rebuild(bytes data, bytes b_length)
+cdef np.ndarray pointer_to_numpy_array(void *ptr, np.npy_intp size)
 
 
 cdef class Interval(object):
@@ -110,7 +124,7 @@ cdef class AIList(object):
 	cdef void _sort(AIList self)
 	cdef ailist_t *_intersect(AIList self, int start, int end)
 	cdef np.ndarray _intersect_index(AIList self, int start, int end)
-	cdef long[:,::1] _intersect_from_array(AIList self, const long[::1] starts, const long[::1] ends, const long[::1] indices)
+	cpdef _intersect_from_array(AIList self, const long[::1] starts, const long[::1] ends, const long[::1] indices)
 	cdef np.ndarray _coverage(AIList self)
 	cdef np.ndarray _bin_coverage(AIList self, int bin_size)
 	cdef np.ndarray _bin_coverage_length(AIList self, int bin_size, int min_length, int max_length)

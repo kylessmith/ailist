@@ -9,6 +9,8 @@ import math
 cimport cython
 import pandas as pd
 from libc.string cimport memcpy
+np.import_array()
+from time import time
 
 # Set byteorder for __reduce__
 byteorder = sys.byteorder
@@ -52,6 +54,26 @@ cpdef AIList rebuild(bytes data, bytes b_length):
 	c.set_list(interval_list)
 
 	return c
+
+
+cdef np.ndarray pointer_to_numpy_array(void *ptr, np.npy_intp size):
+	"""
+	Convert c pointer to numpy array.
+	The memory will be freed as soon as the ndarray is deallocated.
+	"""
+
+	cdef extern from "numpy/arrayobject.h":
+		void PyArray_ENABLEFLAGS(np.ndarray arr, int flags)
+
+	cdef np.npy_intp dims[1]
+	dims[0] = size
+
+	cdef np.ndarray arr = np.PyArray_SimpleNewFromData(1, &dims[0], np.NPY_LONG, ptr)
+	
+	#PyArray_ENABLEFLAGS(arr, np.NPY_OWNDATA)
+	np.PyArray_UpdateFlags(arr, arr.flags.num | np.NPY_OWNDATA)
+
+	return arr
 
 
 cdef class Interval(object):
@@ -535,21 +557,14 @@ cdef class AIList(object):
 	@cython.boundscheck(False)
 	@cython.wraparound(False)
 	@cython.initializedcheck(False)
-	cdef long[:,::1] _intersect_from_array(AIList self, const long[::1] starts, const long[::1] ends, const long[::1] indices):
+	cpdef _intersect_from_array(AIList self, const long[::1] starts, const long[::1] ends, const long[::1] indices):
 		cdef int length = len(starts)
-		cdef ailist_t *total_overlaps = ailist_query_from_array(self.interval_list, &starts[0], &ends[0], &indices[0], length)
+		cdef array_query_t *total_overlaps = ailist_query_from_array(self.interval_list, &starts[0], &ends[0], &indices[0], length)
 
-		cdef long[:,::1] results = np.zeros((2,total_overlaps.nr), dtype=np.long)
-		
-		cdef int i
-		for i in range(total_overlaps.nr):
-			results[0, i] = <int>total_overlaps.interval_list[i].value
-			results[1, i] = total_overlaps.interval_list[i].index
+		cdef np.ndarray ref_index = pointer_to_numpy_array(total_overlaps.ref_index, total_overlaps.size)
+		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index, total_overlaps.size)
 
-		ailist_destroy(total_overlaps)
-
-		#return np.asarray(results)
-		return results
+		return ref_index, query_index
 
 	def intersect_from_array(self, const long[::1] starts, const long[::1] ends, const long[::1] index):
 		"""
@@ -573,10 +588,9 @@ cdef class AIList(object):
 		if self.is_constructed == False:
 			self.construct()
 
-		cdef long[:,::1] indices = self._intersect_from_array(starts, ends, index)
-		cdef np.ndarray indices_arr = np.asarray(indices)
-
-		return indices_arr[0,:], indices_arr[1,:]
+		ref_index, query_index = self._intersect_from_array(starts, ends, index)
+		
+		return ref_index, query_index
 		
 
 	cdef np.ndarray _coverage(AIList self):
