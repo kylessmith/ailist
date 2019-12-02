@@ -1,0 +1,2 @@
+.. automodule:: ailist
+	:members:

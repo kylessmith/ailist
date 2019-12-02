@@ -1,3 +1,7 @@
+"""
+Main classes.
+"""
+
 #cython: embedsignature=True
 #cython: profile=False
 
@@ -79,6 +83,12 @@ cdef np.ndarray pointer_to_numpy_array(void *ptr, np.npy_intp size):
 cdef class Interval(object):
 	"""
 	Wrapper of C interval_t
+
+	:class:`~ailist.Interval` stores an interval
+	
+	Parameters
+	----------
+	None
 	"""
 
 	# Set the interval
@@ -86,11 +96,12 @@ cdef class Interval(object):
 		"""
 		Initialize wrapper of C interval
 
-		Arguments:
+		Params
 		---------
-			i: interval_t (C interval_t to be wrapped)
+			i
+				interval_t (C interval_t to be wrapped)
 
-		Returns:
+		Returns
 		---------
 			None
 		"""
@@ -101,18 +112,30 @@ cdef class Interval(object):
 
 	@property
 	def start(self):
+		"""
+		Start of interval
+		"""
 		return self.i.start
 
 	@property
 	def end(self):
+		"""
+		End of interval
+		"""
 		return self.i.end
 	
 	@property
 	def index(self):
+		"""
+		Index of interval
+		"""
 		return self.i.index
 
 	@property
 	def value(self):
+		"""
+		Value of interval
+		"""
 		return self.i.value
 
 
@@ -130,6 +153,12 @@ cdef class Interval(object):
 cdef class AIList(object):
 	"""
 	Wrapper for C ailist_t
+
+	:class:`~ailist.AIList` stores a list of intervals
+	
+	Parameters
+	----------
+	None
 	"""
 
 	def __cinit__(self):
@@ -145,7 +174,7 @@ cdef class AIList(object):
 
 	def __dealloc__(self):
 		"""
-		Free IntervalSkipList
+		Free AIList.interval_list
 		"""
 		
 		if hasattr(self, "interval_list"):
@@ -165,14 +194,17 @@ cdef class AIList(object):
 		Function to build ailist_t object from
 		serialized bytes using __reduce__()
 
-		Arguments:
+		Params
 		---------
-			data: bytes (Bytes representation of ailist_t)
-			b_length: bytes (Length of ailist_t)
+			data
+				bytes (Bytes representation of ailist_t)
+			b_length
+				bytes (Length of ailist_t)
 
-		Returns:
+		Returns
 		---------
-			interval_list: ailist_t* (Translated ailist_t for bytes)
+			interval_list
+				ailist_t* (Translated ailist_t for bytes)
 		"""
 		
 		# Convert bytes to ints
@@ -211,6 +243,9 @@ cdef class AIList(object):
 
 	@property	
 	def size(self):
+		"""
+		Number of intervals in AIList
+		"""
 		# Check if object is still open
 		if self.is_closed:
 			raise NameError("AIList object has been closed.")
@@ -219,6 +254,9 @@ cdef class AIList(object):
 	
 	@property
 	def first(self):
+		"""
+		Start of first interval in AIList
+		"""
 		# Check if object is still open
 		if self.is_closed:
 			raise NameError("AIList object has been closed.")
@@ -231,6 +269,9 @@ cdef class AIList(object):
 
 	@property
 	def last(self):
+		"""
+		End of last intervals in AIList
+		"""
 		# Check if object is still open
 		if self.is_closed:
 			raise NameError("AIList object has been closed.")
@@ -243,6 +284,9 @@ cdef class AIList(object):
 
 	@property
 	def range(self):
+		"""
+		AIList.last - AIList.first
+		"""
 		# Check if object is still open
 		if self.is_closed:
 			raise NameError("AIList object has been closed.")
@@ -378,11 +422,12 @@ cdef class AIList(object):
 		"""
 		Set wrapper of C ailist
 
-		Arguments:
+		Params
 		---------
-			input_list: ailist_t* (ailist_t to replace existing one)
+			input_list
+				ailist_t* (ailist_t to replace existing one)
 
-		Returns:
+		Returns
 		---------
 			Nothing
 		"""
@@ -403,13 +448,16 @@ cdef class AIList(object):
 		"""
 		Add an interval to AIList inplace
 		
-		Arguments:
+		Params
 		---------
-			start: int (Start position of interval)
-			end: int (End position of interval)
-			value: double (Value of interval [default = 0.0])
+			start
+				int (Start position of interval)
+			end
+				int (End position of interval)
+			value
+				double (Value of interval [default = 0.0])
 
-		Returns:
+		Returns
 		---------
 			Nothing
 		"""
@@ -427,14 +475,18 @@ cdef class AIList(object):
 		"""
 		Add an intervals from arrays to AIList inplace
 		
-		Arguments:
+		Params
 		---------
-			starts: numpy.ndarray{long} (Start positions of intervals)
-			ends: numpy.ndarray{long} (End positions of intervals)
-			index: numpy.ndarray{long} (Index of intervals)
-			values: numpy.ndarray{double} (Values of intervals)
+			starts
+				numpy.ndarray{long} (Start positions of intervals)
+			ends
+				numpy.ndarray{long} (End positions of intervals)
+			index
+				numpy.ndarray{long} (Index of intervals)
+			values
+				numpy.ndarray{double} (Values of intervals)
 
-		Returns:
+		Returns
 		---------
 			Nothing
 		"""
@@ -495,14 +547,17 @@ cdef class AIList(object):
 		"""
 		Find intervals overlapping given range
 		
-		Arguments:
+		Params
 		---------
-			start: int (Start position of query range)
-			end: int (End position of query range)
+			start
+				int (Start position of query range)
+			end
+				int (End position of query range)
 
-		Returns:
+		Returns
 		---------
-			overlaps: AIList (Overlapping intervals)
+			overlaps
+				AIList (Overlapping intervals)
 		"""
 
 		# Check if object is still open
@@ -531,14 +586,17 @@ cdef class AIList(object):
 		"""
 		Find interval indices overlapping given range
 		
-		Arguments:
+		Params
 		---------
-			start: int (Start position of query range)
-			end: int (End position of query range)
+			start
+				int (Start position of query range)
+			end
+				int (End position of query range)
 
-		Returns:
+		Returns
 		---------
-			indice: np.ndarray{int} (Overlapping interval indices)
+			indice
+				np.ndarray{int} (Overlapping interval indices)
 		"""
 
 		# Check if object is still open
@@ -570,15 +628,19 @@ cdef class AIList(object):
 		"""
 		Find interval indices overlapping given ranges
 		
-		Arguments:
+		Params
 		---------
-			starts: numpy.ndarray{long} (Start positions of intervals)
-			ends: numpy.ndarray{long} (End positions of intervals)
-			index: numpy.ndarray{long} (Index of intervals)
+			starts
+				numpy.ndarray{long} (Start positions of intervals)
+			ends
+				numpy.ndarray{long} (End positions of intervals)
+			index
+				numpy.ndarray{long} (Index of intervals)
 
-		Returns:
+		Returns
 		---------
-			indice: np.ndarray{int} (Overlapping interval indices)
+			indice
+				np.ndarray{int} (Overlapping interval indices)
 		"""
 
 		# Check if object is still open
@@ -606,7 +668,7 @@ cdef class AIList(object):
 		Find number of intervals overlapping every
 		position in the AList range
 
-		Returns:
+		Returns
 		---------
 			pandas.Series{double} (Position on index and coverage as values)
 		"""
@@ -646,13 +708,16 @@ cdef class AIList(object):
 		Find sum of coverage within binned
 		positions
 		
-		Arguments:
+		Params
 		---------
-			bin_size: int (Size of the bin to use)
-			min_length: int (Minimum length of intervals to include [default = None])
-			max_length: int (Maximum length of intervals to include [default = None])
+			bin_size
+				int (Size of the bin to use)
+			min_length
+				int (Minimum length of intervals to include [default = None])
+			max_length
+				int (Maximum length of intervals to include [default = None])
 
-		Returns:
+		Returns
 		---------
 			pandas.Series{double} (Position on index and coverage as values)
 		"""
@@ -695,13 +760,16 @@ cdef class AIList(object):
 		Find number of intervals overlapping binned
 		positions
 		
-		Arguments:
+		Params
 		---------
-			bin_size: int (Size of the bin to use)
-			min_length: int (Minimum length of intervals to include [default = None])
-			max_length: int (Maximum length of intervals to include [default = None])
+			bin_size
+				int (Size of the bin to use)
+			min_length
+				int (Minimum length of intervals to include [default = None])
+			max_length
+				int (Maximum length of intervals to include [default = None])
 
-		Returns:
+		Returns
 		---------
 			pandas.Series{double} (Position on index and coverage as values)
 		"""
@@ -737,13 +805,15 @@ cdef class AIList(object):
 		"""
 		Merge intervals within a gap
 		
-		Arguments:
+		Params
 		---------
-			gap: int (Gap between intervals to merge)
+			gap
+				int (Gap between intervals to merge)
 
-		Returns:
+		Returns
 		---------
-			merged_list: AIList (Merged intervals)
+			merged_list
+				AIList (Merged intervals)
 		"""
 
 		# Check if object is still open
@@ -766,13 +836,15 @@ cdef class AIList(object):
 		"""
 		Subtract intervals within another AIList
 		
-		Arguments:
+		Params
 		---------
-			query_ail: AIList (AIList of intervals to subtract)
+			query_ail
+				AIList (AIList of intervals to subtract)
 
-		Returns:
+		Returns
 		---------
-			subtracted_list: AIList (Subtracted intervals)
+			subtracted_list
+				AIList (Subtracted intervals)
 		"""
 
 		# Check if object is still open
@@ -798,13 +870,15 @@ cdef class AIList(object):
 		"""
 		Common intervals within another AIList
 		
-		Arguments:
+		Params
 		---------
-			query_ail: AIList (AIList of intervals to find commons)
+			query_ail
+				AIList (AIList of intervals to find commons)
 
-		Returns:
+		Returns
 		---------
-			common_list: AIList (Common intervals)
+			common_list
+				AIList (Common intervals)
 		"""
 
 		# Check if object is still open
@@ -830,13 +904,15 @@ cdef class AIList(object):
 		"""
 		Union of intervals within two AIList
 		
-		Arguments:
+		Params
 		---------
-			query_ail: AIList (AIList of intervals to append)
+			query_ail
+				AIList (AIList of intervals to append)
 
-		Returns:
+		Returns
 		---------
-			union_list: AIList (Union of intervals)
+			union_list
+				AIList (Union of intervals)
 		"""
 
 		# Check if object is still open
@@ -873,13 +949,16 @@ cdef class AIList(object):
 		Calculate Window Protection Score
 		for each position in AIList range
 		
-		Arguments:
+		Params
 		---------
-			protection: int (Protection window to use)
-			min_length: int (Minimum length of intervals to include [default = None])
-			max_length: int (Maximum length of intervals to include [default = None])
+			protection
+				int (Protection window to use)
+			min_length
+				int (Minimum length of intervals to include [default = None])
+			max_length
+				int (Maximum length of intervals to include [default = None])
 
-		Returns:
+		Returns
 		---------
 			pandas.Series{double} (Position on index and WPS as values)
 		"""
@@ -903,14 +982,17 @@ cdef class AIList(object):
 		"""
 		Filter out intervals outside of a length range
 		
-		Arguments:
+		Params
 		---------
-			min_length: int (Minimum length to keep)
-			max_length: int (Maximum langth to keep)
+			min_length
+				int (Minimum length to keep)
+			max_length
+				int (Maximum langth to keep)
 
-		Returns:
+		Returns
 		---------
-			filtered_ail: AIList (Filtered intervals)
+			filtered_ail
+				AIList (Filtered intervals)
 		"""
 
 		# Check if object is still open
@@ -940,9 +1022,10 @@ cdef class AIList(object):
 		"""
 		Calculate length distribution of intervals
 		
-		Returns:
+		Returns
 		---------
-			distribution: numpy.ndarray{int} (Interval length distribution)
+			distribution
+				numpy.ndarray{int} (Interval length distribution)
 		"""
 
 		# Check if object is still open
@@ -982,16 +1065,21 @@ cdef class AIList(object):
 		Find number of intervals overlapping given
 		positions
 		
-		Arguments:
+		Params
 		---------
-			starts: numpy.ndarray{long} (Start positions to intersect)
-			ends: numpy.ndarray{long} (End positions to intersect)
-			min_length: int (Minimum length of intervals to include [default = None])
-			max_length: int (Maximum length of intervals to include [default = None])
+			starts
+				numpy.ndarray{long} (Start positions to intersect)
+			ends
+				numpy.ndarray{long} (End positions to intersect)
+			min_length
+				int (Minimum length of intervals to include [default = None])
+			max_length
+				int (Maximum length of intervals to include [default = None])
 
-		Returns:
+		Returns
 		---------
-			nhits: numpy.ndarray{int} (Number of hits per position)
+			nhits
+				numpy.ndarray{int} (Number of hits per position)
 		"""
 
 		# Check if object is still open
