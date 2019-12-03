@@ -40,6 +40,9 @@ typedef struct {
 // Initialize ailist_t
 ailist_t *ailist_init(void);
 
+// Initialize interval_t
+interval_t *interval_init(uint32_t start, uint32_t end, int32_t index, double_t value);
+
 // Add a interval_t interval
 void ailist_add(ailist_t *ail, uint32_t start, uint32_t end, int32_t index, double_t value);
 
@@ -123,6 +126,9 @@ void ailist_nhits_from_array(ailist_t *ail, const long starts[], const long ends
 
 // Calculate number of overlaps from arrays within lengths
 void ailist_nhits_from_array_length(ailist_t *ail, const long starts[], const long ends[], int length, int nhits[], int min_length, int max_length);
+
+// Calculate coverage across an interval
+void ailist_interval_coverage(ailist_t *ail, int start, int end, int coverage[]);
 
 // Print AIList
 void display_list(ailist_t *ail);

@@ -91,8 +91,21 @@ cdef class Interval(object):
 	None
 	"""
 
+	def __init__(self, start=None, end=None, index=None, value=None):
+		"""
+		Initialize Interval
+		"""
+
+		if start is not None:
+			if index is None:
+				index = 0
+			if value is None:
+				value = 0.0
+			# Create interval
+			self.i = interval_init(start, end, index, value)
+
 	# Set the interval
-	cdef void set_i(Interval self, interval_t i):
+	cdef void set_i(Interval self, interval_t *i):
 		"""
 		Initialize wrapper of C interval
 
@@ -137,6 +150,32 @@ cdef class Interval(object):
 		Value of interval
 		"""
 		return self.i.value
+	
+
+	def __hash__(self):
+		"""
+		Get hash value
+		"""
+
+		return hash(repr(self))
+
+	
+	def __eq__(self, other):
+		"""
+		Check if there is overlap
+		"""
+
+		# Check that the classes match
+		is_equal = self.__class__ == other.__class__
+
+		# Check for overlap
+		if is_equal:
+			if other.start < self.i.end and other.end > self.i.start:
+				is_equal = True
+			else:
+				is_equal = False
+		
+		return is_equal
 
 
 	def __str__(self):
@@ -323,7 +362,7 @@ cdef class AIList(object):
 		cdef Interval interval
 		for i in range(self.size):
 			interval = Interval()
-			interval.set_i(self.interval_list.interval_list[i])
+			interval.set_i(&self.interval_list.interval_list[i])
 			
 			yield interval
 
@@ -363,6 +402,18 @@ cdef class AIList(object):
 
 		return self.append(query_ail)
 
+	
+	def __hash__(self):
+		"""
+		Get hash value
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("AIList object has been closed.")
+
+		return hash(self)
+
 
 	def __getitem__(self, key):
 		"""
@@ -383,7 +434,7 @@ cdef class AIList(object):
 
 		# Create Interval wrapper
 		output_interval = Interval()
-		output_interval.set_i(self.interval_list.interval_list[key])
+		output_interval.set_i(&self.interval_list.interval_list[key])
 		
 		return output_interval
 
@@ -1099,6 +1150,49 @@ cdef class AIList(object):
 			nhits = self._nhits_from_array_length(starts, ends, min_length, max_length)
 
 		return nhits
+
+
+	cdef np.ndarray _interval_coverage(AIList self, int start, int end):
+		# Initialize hits
+		cdef int[::1] coverage = np.zeros(end - start, dtype=np.intc)
+
+		# Calculate distribution
+		ailist_interval_coverage(self.interval_list, start, end, &coverage[0])
+
+		return np.asarray(coverage, dtype=np.intc)
+	
+	def interval_coverage(self, int start, int end):
+		"""
+		Find number of intervals overlapping each
+		position in given interval
+		
+		Params
+		---------
+			start
+				int (Start position to intersect)
+			end
+				int (End position to intersect)
+
+		Returns
+		---------
+			coverage
+				numpy.ndarray{int} (Number of hits per position)
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("AIList object has been closed.")
+
+		# Make sure list is constructed
+		if self.is_constructed == False:
+			self.construct()
+
+		# Initialize distribution
+		cdef np.ndarray coverage
+		# Calculate distribution
+		coverage = self._interval_coverage(start, end)
+
+		return pd.Series(coverage, index=np.arange(start, end))
 
 	
 	def close(self):

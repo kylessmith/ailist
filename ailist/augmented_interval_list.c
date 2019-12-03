@@ -109,6 +109,29 @@ void ailist_add(ailist_t *ail, uint32_t start, uint32_t end, int32_t index, doub
 	return;
 }
 
+
+interval_t *interval_init(uint32_t start, uint32_t end, int32_t index, double_t value)
+{   /* Create interval_t */
+
+    // Initialize interval
+    interval_t *i = (interval_t *)malloc(sizeof(interval_t));
+
+    // Check if memory was allocated
+    if (i == NULL)
+    {
+        fprintf (stderr, "Out of memory!!! (init)\n");
+        exit(1);
+    }
+
+    // Set new interval values
+    i->start = start;
+	i->end   = end;
+    i->index = index;
+    i->value = value;
+
+	return i;
+}
+
 //-------------------------------------------------------------------------------
 
 void ailist_sort(ailist_t *ail)
@@ -1065,6 +1088,31 @@ void ailist_nhits_from_array_length(ailist_t *ail, const long starts[], const lo
     {
         ailist_t *overlaps = ailist_query_length(ail, starts[i], ends[i], min_length, max_length);
         nhits[i] = overlaps->nr;
+    }
+
+    return;
+}
+
+
+void ailist_interval_coverage(ailist_t *ail, int start, int end, int coverage[])
+{
+    
+    // Query overlaps
+    ailist_t *overlaps = ailist_query(ail, start, end);
+
+    // Iterate over overlaps
+    int j;
+    for (j = 0; j < overlaps->nr; j++)
+    {
+        int overlap_start = MAX(start, (int)overlaps->interval_list[j].start);
+        int overlap_end = MIN(end, (int)overlaps->interval_list[j].end);
+
+        // Iterate over overlapping postions
+        int k;
+        for (k = overlap_start; k < overlap_end; k++)
+        {
+            coverage[k - start] += 1;
+        }
     }
 
     return;

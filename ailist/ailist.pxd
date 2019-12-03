@@ -39,6 +39,8 @@ cdef extern from "augmented_interval_list.h":
 
 	# Initialize ailist_t
 	ailist_t *ailist_init() nogil
+	# Initialize interval_t
+	interval_t *interval_init(uint32_t start, uint32_t end, int32_t index, double value) nogil
 	# Add a interval_t interval
 	void ailist_add(ailist_t *ail, uint32_t start, uint32_t end, int32_t index, double value) nogil
 	# Sort intervals in ailist
@@ -89,6 +91,8 @@ cdef extern from "augmented_interval_list.h":
 	void ailist_nhits_from_array(ailist_t *ail, const long starts[], const long ends[], int length, int nhits[]) nogil
 	# Calculate number of overlaps from arrays within lengths
 	void ailist_nhits_from_array_length(ailist_t *ail, const long starts[], const long ends[], int length, int nhits[], int min_length, int max_length) nogil
+	# Calculate coverage across an interval
+	void ailist_interval_coverage(ailist_t *ail, int start, int end, int coverage[]) nogil
 	# Print AIList
 	void display_list(ailist_t *ail) nogil
 
@@ -101,9 +105,9 @@ cdef class Interval(object):
 	"""
 	Wrapper for C interval
 	"""
-	cdef interval_t i
+	cdef interval_t *i
 
-	cdef void set_i(self, interval_t i)
+	cdef void set_i(self, interval_t *i)
 
 
 cdef class AIList(object):
@@ -135,4 +139,4 @@ cdef class AIList(object):
 	cdef np.ndarray _length_dist(AIList self)
 	cdef np.ndarray _nhits_from_array(AIList self, const long[::1] starts, const long[::1] ends)
 	cdef np.ndarray _nhits_from_array_length(AIList self, const long[::1] starts, const long[::1] ends, int min_length, int max_length)
-	
+	cdef np.ndarray _interval_coverage(AIList self, int start, int end)
