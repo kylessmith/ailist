@@ -32,4 +32,6 @@ ailist.AIList
    
 	  ~ailist.AIList.add
 	  ~ailist.AIList.from_array
+	  ~ailist.AIList.wps
+	  ~ailist.AIList.coverage
       

@@ -1021,6 +1021,8 @@ cdef class AIList(object):
 		# Initialize wps
 		cdef np.ndarray wps
 		# Calculate wps
+		if self.range == 0:
+			return None
 		if min_length is None or max_length is None:
 			wps = self._wps(protection)
 		else:
