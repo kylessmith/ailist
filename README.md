@@ -13,6 +13,8 @@ Additonal wrapper functions have been created which allow easy user interface.
 
 All citations should reference to [original paper][paper].
 
+For full usage and installation [documentation][AIList_docs]
+
 ## Install
 
 If you dont already have numpy and scipy installed, it is best to download
@@ -199,3 +201,4 @@ i.intersect_from_array(starts, ends, ids)
 
 [AIList_github]: https://github.com/databio/AIList
 [paper]: https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btz407/5509521
+[AIList_docs]: https://www.biosciencestack.com/static/ailist/docs/index.html
