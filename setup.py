@@ -193,6 +193,7 @@ setup(
     url = "https://github.com/kylessmith/ailist",
     description = SHORTDESC,
     long_description = DESC,
+    long_description_content_type = "text/x-rst",
     # CHANGE THIS
     license = "GPL2",
     # free-form text field
@@ -210,7 +211,7 @@ setup(
                     "Topic :: Scientific/Engineering :: Mathematics",
                     "Topic :: Software Development :: Libraries",
                     "Topic :: Software Development :: Libraries :: Python Modules",
-                    "Topic :: Scientific/Engineering :: Bio-Informatic"
+                    "Topic :: Scientific/Engineering :: Bio-Informatics"
                   ],
     setup_requires = ["cython", "numpy"],
     install_requires = ["numpy"],
