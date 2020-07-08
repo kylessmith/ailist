@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ailist.AIList &mdash; ailist 0.1.7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/typehints.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ailist.AIList.first" href="ailist.AIList.first.html" />
+    <link rel="prev" title="ailist.Interval.to_list" href="ailist.Interval.to_list.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ailist
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">The ailist API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#api">API</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#basic-class">Basic class</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ailist.Interval.html">ailist.Interval</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ailist.AIList</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../benchmarking.html">Benchmarking</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ailist</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">The ailist API reference</a> &raquo;</li>
+        
+      <li>ailist.AIList</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/kylessmith/ailist/blob/master/doc/api/ailist.AIList.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ailist-ailist">
+<h1>ailist.AIList<a class="headerlink" href="#ailist-ailist" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="ailist.AIList">
+<em class="property">class </em><code class="sig-prename descclassname">ailist.</code><code class="sig-name descname">AIList</code><a class="headerlink" href="#ailist.AIList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for C ailist_t</p>
+<p><a class="reference internal" href="#ailist.AIList" title="ailist.AIList"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIList</span></code></a> stores a list of intervals</p>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.first.html#ailist.AIList.first" title="ailist.AIList.first"><code class="xref py py-obj docutils literal notranslate"><span class="pre">first</span></code></a></p></td>
+<td><p>Start of first interval in AIList</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.is_closed.html#ailist.AIList.is_closed" title="ailist.AIList.is_closed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_closed</span></code></a></p></td>
+<td><p>‘bool’</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.is_constructed.html#ailist.AIList.is_constructed" title="ailist.AIList.is_constructed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_constructed</span></code></a></p></td>
+<td><p>‘bool’</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.is_frozen.html#ailist.AIList.is_frozen" title="ailist.AIList.is_frozen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_frozen</span></code></a></p></td>
+<td><p>‘bool’</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.is_sorted.html#ailist.AIList.is_sorted" title="ailist.AIList.is_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_sorted</span></code></a></p></td>
+<td><p>‘bool’</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.last.html#ailist.AIList.last" title="ailist.AIList.last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last</span></code></a></p></td>
+<td><p>End of last intervals in AIList</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.range.html#ailist.AIList.range" title="ailist.AIList.range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">range</span></code></a></p></td>
+<td><p>AIList.last - AIList.first</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.size.html#ailist.AIList.size" title="ailist.AIList.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
+<td><p>Number of intervals in AIList</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.add.html#ailist.AIList.add" title="ailist.AIList.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(self, int start, int end, double value=0.0)</p></td>
+<td><p>Add an interval to AIList inplace</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.append.html#ailist.AIList.append" title="ailist.AIList.append"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append</span></code></a>(self, AIList query_ail)</p></td>
+<td><p>Union of intervals within two AIList</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.bin_coverage.html#ailist.AIList.bin_coverage" title="ailist.AIList.bin_coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_coverage</span></code></a>(self, int bin_size=100000[, …])</p></td>
+<td><p>Find sum of coverage within binned positions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.bin_means.html#ailist.AIList.bin_means" title="ailist.AIList.bin_means"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_means</span></code></a>(self, int bin_size=100000)</p></td>
+<td><p>Find mean of values for intervals overlapping binned positions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.bin_nhits.html#ailist.AIList.bin_nhits" title="ailist.AIList.bin_nhits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_nhits</span></code></a>(self, int bin_size=100000[, …])</p></td>
+<td><p>Find number of intervals overlapping binned positions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.bin_sums.html#ailist.AIList.bin_sums" title="ailist.AIList.bin_sums"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_sums</span></code></a>(self, int bin_size=100000)</p></td>
+<td><p>Find sum of values for intervals overlapping binned positions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.close.html#ailist.AIList.close" title="ailist.AIList.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>(self)</p></td>
+<td><p>Close object and clear memory</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.common.html#ailist.AIList.common" title="ailist.AIList.common"><code class="xref py py-obj docutils literal notranslate"><span class="pre">common</span></code></a>(self, AIList query_ail)</p></td>
+<td><p>Common intervals within another AIList</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.construct.html#ailist.AIList.construct" title="ailist.AIList.construct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct</span></code></a>(self, int min_length=20)</p></td>
+<td><p>Construct ailist_t <a href="#id1"><span class="problematic" id="id2">*</span></a>Required to call intersect</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.coverage.html#ailist.AIList.coverage" title="ailist.AIList.coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coverage</span></code></a>(self)</p></td>
+<td><p>Find number of intervals overlapping every position in the AList range</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.display.html#ailist.AIList.display" title="ailist.AIList.display"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display</span></code></a>(self)</p></td>
+<td><p>Print all intervals</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.downsample.html#ailist.AIList.downsample" title="ailist.AIList.downsample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">downsample</span></code></a>(self, double proportion)</p></td>
+<td><p>Randomly downsample AIList</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.extract_index.html#ailist.AIList.extract_index" title="ailist.AIList.extract_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_index</span></code></a>(self)</p></td>
+<td><p>Return the index values</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.filter.html#ailist.AIList.filter" title="ailist.AIList.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span></code></a>(self, int min_length=1, …)</p></td>
+<td><p>Filter out intervals outside of a length range</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.freeze.html#ailist.AIList.freeze" title="ailist.AIList.freeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">freeze</span></code></a>(self)</p></td>
+<td><p>Make <a class="reference internal" href="#ailist.AIList" title="ailist.AIList"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIList</span></code></a> immutable</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.from_array.html#ailist.AIList.from_array" title="ailist.AIList.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(self, const long[, const long[, …)</p></td>
+<td><p>Add intervals from arrays to AIList inplace</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.intersect.html#ailist.AIList.intersect" title="ailist.AIList.intersect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intersect</span></code></a>(self, int start, int end)</p></td>
+<td><p>Find intervals overlapping given range</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.intersect_from_array.html#ailist.AIList.intersect_from_array" title="ailist.AIList.intersect_from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intersect_from_array</span></code></a>(self, const long[, …)</p></td>
+<td><p>Find interval indices overlapping given ranges</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.intersect_index.html#ailist.AIList.intersect_index" title="ailist.AIList.intersect_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intersect_index</span></code></a>(self, int start, int end)</p></td>
+<td><p>Find interval indices overlapping given range</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.interval_coverage.html#ailist.AIList.interval_coverage" title="ailist.AIList.interval_coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interval_coverage</span></code></a>(self, int start, int end)</p></td>
+<td><p>Find number of intervals overlapping each position in given interval</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.length_dist.html#ailist.AIList.length_dist" title="ailist.AIList.length_dist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length_dist</span></code></a>(self)</p></td>
+<td><p>Calculate length distribution of intervals</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.merge.html#ailist.AIList.merge" title="ailist.AIList.merge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge</span></code></a>(self, int gap=0)</p></td>
+<td><p>Merge intervals within a gap</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.nhits_from_array.html#ailist.AIList.nhits_from_array" title="ailist.AIList.nhits_from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nhits_from_array</span></code></a>(self, const long[, const long[)</p></td>
+<td><p>Find number of intervals overlapping given positions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.reset_index.html#ailist.AIList.reset_index" title="ailist.AIList.reset_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_index</span></code></a>(self)</p></td>
+<td><p>Reset index value</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.sort.html#ailist.AIList.sort" title="ailist.AIList.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>(self)</p></td>
+<td><p>Sort intervals inplace</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.subtract.html#ailist.AIList.subtract" title="ailist.AIList.subtract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subtract</span></code></a>(self, AIList query_ail)</p></td>
+<td><p>Subtract intervals within another AIList</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.AIList.unfreeze.html#ailist.AIList.unfreeze" title="ailist.AIList.unfreeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unfreeze</span></code></a>(self)</p></td>
+<td><p>Make <a class="reference internal" href="#ailist.AIList" title="ailist.AIList"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIList</span></code></a> mutable</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.AIList.wps.html#ailist.AIList.wps" title="ailist.AIList.wps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wps</span></code></a>(self, int protection=60[, min_length, …])</p></td>
+<td><p>Calculate Window Protection Score for each position in AIList range</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ailist.AIList.first.html" class="btn btn-neutral float-right" title="ailist.AIList.first" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ailist.Interval.to_list.html" class="btn btn-neutral float-left" title="ailist.Interval.to_list" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Kyle S. Smith.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

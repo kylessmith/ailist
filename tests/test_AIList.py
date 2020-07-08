@@ -15,6 +15,8 @@ test_nhits = np.array([1, 4, 4, 2, 2, 2, 2, 2, 2, 2])
 test_bin_nhits = np.array([2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,1], dtype=np.double)
 test_bin_nhits_length = np.array([1,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,1], dtype=np.double)
 
+test_bin_sums = np.array([0.2,0.2,0.2,0,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.1], dtype=np.double)
+
 test_bin_coverage = np.array([3,5,7,0,10,10,10,10,10,10,10,10,10,10,10,10,10,5], dtype=np.double)
 test_bin_coverage_length = np.array([2,5,7,0,10,10,10,10,10,10,10,10,10,10,10,10,10,5], dtype=np.double)
 
@@ -32,13 +34,13 @@ def test_AIList():
 
     # Test AIList construction
     i = AIList()
-    i.add(10, 11)
-    i.add(15, 19)
-    i.add(11, 13)
-    i.add(19, 22)
-    i.add(20, 25)
-    i.add(30, 100)
-    i.add(30, 95)
+    i.add(10, 11, 0.1)
+    i.add(15, 19, 0.1)
+    i.add(11, 13, 0.1)
+    i.add(19, 22, 0.1)
+    i.add(20, 25, 0.1)
+    i.add(30, 100, 0.1)
+    i.add(30, 95, 0.1)
     i.construct()
     assert len(i) == 7
 
@@ -63,6 +65,10 @@ def test_AIList():
     # Test bin coverage length
     bcl = i.bin_coverage(5, 2, 100)
     assert (bcl.values == test_bin_coverage_length).all()
+
+    # Test bin sums
+    bs = i.bin_sums(5)
+    assert (i.bin_sums(5) == test_bin_sums).all()
 
     # Test intersection
     o = i.intersect(3, 15)

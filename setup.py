@@ -171,7 +171,7 @@ except MyFileNotFoundError:
 #########################################################
 
 # declare Cython extension modules here
-ext_module_AIList = declare_cython_extension( "ailist.ailist", use_math=False, use_openmp=False , include_dirs=my_include_dirs )
+ext_module_AIList = declare_cython_extension( "ailist.ailist_core", use_math=False, use_openmp=False , include_dirs=my_include_dirs )
 
 # this is mainly to allow a manual logical ordering of the declared modules
 cython_ext_modules = [ext_module_AIList]

@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial &mdash; ailist 0.1.7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/typehints.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="ailist.AIList.wps" href="api/ailist.AIList.wps.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ailist
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">The ailist API reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ailist</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/kylessmith/ailist/blob/master/doc/tutorial.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ailist</span> <span class="kn">import</span> <span class="n">AIList</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="n">AIList</span><span class="p">()</span>
+<span class="n">i</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">i</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">i</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">)</span>
+<span class="n">i</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">i</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">i</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># Print intervals</span>
+<span class="n">i</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="c1"># (15-20) (10-30) (17-19) (5-20) (12-15) (30-40)</span>
+
+<span class="c1"># Find overlapping intervals</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">o</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="c1"># (5-20) (10-30) (12-15)</span>
+
+<span class="c1"># Find index of overlaps</span>
+<span class="n">i</span><span class="o">.</span><span class="n">intersect_index</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="c1"># array([3, 1, 4])</span>
+
+<span class="c1"># Now i has been constructed/sorted</span>
+<span class="n">i</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="c1"># (5-20) (10-30) (12-15) (15-20) (17-19) (30-40)</span>
+
+<span class="c1"># Can be done manually as well at any time</span>
+<span class="n">i</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+<span class="c1"># Iterate over intervals</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1"># Interval(5-20, 3, 0.0)</span>
+<span class="c1"># Interval(10-30, 1, 0.0)</span>
+<span class="c1"># Interval(12-15, 4, 0.0)</span>
+<span class="c1"># Interval(15-20, 0, 0.0)</span>
+<span class="c1"># Interval(17-19, 2, 0.0)</span>
+<span class="c1"># Interval(30-40, 5, 0.0)</span>
+
+<span class="c1"># Interval comparisons</span>
+<span class="n">j</span> <span class="o">=</span> <span class="n">AIList</span><span class="p">()</span>
+<span class="n">j</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">j</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="c1"># Subtract regions</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span> <span class="c1">#also: i.subtract(j)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="c1"># (15-20) (15-30) (15-20) (17-19) (30-40)</span>
+
+<span class="c1"># Common regions</span>
+<span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="c1">#also: i.common(j)</span>
+<span class="c1"># AIList</span>
+<span class="c1">#  range: (5-15)</span>
+<span class="c1">#    (5-15, 3, 0.0)</span>
+<span class="c1">#    (10-15, 1, 0.0)</span>
+<span class="c1">#    (12-15, 4, 0.0)</span>
+
+<span class="c1"># AIList can also add to from arrays</span>
+<span class="n">starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ends</span> <span class="o">=</span> <span class="n">starts</span> <span class="o">+</span> <span class="mi">50</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="n">starts</span>
+<span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">i</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="n">i</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="c1"># (5-20) (10-30) (12-15) (15-20) (17-19) (30-40)</span>
+<span class="c1"># (10-60) (110-160) (210-260) (310-360) (410-460)</span>
+<span class="c1"># (510-560) (610-660) (710-760) (810-860) (910-960)</span>
+
+<span class="c1"># Merge overlapping intervals</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">gap</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="c1"># (5-60) (110-160) (210-260) (310-360) (410-460)</span>
+<span class="c1"># (510-560) (610-660) (710-760) (810-860) (910-960)</span>
+
+<span class="c1"># Find array of coverage</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">coverage</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="c1"># 5    1.0</span>
+<span class="c1"># 6    1.0</span>
+<span class="c1"># 7    1.0</span>
+<span class="c1"># 8    1.0</span>
+<span class="c1"># 9    1.0</span>
+<span class="c1"># dtype: float64</span>
+
+<span class="c1"># Calculate window protection score</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">wps</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="c1"># 5   -1.0</span>
+<span class="c1"># 6   -1.0</span>
+<span class="c1"># 7    1.0</span>
+<span class="c1"># 8   -1.0</span>
+<span class="c1"># 9   -1.0</span>
+<span class="c1"># dtype: float64</span>
+
+<span class="c1"># Filter to interval lengths between 3 and 20</span>
+<span class="n">fi</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">fi</span><span class="o">.</span><span class="n">display</span><span class="p">()</span>
+<span class="c1"># (5-20) (10-30) (15-20) (30-40)</span>
+
+<span class="c1"># Query by array</span>
+<span class="n">i</span><span class="o">.</span><span class="n">intersect_from_array</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">,</span> <span class="n">ids</span><span class="p">)</span>
+<span class="c1"># (array([ 10,  10,  10,  10,  10,  10,  10, 110, 210, 310, 410, 510, 610,</span>
+<span class="c1">#         710, 810, 910]),</span>
+<span class="c1"># array([  5,   2,   0,   4,  10,   1,   3, 110, 210, 310, 410, 510, 610,</span>
+<span class="c1">#        710, 810, 910]))</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api/ailist.AIList.wps.html" class="btn btn-neutral float-left" title="ailist.AIList.wps" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Kyle S. Smith.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

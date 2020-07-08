@@ -389,6 +389,61 @@ array_query_t *ailist_query_from_array(ailist_t *ail, const long starts[], const
 }
 
 
+array_query_t *ailist_query_from_ailist(ailist_t *ail, ailist_t *ail2)
+{   /* Find overlaps from ailist */
+    int k;
+
+    array_query_t *aq = array_query_init();
+
+    // Iterate over queries
+    int i;
+    for (i = 0; i < ail2->nr; i++)
+    {
+        uint32_t qs = ail2->interval_list[i].start;
+        uint32_t qe = ail2->interval_list[i].end;
+        uint32_t index = ail2->interval_list[i].index;
+
+        for (k = 0; k < ail->nc; k++)
+        {   // Search each component
+            int32_t cs = ail->idxC[k];
+            int32_t ce = cs + ail->lenC[k];			
+            int32_t t;
+
+            if (ail->lenC[k] > 15)
+            {
+                t = binary_search(ail->interval_list, cs, ce, qe);
+
+                while (t >= cs && ail->maxE[t] > qs)
+                {
+                    if (ail->interval_list[t].end > qs)
+                    {               	
+                        array_query_add(aq, index, ail->interval_list[t].index);
+                    }
+
+                    t--;
+                }
+            } 
+            else {
+                for (t = cs; t < ce; t++)
+                {
+                    if (ail->interval_list[t].start < qe && ail->interval_list[t].end > qs)
+                    {
+                        array_query_add(aq, index, ail->interval_list[t].index);
+                    }
+                }                      
+            }
+        }
+    }
+
+    // reallocate to remove extra memory
+    aq->ref_index = (long *)realloc(aq->ref_index, sizeof(long) * aq->size);
+    aq->query_index = (long *)realloc(aq->query_index, sizeof(long) * aq->size);
+    aq->max_size = aq->size;
+
+    return aq;                           
+}
+
+
 //-------------------------------------------------------------------------------
 
 ailist_t *ailist_append(ailist_t *ail1, ailist_t *ail2)
@@ -422,6 +477,45 @@ void ailist_extract_index(ailist_t *ail, long indices[])
     for (i = 0; i < ail->nr; i++)
     {
         indices[i] = ail->interval_list[i].index;
+    }
+
+    return;
+}
+
+
+void ailist_extract_starts(ailist_t *ail, long starts[])
+{   /* Extract start for ailist */
+
+    int i;
+    for (i = 0; i < ail->nr; i++)
+    {
+        starts[i] = ail->interval_list[i].start;
+    }
+
+    return;
+}
+
+
+void ailist_extract_ends(ailist_t *ail, long ends[])
+{   /* Extract end for ailist */
+
+    int i;
+    for (i = 0; i < ail->nr; i++)
+    {
+        ends[i] = ail->interval_list[i].end;
+    }
+
+    return;
+}
+
+
+void ailist_extract_values(ailist_t *ail, double values[])
+{   /* Extract value for ailist */
+
+    int i;
+    for (i = 0; i < ail->nr; i++)
+    {
+        values[i] = ail->interval_list[i].value;
     }
 
     return;
@@ -549,6 +643,29 @@ void ailist_bin_nhits_length(ailist_t *ail, double coverage[], int bin_size, int
                 int bin = (start_bin - start) + n;
                 coverage[bin] = coverage[bin] + 1;
             }
+        }
+    }
+
+    return;
+}
+
+
+void ailist_bin_sums(ailist_t *ail, double sum_values[], int bin_size)
+{   /* Calculate average values within bins */
+    int start = (int)(ail->first / bin_size);
+    
+    int i;
+    for (i = 0; i < ail->nr; i++)
+    {
+        int start_bin = ail->interval_list[i].start / bin_size;
+        
+        double length = (double)(ail->interval_list[i].end - ail->interval_list[i].start);
+        int n_bins = ceil(((double)(ail->interval_list[i].start % bin_size) / bin_size) + (length / bin_size));
+        int n;
+        for (n = 0; n < n_bins; n++)
+        {
+            int bin = (start_bin - start) + n;
+            sum_values[bin] = sum_values[bin] + ail->interval_list[i].value;
         }
     }
 
@@ -891,7 +1008,7 @@ ailist_t *ailist_merge(ailist_t *ail, uint32_t gap)
 {   /* Merge intervals in constructed ailist_t object */
     int previous_end = ail->interval_list[0].end;
     int previous_start = ail->interval_list[0].start;
-    int k = 0;
+    int previous_index = ail->interval_list[0].index;
     int i;
     ailist_t *merged_list = ailist_init();
 
@@ -905,15 +1022,15 @@ ailist_t *ailist_merge(ailist_t *ail, uint32_t gap)
         }
         else
         {
-            ailist_add(merged_list, previous_start, previous_end, k, 0.0);
-            k++;
+            ailist_add(merged_list, previous_start, previous_end, previous_index, 0.0);
             previous_start = ail->interval_list[i].start;
             previous_end = ail->interval_list[i].end;
+            previous_index = ail->interval_list[i].index;
         }
     }
 
     // Add last interval
-    ailist_add(merged_list, previous_start, previous_end, k, 0.0);
+    ailist_add(merged_list, previous_start, previous_end, previous_index, 0.0);
 
     return merged_list;
 }
@@ -1119,6 +1236,45 @@ void ailist_interval_coverage(ailist_t *ail, int start, int end, int coverage[])
 }
 
 
+ailist_t *ailist_downsample(ailist_t *ail, double proportion)
+{
+
+    // Initialize downsampled ailist_t
+    ailist_t *filtered_ail = ailist_init();
+
+    // Set random seed
+	srand(time(NULL));
+
+    // Iterate over ail
+    int i;
+    for (i = 0; i < ail->nr; i++)
+    {
+        // Randomly determine if interval is added
+        double r = (double)rand() / (double)RAND_MAX;
+        if (r < proportion)
+        {
+            ailist_add(filtered_ail, ail->interval_list[i].start, ail->interval_list[i].end, ail->interval_list[i].index, ail->interval_list[i].value);
+        }
+    }
+
+    return filtered_ail;
+}
+
+
+void ailist_reset_index(ailist_t *ail)
+{   /* Reset index to be in order */
+
+    // Iterate over ail
+    int i;
+    for (i = 0; i < ail->nr; i++)
+    {
+        ail->interval_list[i].index = i;
+    }
+
+    return;
+}
+
+
 void display_list(ailist_t *ail)
 {
     int i;
@@ -1132,7 +1288,7 @@ void display_list(ailist_t *ail)
 
 
 /* Driver program to test above functions*/
-int main() 
+int main(void)
 { 
     printf("Initializing AIList...\n");
     ailist_t *ail = ailist_init();

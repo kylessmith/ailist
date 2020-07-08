@@ -64,6 +64,9 @@ array_query_t *ailist_query_from_array(ailist_t *ail, const long starts[], const
 // Query ailist intervals within lengths
 ailist_t *ailist_query_length(ailist_t *ail, uint32_t qs, uint32_t qe, int min_length, int max_length);
 
+// Find overlaps from ailist
+array_query_t *ailist_query_from_ailist(ailist_t *ail1, ailist_t *ail2);
+
 // Free ailist data
 void ailist_destroy(ailist_t *ail);
 
@@ -72,6 +75,15 @@ ailist_t *ailist_append(ailist_t *ail1, ailist_t *ail2);
 
 // Extract index for ailist
 void ailist_extract_index(ailist_t *ail, long indices[]);
+
+// Extract start for ailist
+void ailist_extract_starts(ailist_t *ail, long starts[]);
+
+// Extract end for ailist
+void ailist_extract_ends(ailist_t *ail, long ends[]);
+
+// Extract value for ailist
+void ailist_extract_values(ailist_t *ail, double values[]);
 
 // Calculate coverage
 void ailist_coverage(ailist_t *ail, double coverage[]);
@@ -87,6 +99,9 @@ void ailist_bin_nhits(ailist_t *ail, double coverage[], int bin_size);
 
 // Calculate n hits of a length within bins
 void ailist_bin_nhits_length(ailist_t *ail, double coverage[], int bin_size, int min_length, int max_length);
+
+// Calculate average values within bins
+void ailist_bin_sums(ailist_t *ail, double sum_values[], int bin_size);
 
 // Add intervals from arrays
 void ailist_from_array(ailist_t *ail, const long starts[], const long ends[], const long index[], const double values[], int length);
@@ -129,6 +144,12 @@ void ailist_nhits_from_array_length(ailist_t *ail, const long starts[], const lo
 
 // Calculate coverage across an interval
 void ailist_interval_coverage(ailist_t *ail, int start, int end, int coverage[]);
+
+// Randomly downsample ailist_t
+ailist_t *ailist_downsample(ailist_t *ail, double proportion);
+
+// Reset index to be in order
+void ailist_reset_index(ailist_t *ail);
 
 // Print AIList
 void display_list(ailist_t *ail);

@@ -32,6 +32,52 @@ PyPI install, presuming you have all its requirements installed:
     pip install ailist
 ```
 
+## Benchmark
+
+Test numpy random integers:
+
+```python
+# ailist version: 0.1.7
+from ailist import AIList
+# ncls version: 0.0.53
+from ncls import NCLS
+# numpy version: 1.18.4
+import numpy as np
+# pandas version: 1.0.3
+import pandas as pd
+# quicksect version: 0.2.2
+import quicksect
+
+# Set seed
+np.random.seed(100)
+
+
+# First values
+starts1 = np.random.randint(0, 100000, 100000)
+ends1 = starts1 + np.random.randint(1, 10000, 100000)
+ids1 = np.arange(len(starts1))
+values1 = np.ones(len(starts1))
+
+# Second values
+starts2 = np.random.randint(0, 100000, 100000)
+ends2 = starts2 + np.random.randint(1, 10000, 100000)
+ids2 = np.arange(len(starts2))
+values2 = np.ones(len(starts2))
+
+```
+
+| Library | Function | Time (µs) |
+| --- | --- | --- |
+| ncls | single overlap | 1170 |
+| quicksect | single overlap |  1050 |
+| pandas | single overlap | 241 |
+| ailist | single overlap | 102 |
+
+| Library | Function | Time (s) | Max Memory (GB) |
+| --- | --- | --- | --- |
+| ncls | bulk overlap | 151 s | >50 |
+| ailist | bulk overlap | 17.9 s | ~9 |
+
 ## Usage
 
 ```python
