@@ -206,7 +206,7 @@ setup(
                     "Programming Language :: Cython",
                     "Programming Language :: Python",
                     "Programming Language :: Python :: 3",
-                    "Programming Language :: Python :: 3.4",
+                    "Programming Language :: Python :: 3.6",
                     "Topic :: Scientific/Engineering",
                     "Topic :: Scientific/Engineering :: Mathematics",
                     "Topic :: Software Development :: Libraries",
@@ -214,7 +214,7 @@ setup(
                     "Topic :: Scientific/Engineering :: Bio-Informatics"
                   ],
     setup_requires = ["cython", "numpy"],
-    install_requires = ["numpy"],
+    install_requires = ["numpy", "pandas"],
     provides = ["ailist"],
     keywords = ["cython interval skiplist c"],
     ext_modules = my_ext_modules,
