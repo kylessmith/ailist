@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ailist.LabeledIntervalArray &#8212; ailist 1.0.0 documentation</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/typehints.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ailist.LabeledIntervalArray.is_closed" href="ailist.LabeledIntervalArray.is_closed.html" />
+    <link rel="prev" title="ailist.IntervalArray.wps" href="ailist.IntervalArray.wps.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../index.html">
+  <img src="../_static/logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="index.html">
+  The ailist API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../tutorial.html">
+  Tutorial
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../installation.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../benchmarking.html">
+  Benchmarking
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://www.biosciencestack.com/documentation/">Other tools<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/kylessmith/ailist" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <div class="col-12 col-md-1 col-xl-2 bd-sidebar no-sidebar"></div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+
+<nav id="bd-toc-nav">
+    
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+
+<div class="tocsection editthispage">
+    <a href="https://github.com/kylessmith/ailist/edit/master/api/ailist.LabeledIntervalArray.rst">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-11 col-xl-8 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="section" id="ailist-labeledintervalarray">
+<h1>ailist.LabeledIntervalArray<a class="headerlink" href="#ailist-labeledintervalarray" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="ailist.LabeledIntervalArray">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ailist.</span></span><span class="sig-name descname"><span class="pre">LabeledIntervalArray</span></span><a class="headerlink" href="#ailist.LabeledIntervalArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for C labeled_aiarray_t</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">LabeledIntervalArray</span></code> stores a list of intervals</p>
+<p class="rubric">Attributes</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.is_closed.html#ailist.LabeledIntervalArray.is_closed" title="ailist.LabeledIntervalArray.is_closed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_closed</span></code></a></p></td>
+<td><p>‘bool’</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.is_constructed.html#ailist.LabeledIntervalArray.is_constructed" title="ailist.LabeledIntervalArray.is_constructed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_constructed</span></code></a></p></td>
+<td><p>‘bool’</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.is_frozen.html#ailist.LabeledIntervalArray.is_frozen" title="ailist.LabeledIntervalArray.is_frozen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_frozen</span></code></a></p></td>
+<td><p>‘bool’</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.label_counts.html#ailist.LabeledIntervalArray.label_counts" title="ailist.LabeledIntervalArray.label_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_counts</span></code></a></p></td>
+<td><p>Count number of intervals per label</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.label_index.html#ailist.LabeledIntervalArray.label_index" title="ailist.LabeledIntervalArray.label_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_index</span></code></a></p></td>
+<td><p>Index of labels in sorted LabeledIntervalArray</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.label_map.html#ailist.LabeledIntervalArray.label_map" title="ailist.LabeledIntervalArray.label_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_map</span></code></a></p></td>
+<td><p>Dictionary of label names toe integer representation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.label_ranges.html#ailist.LabeledIntervalArray.label_ranges" title="ailist.LabeledIntervalArray.label_ranges"><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_ranges</span></code></a></p></td>
+<td><p>Ranges(start,  end) for each label</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.rev_label_map.html#ailist.LabeledIntervalArray.rev_label_map" title="ailist.LabeledIntervalArray.rev_label_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rev_label_map</span></code></a></p></td>
+<td><p>Dictionary of label names to integer representation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.size.html#ailist.LabeledIntervalArray.size" title="ailist.LabeledIntervalArray.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
+<td><p>Number of intervals in LabeledIntervalArray</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.unique_labels.html#ailist.LabeledIntervalArray.unique_labels" title="ailist.LabeledIntervalArray.unique_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unique_labels</span></code></a></p></td>
+<td><p>Array of unique labels</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.add.html#ailist.LabeledIntervalArray.add" title="ailist.LabeledIntervalArray.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(self, int start, int end, unicode label)</p></td>
+<td><p>Add an interval to LabeledIntervalArray inplace</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.bin_nhits.html#ailist.LabeledIntervalArray.bin_nhits" title="ailist.LabeledIntervalArray.bin_nhits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_nhits</span></code></a>(self, int bin_size=100000[, …])</p></td>
+<td><p>Find number of intervals overlapping binned positions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.close.html#ailist.LabeledIntervalArray.close" title="ailist.LabeledIntervalArray.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>(self)</p></td>
+<td><p>Close object and clear memory</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.construct.html#ailist.LabeledIntervalArray.construct" title="ailist.LabeledIntervalArray.construct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct</span></code></a>(self, int min_length=20)</p></td>
+<td><p>Construct labeled_aiarray_t <a href="#id1"><span class="problematic" id="id2">*</span></a>Required to call intersect</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.coverage.html#ailist.LabeledIntervalArray.coverage" title="ailist.LabeledIntervalArray.coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coverage</span></code></a>(self)</p></td>
+<td><p>Calculate coverage for each position in LabeledIntervalArray range</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.downsample.html#ailist.LabeledIntervalArray.downsample" title="ailist.LabeledIntervalArray.downsample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">downsample</span></code></a>(self, double proportion)</p></td>
+<td><p>Randomly downsample LabeledIntervalArray</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.downsample_with_index.html#ailist.LabeledIntervalArray.downsample_with_index" title="ailist.LabeledIntervalArray.downsample_with_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">downsample_with_index</span></code></a>(self, double proportion)</p></td>
+<td><p>Find interval indices overlapping given ranges</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.extract_ends.html#ailist.LabeledIntervalArray.extract_ends" title="ailist.LabeledIntervalArray.extract_ends"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_ends</span></code></a>(self)</p></td>
+<td><p>Return the end values</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.extract_labels.html#ailist.LabeledIntervalArray.extract_labels" title="ailist.LabeledIntervalArray.extract_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_labels</span></code></a>(self)</p></td>
+<td><p>Return the label values</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.extract_starts.html#ailist.LabeledIntervalArray.extract_starts" title="ailist.LabeledIntervalArray.extract_starts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_starts</span></code></a>(self)</p></td>
+<td><p>Return the start values</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.filter.html#ailist.LabeledIntervalArray.filter" title="ailist.LabeledIntervalArray.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span></code></a>(self, int min_length=1, …)</p></td>
+<td><p>Filter out intervals outside of a length range</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.filter_exact_match.html#ailist.LabeledIntervalArray.filter_exact_match" title="ailist.LabeledIntervalArray.filter_exact_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_exact_match</span></code></a>(self, …)</p></td>
+<td><p>Determine which intervals are present</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.freeze.html#ailist.LabeledIntervalArray.freeze" title="ailist.LabeledIntervalArray.freeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">freeze</span></code></a>(self)</p></td>
+<td><p>Make <code class="xref py py-class docutils literal notranslate"><span class="pre">LabeledIntervalArray</span></code> immutable</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.from_array.html#ailist.LabeledIntervalArray.from_array" title="ailist.LabeledIntervalArray.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(self, const long[, const long[, …)</p></td>
+<td><p>Add intervals from arrays to LabeledIntervalArray inplace</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.get.html#ailist.LabeledIntervalArray.get" title="ailist.LabeledIntervalArray.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(self, label)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.get_index.html#ailist.LabeledIntervalArray.get_index" title="ailist.LabeledIntervalArray.get_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_index</span></code></a>(self, label)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.get_locs.html#ailist.LabeledIntervalArray.get_locs" title="ailist.LabeledIntervalArray.get_locs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_locs</span></code></a>(self, labels)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.get_with_index.html#ailist.LabeledIntervalArray.get_with_index" title="ailist.LabeledIntervalArray.get_with_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_with_index</span></code></a>(self, label)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.has_exact_match.html#ailist.LabeledIntervalArray.has_exact_match" title="ailist.LabeledIntervalArray.has_exact_match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_exact_match</span></code></a>(self, …)</p></td>
+<td><p>Determine which intervals are present</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.has_hit.html#ailist.LabeledIntervalArray.has_hit" title="ailist.LabeledIntervalArray.has_hit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_hit</span></code></a>(self, int start, int end, unicode label)</p></td>
+<td><p>Find interval indices overlapping given ranges</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.has_hit_from_array.html#ailist.LabeledIntervalArray.has_hit_from_array" title="ailist.LabeledIntervalArray.has_hit_from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_hit_from_array</span></code></a>(self, const long[, …)</p></td>
+<td><p>Find interval indices overlapping given ranges</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.index_with_aiarray.html#ailist.LabeledIntervalArray.index_with_aiarray" title="ailist.LabeledIntervalArray.index_with_aiarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_with_aiarray</span></code></a>(self, …)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.intersect.html#ailist.LabeledIntervalArray.intersect" title="ailist.LabeledIntervalArray.intersect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intersect</span></code></a>(self, int start, int end, …)</p></td>
+<td><p>Find intervals overlapping given range</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.intersect_from_LabeledIntervalArray.html#ailist.LabeledIntervalArray.intersect_from_LabeledIntervalArray" title="ailist.LabeledIntervalArray.intersect_from_LabeledIntervalArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intersect_from_LabeledIntervalArray</span></code></a>(self, …)</p></td>
+<td><p>Find interval indices overlapping given ranges</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.intersect_from_array.html#ailist.LabeledIntervalArray.intersect_from_array" title="ailist.LabeledIntervalArray.intersect_from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intersect_from_array</span></code></a>(self, const long[, …)</p></td>
+<td><p>Find interval indices overlapping given ranges</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.intersect_with_index.html#ailist.LabeledIntervalArray.intersect_with_index" title="ailist.LabeledIntervalArray.intersect_with_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intersect_with_index</span></code></a>(self, int start, …)</p></td>
+<td><p>Find interval indices overlapping given ranges</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.intersect_with_index_from_LabeledIntervalArray.html#ailist.LabeledIntervalArray.intersect_with_index_from_LabeledIntervalArray" title="ailist.LabeledIntervalArray.intersect_with_index_from_LabeledIntervalArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">intersect_with_index_from_LabeledIntervalArray</span></code></a>(…)</p></td>
+<td><p>Find interval indices overlapping given ranges</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.iter_sorted.html#ailist.LabeledIntervalArray.iter_sorted" title="ailist.LabeledIntervalArray.iter_sorted"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iter_sorted</span></code></a>(self)</p></td>
+<td><p>Iterate over an LabeledIntervalArray in sorted way</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.length_dist.html#ailist.LabeledIntervalArray.length_dist" title="ailist.LabeledIntervalArray.length_dist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length_dist</span></code></a>(self)</p></td>
+<td><p>Calculate length distribution of intervals</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.merge.html#ailist.LabeledIntervalArray.merge" title="ailist.LabeledIntervalArray.merge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge</span></code></a>(self, int gap=0)</p></td>
+<td><p>Merge intervals within a gap</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.nhits.html#ailist.LabeledIntervalArray.nhits" title="ailist.LabeledIntervalArray.nhits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nhits</span></code></a>(self, int start, int end, unicode label)</p></td>
+<td><p>Find number of intervals overlapping binned positions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.nhits_from_array.html#ailist.LabeledIntervalArray.nhits_from_array" title="ailist.LabeledIntervalArray.nhits_from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nhits_from_array</span></code></a>(self, const long[, …[, …])</p></td>
+<td><p>Find number of intervals overlapping given positions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.print_label_map.html#ailist.LabeledIntervalArray.print_label_map" title="ailist.LabeledIntervalArray.print_label_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_label_map</span></code></a>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.unfreeze.html#ailist.LabeledIntervalArray.unfreeze" title="ailist.LabeledIntervalArray.unfreeze"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unfreeze</span></code></a>(self)</p></td>
+<td><p>Make <code class="xref py py-class docutils literal notranslate"><span class="pre">LabeledIntervalArray</span></code> mutable</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.wps.html#ailist.LabeledIntervalArray.wps" title="ailist.LabeledIntervalArray.wps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wps</span></code></a>(self, int protection=60[, min_length, …])</p></td>
+<td><p>Calculate Window Protection Score for each position in LabeledIntervalArray range</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-170691991-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Kyle S. Smith..<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+name: ailist-env
+channels:
+- r
+- defaults
+dependencies:
+- mkl
+- cython
+- numpy
+- openssl
+- pandas
+- pip
+- python
+- readline
+- scipy
+- setuptools
+- sqlite
+- tk
+- wheel
+- xz
+- zlib
+

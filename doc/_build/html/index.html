@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ailist – Augmented Interval List implemented in Cython/C &#8212; ailist 1.0.0 documentation</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
+    <link rel="stylesheet" type="text/css" href="_static/typehints.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The ailist API reference" href="api/index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="#">
+  <img src="_static/logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="api/index.html">
+  The ailist API reference
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="tutorial.html">
+  Tutorial
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="installation.html">
+  Installation
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="benchmarking.html">
+  Benchmarking
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://www.biosciencestack.com/documentation/">Other tools<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/kylessmith/ailist" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <div class="col-12 col-md-1 col-xl-2 bd-sidebar no-sidebar"></div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   ailist – Augmented Interval List implemented in Cython/C
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#benchmark">
+     Benchmark
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#release-notes">
+   Release Notes
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#indices-and-tables">
+   Indices and tables
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+
+<div class="tocsection editthispage">
+    <a href="https://github.com/kylessmith/ailist/edit/master/index.rst">
+        <i class="fas fa-pencil-alt"></i> Edit this page
+    </a>
+</div>
+
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-11 col-xl-8 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <p><a class="reference external" href="https://github.com/kylessmith/ailist/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/kylessmith/ailist?logo=GitHub&amp;color=yellow" /></a> <a class="reference external" href="https://pepy.tech/project/ailist"><img alt="PyPIDownloads" src="https://pepy.tech/badge/ailist" /></a> <a class="reference external" href="https://pypi.org/project/ailist"><img alt="PyPI" src="https://img.shields.io/pypi/v/ailist.svg" /></a> <a class="reference external" href="https://travis-ci.org/kylessmith/ailist"><img alt="Build Status" src="https://travis-ci.org/kylessmith/ailist.svg?branch=master" /></a></p>
+<div class="section" id="ailist-augmented-interval-list-implemented-in-cython-c">
+<h1>ailist – Augmented Interval List implemented in Cython/C<a class="headerlink" href="#ailist-augmented-interval-list-implemented-in-cython-c" title="Permalink to this headline">¶</a></h1>
+<p>The Python-based implementation efficiently deals with many intervals.</p>
+<div class="section" id="benchmark">
+<h2>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this headline">¶</a></h2>
+<p>Test numpy random integers, see <a class="reference external" href="benchmarking.html">benchmarking</a></p>
+<table class="table">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 42%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Library</p></th>
+<th class="head"><p>Function</p></th>
+<th class="head"><p>Time (µs)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ncls</p></td>
+<td><p>single overlap</p></td>
+<td><p>1170</p></td>
+</tr>
+<tr class="row-odd"><td><p>pandas</p></td>
+<td><p>single overlap</p></td>
+<td><p>924</p></td>
+</tr>
+<tr class="row-even"><td><p>quicksect</p></td>
+<td><p>single overlap</p></td>
+<td><p>550</p></td>
+</tr>
+<tr class="row-odd"><td><p>ailist</p></td>
+<td><p>single overlap</p></td>
+<td><p>73</p></td>
+</tr>
+</tbody>
+</table>
+<p>As of conducting these benchmarks, only ncls and ailist have bulk query functions.</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 27%" />
+<col style="width: 19%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Library</p></th>
+<th class="head"><p>Function</p></th>
+<th class="head"><p>Time (s)</p></th>
+<th class="head"><p>Max Memory (GB)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ncls</p></td>
+<td><p>bulk overlap</p></td>
+<td><p>~151</p></td>
+<td><p>&gt;50</p></td>
+</tr>
+<tr class="row-odd"><td><p>ailist</p></td>
+<td><p>bulk overlap</p></td>
+<td><p>~17.8</p></td>
+<td><p>~9</p></td>
+</tr>
+</tbody>
+</table>
+<p>Querying intervals is much faster and more efficient with ailist</p>
+<p><a class="reference internal" href="api/ailist.AIList.html#ailist.AIList" title="ailist.AIList"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIList</span></code></a> provides a scalable way to store and search
+overlapping intervals</p>
+<p>See the code and discuss development on <a class="reference external" href="https://github.com/kylessmith/ailist">GitHub</a>.</p>
+</div>
+</div>
+<div class="section" id="release-notes">
+<h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Mathod additions</dt><dd><ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">index_by_ailist()</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Fixed memory leak</dt><dd><ul class="simple">
+<li><p>Fixed memory leak in <a class="reference internal" href="api/ailist.AIList.intersect_from_array.html#ailist.AIList.intersect_from_array" title="ailist.AIList.intersect_from_array"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersect_from_array()</span></code></a></p></li>
+<li><p>Fixed memory leak in <a class="reference internal" href="api/ailist.AIList.intersect.html#ailist.AIList.intersect" title="ailist.AIList.intersect"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersect()</span></code></a></p></li>
+</ul>
+</dd>
+<dt>Frozen status</dt><dd><ul class="simple">
+<li><p>Ability to make <a class="reference internal" href="api/ailist.AIList.html#ailist.AIList" title="ailist.AIList"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIList</span></code></a> immutable with <a class="reference internal" href="api/ailist.AIList.freeze.html#ailist.AIList.freeze" title="ailist.AIList.freeze"><code class="xref py py-func docutils literal notranslate"><span class="pre">freeze()</span></code></a></p></li>
+</ul>
+</dd>
+<dt>Method additions</dt><dd><ul class="simple">
+<li><p>Added ability to index with iterables</p></li>
+<li><p><a class="reference internal" href="api/ailist.AIList.downsample.html#ailist.AIList.downsample" title="ailist.AIList.downsample"><code class="xref py py-func docutils literal notranslate"><span class="pre">downsample()</span></code></a></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">bin_sums()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">bin_means()</span></code></p></li>
+</ul>
+</dd>
+<dt>Documentation overhaul</dt><dd><ul class="simple">
+<li><p>Creation of documentation for <a class="reference internal" href="api/ailist.AIList.html#ailist.AIList" title="ailist.AIList"><code class="xref py py-class docutils literal notranslate"><span class="pre">AIList</span></code></a></p></li>
+<li><p>Creation of documentation for <a class="reference internal" href="api/ailist.Interval.html#ailist.Interval" title="ailist.Interval"><code class="xref py py-class docutils literal notranslate"><span class="pre">Interval</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">The ailist API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+              </div>
+              
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-170691991-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+<footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Kyle S. Smith..<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
