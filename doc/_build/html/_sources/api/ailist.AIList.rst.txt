@@ -57,6 +57,7 @@ ailist.AIList
       ~ailist.AIList.intersect_from_array
       ~ailist.AIList.intersect_ids
       ~ailist.AIList.interval_coverage
+      ~ailist.AIList.iter_sorted
       ~ailist.AIList.length_dist
       ~ailist.AIList.merge
       ~ailist.AIList.nhits_from_array

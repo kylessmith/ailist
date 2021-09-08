@@ -222,14 +222,20 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.add.html#ailist.LabeledIntervalArray.add" title="ailist.LabeledIntervalArray.add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add</span></code></a>(self, int start, int end, unicode label)</p></td>
 <td><p>Add an interval to LabeledIntervalArray inplace</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.bin_nhits.html#ailist.LabeledIntervalArray.bin_nhits" title="ailist.LabeledIntervalArray.bin_nhits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_nhits</span></code></a>(self, int bin_size=100000[, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.append.html#ailist.LabeledIntervalArray.append" title="ailist.LabeledIntervalArray.append"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append</span></code></a>(self, LabeledIntervalArray other_ail)</p></td>
+<td><p>Add intervals from arrays to LabeledIntervalArray inplace</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.bin_nhits.html#ailist.LabeledIntervalArray.bin_nhits" title="ailist.LabeledIntervalArray.bin_nhits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_nhits</span></code></a>(self, int bin_size=100000[, …])</p></td>
 <td><p>Find number of intervals overlapping binned positions</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.close.html#ailist.LabeledIntervalArray.close" title="ailist.LabeledIntervalArray.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>(self)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.close.html#ailist.LabeledIntervalArray.close" title="ailist.LabeledIntervalArray.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>(self)</p></td>
 <td><p>Close object and clear memory</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.construct.html#ailist.LabeledIntervalArray.construct" title="ailist.LabeledIntervalArray.construct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct</span></code></a>(self, int min_length=20)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.construct.html#ailist.LabeledIntervalArray.construct" title="ailist.LabeledIntervalArray.construct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct</span></code></a>(self, int min_length=20)</p></td>
 <td><p>Construct labeled_aiarray_t <a href="#id1"><span class="problematic" id="id2">*</span></a>Required to call intersect</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.copy.html#ailist.LabeledIntervalArray.copy" title="ailist.LabeledIntervalArray.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>(self)</p></td>
+<td><p>Copy LabeledIntervalArray</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="ailist.LabeledIntervalArray.coverage.html#ailist.LabeledIntervalArray.coverage" title="ailist.LabeledIntervalArray.coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coverage</span></code></a>(self)</p></td>
 <td><p>Calculate coverage for each position in LabeledIntervalArray range</p></td>
@@ -363,7 +369,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

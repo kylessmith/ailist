@@ -25,7 +25,7 @@ int *get_label_comp_bounds(labeled_aiarray_t *ail, int label)
     //comps_bounds[n_comps] = get_label_index(ail, label + 1);
     if (label + 1 >= ail->nl)
     {
-        comps_bounds[n_comps] = ail->nr;
+        comps_bounds[n_comps] = ail->nr - 1;
     } else
     {
         comps_bounds[n_comps] = get_label_index(ail, label + 1);
@@ -44,8 +44,8 @@ label_sorted_iter_t *iter_init(labeled_aiarray_t *ail, const char *label_name)
     iter->label = query_label_map(ail, label_name);
     iter->label_comp_bounds = get_label_comp_bounds(ail, iter->label);
     iter->nc = ail->nc[iter->label];
-    iter->label_comp_used = malloc(iter->nc+1 * sizeof(int));
-    memcpy(&iter->label_comp_used, &iter->label_comp_bounds, sizeof(int));
+    iter->label_comp_used = (int*) calloc(iter->nc+1, sizeof(int));
+    //memcpy(&iter->label_comp_used, &iter->label_comp_bounds, sizeof(int));
     iter->label_start = get_label_index(ail, iter->label);
     iter->label_end = get_label_index(ail, iter->label + 1);
     iter->intv = &ail->interval_list[iter->label_start];
@@ -70,36 +70,38 @@ int iter_next(label_sorted_iter_t *iter)
     // Iterate over components
     int j;
     for (j = 0; j < iter->nc; j++)
-    {
+    {   
         // If position is available, assign next interval
-        if (iter->label_comp_used[j] != iter->label_comp_bounds[j + 1])
+        if (iter->label_comp_bounds[j] + iter->label_comp_used[j] != iter->label_comp_bounds[j + 1])
         {
-            position = iter->label_comp_used[j];
+            position = iter->label_comp_used[j] + iter->label_comp_bounds[j];
             iter->intv = &iter->ail->interval_list[position];
             break;
         }
     }
 
+    // Iterate over components
+    selected_comp = 0;
     for (j = 0; j < iter->nc; j++)
     {
         // Check component has intervals left to investigate
-        if (iter->label_comp_used[j] == iter->label_comp_bounds[j + 1])
+        if (iter->label_comp_bounds[j] + iter->label_comp_used[j] == iter->label_comp_bounds[j + 1])
         {
             continue;
         }
 
         // Determine position
-        position = iter->label_comp_used[j];
+        position = iter->label_comp_used[j] + iter->label_comp_bounds[j];
         // Check for lower start
         if (iter->ail->interval_list[position].start < iter->intv->start)
         {
             iter->intv = &iter->ail->interval_list[position];
             selected_comp = j;
         }
-
-        // Increment label_comp_counter for selected comp
-        iter->label_comp_used[selected_comp] = iter->label_comp_used[selected_comp] + 1;
     }
+
+    // Increment label_comp_counter for selected comp
+    iter->label_comp_used[selected_comp]++;
 
     return 1;
 }
@@ -126,16 +128,16 @@ void iter_destroy(label_sorted_iter_t *iter)
     //}
     
     // Free label_comp_bounds
-	//if (iter->label_comp_bounds)
-	//{
-        //free(iter->label_comp_bounds);
-    //}
+	if (iter->label_comp_bounds)
+	{
+        free(iter->label_comp_bounds);
+    }
 
     // Free label_comp_used
-	//if (iter->label_comp_used)
-	//{
-        //free(iter->label_comp_used);
-    //}
+	if (iter->label_comp_used)
+	{
+        free(iter->label_comp_used);
+    }
 
     free(iter);
 

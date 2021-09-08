@@ -37,9 +37,11 @@ ailist.LabeledIntervalArray
       :toctree: .
    
       ~ailist.LabeledIntervalArray.add
+      ~ailist.LabeledIntervalArray.append
       ~ailist.LabeledIntervalArray.bin_nhits
       ~ailist.LabeledIntervalArray.close
       ~ailist.LabeledIntervalArray.construct
+      ~ailist.LabeledIntervalArray.copy
       ~ailist.LabeledIntervalArray.coverage
       ~ailist.LabeledIntervalArray.downsample
       ~ailist.LabeledIntervalArray.downsample_with_index

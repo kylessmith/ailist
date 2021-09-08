@@ -2445,7 +2445,7 @@ cdef class LabeledIntervalArray(object):
 			self.ail.interval_list[i].end = other_aiarray.ail.interval_list[label_start + position_end].end
 
 
-			print("i: %d, start: %d, end: %d, label: %d, label2: %d, label_start: %d\n", i, position_start, position_end, label_code, other_label_code, label_start)
+			#print("i: %d, start: %d, end: %d, label: %d, label2: %d, label_start: %d\n", i, position_start, position_end, label_code, other_label_code, label_start)
 
 		# Change range
 		for i in range(self.ail.nl):
@@ -2492,6 +2492,18 @@ cdef class LabeledIntervalArray(object):
 		self._get_locs(locs_view, np.PyArray_BYTES(byte_labels), byte_labels.itemsize, len(labels))
 
 		return locs
+
+	
+	def copy(self):
+		"""
+		Copy LabeledIntervalArray
+		"""
+
+		cdef LabeledIntervalArray ail_copied = LabeledIntervalArray()
+		cdef labeled_aiarray_t * c_ail_copied = labeled_aiarray_copy(self.ail)
+		ail_copied.set_list(c_ail_copied)
+
+		return ail_copied
 
 	
 	def close(self):

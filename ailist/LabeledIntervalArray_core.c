@@ -1322,7 +1322,7 @@ struct __pyx_obj_6ailist_20LabeledInterval_core_LabeledInterval {
 };
 
 
-/* "ailist/LabeledIntervalArray_core.pxd":413
+/* "ailist/LabeledIntervalArray_core.pxd":416
  * cpdef object rebuild_LabeledIntervalArray(bytes data, bytes b_length, bytes b_label_list)
  * 
  * cdef class LabeledIntervalArray(object):             # <<<<<<<<<<<<<<
@@ -2694,7 +2694,6 @@ static PyObject *__pyx_builtin_IndexError;
 static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_KeyError;
 static PyObject *__pyx_builtin_enumerate;
-static PyObject *__pyx_builtin_print;
 static PyObject *__pyx_builtin_ImportError;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_MemoryError;
@@ -2752,7 +2751,6 @@ static const char __pyx_k_error[] = "error";
 static const char __pyx_k_flags[] = "flags";
 static const char __pyx_k_label[] = "label";
 static const char __pyx_k_numpy[] = "numpy";
-static const char __pyx_k_print[] = "print";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_split[] = "split";
@@ -2897,11 +2895,10 @@ static const char __pyx_k_Unable_to_convert_item_to_object[] = "Unable to conver
 static const char __pyx_k_Value_larger_than_LabeledInterva[] = "Value larger than LabeledIntervalArray length";
 static const char __pyx_k_ailist_LabeledIntervalArray_core[] = "ailist.LabeledIntervalArray_core";
 static const char __pyx_k_got_differing_extents_in_dimensi[] = "got differing extents in dimension %d (got %d and %d)";
-static const char __pyx_k_i_d_start_d_end_d_label_d_label2[] = "i: %d, start: %d, end: %d, label: %d, label2: %d, label_start: %d\n";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 static const char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to allocate shape and strides.";
-static const char __pyx_k_Add_intervals_from_arrays_to_La_2[] = "\n\t\tAdd intervals from arrays to LabeledIntervalArray inplace\n\t\t\n\t\tParameters\n\t\t----------\n\t\t\tother_ail : LabeledIntervalArray\n\t\t\t\tIntervals to add to current LabeledIntervalArray\n\n\t\tReturns\n\t\t-------\n\t\t\tNone\n\n\t\tSee Also\n\t\t--------\n\t\tLabeledIntervalArray.add: Add interval to LabeledIntervalArray\n\t\tLabeledIntervalArray.construct: Construct LabeledIntervalArray, required to call LabeledIntervalArray.intersect\n\t\tLabeledIntervalArray.intersect: Find intervals overlapping given range\n\n\t\tExamples\n\t\t--------\n\t\t>>> from aiarray import LabeledIntervalArray\n\t\t>>> import numpy as np\n\t\t>>> starts = np.arange(100)\n\t\t>>> ends = starts + 10\n\t\t>>> labeld = np.repeat('a', len(starts))\n\t\t>>> ail = LabeledIntervalArray()\n\t\t>>> ail.from_array(starts, ends, labels)\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  range: (0-109)\n\t\t   (0-10, 'a')\n\t\t   (1-11, 'a')\n\t\t   (2-12, 'a')\n\t\t   (3-13, 'a')\n\t\t   (4-14, 'a')\n\t\t   ...\n\t\t   (95-105, 'a')\n\t\t   (96-106, 'a')\n\t\t   (97-107, 'a')\n\t\t   (98-108, 'a')\n\t\t\n\t\t>>> len(ail)\n\t\t100\n\n\t\t>>> ail2 = LabeledIntervalArray()\n\t\t>>> ail2.from_array(starts, ends, labels)\n\t\t>>> ail.append(ail2)\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  range: (0-109)\n\t\t   (0-10, 'a')\n\t\t   (1-11, 'a')\n\t\t   (2-12, 'a')\n\t\t   (3-13, 'a')\n\t\t   (4-14, 'a')\n\t\t   ...\n\t\t   (95-105, 'a')\n\t\t   (96-106, 'a')\n\t\t   (97-107, 'a')\n\t\t   (98-108, 'a')\n\t\t\n\t\t>>> len(ail)\n\t\t200\n\n\t\t";
+static const char __pyx_k_Add_intervals_from_arrays_to_La_2[] = "\n\t\tAdd intervals from arrays to LabeledIntervalArray inplace\n\t\t\n\t\tParameters\n\t\t----------\n\t\t\tother_ail : LabeledIntervalArray\n\t\t\t\tIntervals to add to current LabeledIntervalArray\n\n\t\tReturns\n\t\t-------\n\t\t\tNone\n\n\t\tSee Also\n\t\t--------\n\t\tLabeledIntervalArray.add: Add interval to LabeledIntervalArray\n\t\tLabeledIntervalArray.construct: Construct LabeledIntervalArray, required to call LabeledIntervalArray.intersect\n\t\tLabeledIntervalArray.intersect: Find intervals overlapping given range\n\n\t\tExamples\n\t\t--------\n\t\t>>> from ailist import LabeledIntervalArray\n\t\t>>> import numpy as np\n\t\t>>> starts = np.arange(100)\n\t\t>>> ends = starts + 10\n\t\t>>> labels = np.repeat('a', len(starts))\n\t\t>>> ail = LabeledIntervalArray()\n\t\t>>> ail.from_array(starts, ends, labels)\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  \t(0-10, a)\n\t\t\t(1-11, a)\n\t\t\t(2-12, a)\n\t\t\t(3-13, a)\n\t\t\t(4-14, a)\n\t\t\t...\n\t\t\t(95-105, a)\n\t\t\t(96-106, a)\n\t\t\t(97-107, a)\n\t\t\t(98-108, a)\n\t\t\t(99-109, a)\n\t\t\n\t\t>>> len(ail)\n\t\t100\n\n\t\t>>> ail2 = LabeledIntervalArray()\n\t\t>>> ail2.from_array(starts, ends, labels)\n\t\t>>> ail.append(ail2)\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  \t(0-10, a)\n\t\t\t(1-11, a)\n\t\t\t(2-12, a)\n\t\t\t(3-13, a)\n\t\t\t(4-14, a)\n\t\t\t...\n\t\t\t(95-105, a)\n\t\t\t(96-106, a)\n\t\t\t(97-107, a)\n\t\t\t(98-108, a)\n\t\t\t(99-109, a)\n\t\t\n\t\t>>> len(ail)\n\t\t200\n\n\t\t";
 static const char __pyx_k_Find_interval_indices_overlappi_2[] = "\n\t\tFind interval indices overlapping given ranges\n\t\t\n\t\tParameters\n\t\t----------\n\t\t\tail_query : IntervalArray\n\t\t\t\tIntervals to query\n\n\t\tReturns\n\t\t-------\n\t\t\tref_index : np.ndarray{int}\n\t\t\t\tOverlapping interval indices from IntervalArray\n\t\t\tquery_index : np.ndarray{int}\n\t\t\t\tOverlapping interval indices from query IntervalArray\n\n\t\tSee Also\n\t\t--------\n\t\tIntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect\n\t\tIntervalArray.add: Add interval to IntervalArray\n\t\tIntervalArray.intersect: Find intervals overlapping given range\n\t\tIntervalArray.intersect_from_array: Find interval indices overlapping given range\n\n\t\tExamples\n\t\t--------\n\t\t>>> from IntervalArray import IntervalArray\n\t\t>>> ail1 = IntervalArray()\n\t\t>>> ail1.add(1, 2)\n\t\t>>> ail1.add(3, 4)\n\t\t>>> ail1.add(2, 6)\n\t\t>>> ail1\n\t\tIntervalArray\n\t\t  range: (1-6)\n\t\t   (1-2, 0)\n\t\t   (3-4, 1)\n\t\t   (2-6, 2)\n\t\t>>> ail2 = IntervalArray()\n\t\t>>> ail2.add(1, 2)\n\t\t>>> ail2.add(3, 6)\n\t\t>>> ail2\n\t\tIntervalArray\n\t\t  range: (1-6)\n\t\t    (1-2, 0)\n\t\t    (3-6, 1)\n\t\t>>> q = ail1.intersect_from_IntervalArray(ail2)\n\t\t>>> q\n\t\t(array([0, 1, 1]), array([0, 2, 1]))\n\n\t\t";
 static const char __pyx_k_Find_interval_indices_overlappi_3[] = "\n\t\tFind interval indices overlapping given ranges\n\t\t\n\t\tParameters\n\t\t----------\n\t\t\tail_query : IntervalArray\n\t\t\t\tIntervals to query\n\n\t\tReturns\n\t\t-------\n\t\t\tref_index : np.ndarray{int}\n\t\t\t\tOverlapping interval indices from IntervalArray\n\t\t\tquery_index : np.ndarray{int}\n\t\t\t\tOverlapping interval indices from query IntervalArray\n\n\t\tSee Also\n\t\t--------\n\t\tIntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect\n\t\tIntervalArray.add: Add interval to IntervalArray\n\t\tIntervalArray.intersect: Find intervals overlapping given range\n\t\tIntervalArray.intersect_from_array: Find interval indices overlapping given range\n\n\t\tExamples\n\t\t--------\n\t\t>>> from IntervalArray import IntervalArray\n\t\t>>> ail1 = IntervalArray()\n\t\t>>> ail1.add(1, 2)\n\t\t>>> ail1.add(3, 4)\n\t\t>>> ail1.add(2, 6)\n\t\t>>> ail1\n\t\tIntervalArray\n\t\t  range: (1-6)\n\t\t   (1-2)\n\t\t   (3-4)\n\t\t   (2-6)\n\t\t>>> ail2 = IntervalArray()\n\t\t>>> ail2.add(1, 2)\n\t\t>>> ail2.add(3, 6)\n\t\t>>> ail2\n\t\tIntervalArray\n\t\t  range: (1-6)\n\t\t    (1-2)\n\t\t    (3-6)\n\t\t>>> q = ail1.intersect_from_IntervalArray(ail2)\n\t\t>>> q\n\t\t(array([0, 1, 1]), array([0, 2, 1]))\n\n\t\t";
 static const char __pyx_k_Make_class_aiarray_LabeledInter_2[] = "\n\t\tMake :class:`~aiarray.LabeledIntervalArray` mutable\n\n\t\tParameters\n\t\t----------\n\t\t\tNone\n\n\t\tReturns\n\t\t-------\n\t\t\tNone\n\n\t\tSee Also\n\t\t--------\n\t\tLabeledIntervalArray.freeze: Make immutable\n\t\tLabeledIntervalArray.sort: Sort intervals inplace\n\t\tLabeledIntervalArray.construct: Construct LabeledIntervalArray, required to call LabeledIntervalArray.intersect\n\n\t\tExamples\n\t\t--------\n\t\t>>> from aiarray import LabeledIntervalArray\n\t\t>>> ail = LabeledIntervalArray()\n\t\t>>> ail.add(1, 2, 'a')\n\t\t>>> ail.add(3, 4, 'a')\n\t\t>>> ail.add(3, 6, 'a')\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  range: (1-6)\n\t\t   (1-2, 'a')\n\t\t   (3-4, 'a')\n\t\t   (3-6, 'a')\n\t\t>>> ail.freeze()\n\t\t>>> ail.add(9, 10, 'a')\n\t\tTypeError: LabeledIntervalArray is frozen and currently immutatable. Try '.unfreeze()' to reverse.\n\t\t>>> ail.unfreeze()\n\t\t>>> ail.add(9, 10, 'a')\n\n\t\t";
@@ -3030,7 +3027,6 @@ static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
 static PyObject *__pyx_n_s_has_hit;
 static PyObject *__pyx_n_s_has_hit_from_array;
-static PyObject *__pyx_kp_u_i_d_start_d_end_d_label_d_label2;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_indices;
@@ -3076,7 +3072,6 @@ static PyObject *__pyx_n_s_pandas;
 static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_pd;
 static PyObject *__pyx_n_s_pickle;
-static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_protection;
 static PyObject *__pyx_n_s_pyx_PickleError;
 static PyObject *__pyx_n_s_pyx_checksum;
@@ -3180,7 +3175,8 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
 static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_98has_exact_match(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self, struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_other_aiarray); /* proto */
 static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_100index_with_aiarray(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self, struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_other_aiarray); /* proto */
 static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_102get_locs(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self, PyObject *__pyx_v_labels); /* proto */
-static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104close(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104copy(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_106close(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_14is_constructed___get__(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self); /* proto */
 static int __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_14is_constructed_2__set__(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_9is_closed___get__(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self); /* proto */
@@ -9981,7 +9977,7 @@ static void __pyx_f_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray__
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_36append(PyObject *__pyx_v_self, PyObject *__pyx_v_other_ail); /*proto*/
-static char __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_35append[] = "LabeledIntervalArray.append(self, LabeledIntervalArray other_ail)\n\n\t\tAdd intervals from arrays to LabeledIntervalArray inplace\n\t\t\n\t\tParameters\n\t\t----------\n\t\t\tother_ail : LabeledIntervalArray\n\t\t\t\tIntervals to add to current LabeledIntervalArray\n\n\t\tReturns\n\t\t-------\n\t\t\tNone\n\n\t\tSee Also\n\t\t--------\n\t\tLabeledIntervalArray.add: Add interval to LabeledIntervalArray\n\t\tLabeledIntervalArray.construct: Construct LabeledIntervalArray, required to call LabeledIntervalArray.intersect\n\t\tLabeledIntervalArray.intersect: Find intervals overlapping given range\n\n\t\tExamples\n\t\t--------\n\t\t>>> from aiarray import LabeledIntervalArray\n\t\t>>> import numpy as np\n\t\t>>> starts = np.arange(100)\n\t\t>>> ends = starts + 10\n\t\t>>> labeld = np.repeat('a', len(starts))\n\t\t>>> ail = LabeledIntervalArray()\n\t\t>>> ail.from_array(starts, ends, labels)\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  range: (0-109)\n\t\t   (0-10, 'a')\n\t\t   (1-11, 'a')\n\t\t   (2-12, 'a')\n\t\t   (3-13, 'a')\n\t\t   (4-14, 'a')\n\t\t   ...\n\t\t   (95-105, 'a')\n\t\t   (96-106, 'a')\n\t\t   (97-107, 'a')\n\t\t   (98-108, 'a')\n\t\t\n\t\t>>> len(ail)\n\t\t100\n\n\t\t>>> ail2 = LabeledIntervalArray()\n\t\t>>> ail2.from_array(starts, ends, labels)\n\t\t>>> ail.append(ail2)\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  range: (0-109)\n\t\t   (0-10, 'a')\n\t\t   (1-11, 'a')\n\t\t   (2-12, 'a')\n\t\t   (3-13, 'a')\n\t\t   (4-14, 'a')\n\t\t   ...\n\t\t   (95-105, 'a')\n\t\t   (96-106, 'a')\n\t\t   (97-107, 'a')\n\t\t   (98-108, 'a')\n\t\t\n\t\t>>> len(ail)\n\t\t200\n\n\t\t";
+static char __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_35append[] = "LabeledIntervalArray.append(self, LabeledIntervalArray other_ail)\n\n\t\tAdd intervals from arrays to LabeledIntervalArray inplace\n\t\t\n\t\tParameters\n\t\t----------\n\t\t\tother_ail : LabeledIntervalArray\n\t\t\t\tIntervals to add to current LabeledIntervalArray\n\n\t\tReturns\n\t\t-------\n\t\t\tNone\n\n\t\tSee Also\n\t\t--------\n\t\tLabeledIntervalArray.add: Add interval to LabeledIntervalArray\n\t\tLabeledIntervalArray.construct: Construct LabeledIntervalArray, required to call LabeledIntervalArray.intersect\n\t\tLabeledIntervalArray.intersect: Find intervals overlapping given range\n\n\t\tExamples\n\t\t--------\n\t\t>>> from ailist import LabeledIntervalArray\n\t\t>>> import numpy as np\n\t\t>>> starts = np.arange(100)\n\t\t>>> ends = starts + 10\n\t\t>>> labels = np.repeat('a', len(starts))\n\t\t>>> ail = LabeledIntervalArray()\n\t\t>>> ail.from_array(starts, ends, labels)\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  \t(0-10, a)\n\t\t\t(1-11, a)\n\t\t\t(2-12, a)\n\t\t\t(3-13, a)\n\t\t\t(4-14, a)\n\t\t\t...\n\t\t\t(95-105, a)\n\t\t\t(96-106, a)\n\t\t\t(97-107, a)\n\t\t\t(98-108, a)\n\t\t\t(99-109, a)\n\t\t\n\t\t>>> len(ail)\n\t\t100\n\n\t\t>>> ail2 = LabeledIntervalArray()\n\t\t>>> ail2.from_array(starts, ends, labels)\n\t\t>>> ail.append(ail2)\n\t\t>>> ail\n\t\tLabeledIntervalArray\n\t\t  \t(0-10, a)\n\t\t\t(1-11, a)\n\t\t\t(2-12, a)\n\t\t\t(3-13, a)\n\t\t\t(4-14, a)\n\t\t\t...\n\t\t\t(95-105, a)\n\t\t\t(96-106, a)\n\t\t\t(97-107, a)\n\t\t\t(98-108, a)\n\t\t\t(99-109, a)\n\t\t\n\t\t>>> len(ail)\n\t\t200\n\n\t\t";
 static PyObject *__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_36append(PyObject *__pyx_v_self, PyObject *__pyx_v_other_ail) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -20909,10 +20905,6 @@ static int __pyx_f_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray__i
   uint32_t __pyx_t_8;
   int __pyx_t_9;
   int __pyx_t_10;
-  PyObject *__pyx_t_11 = NULL;
-  PyObject *__pyx_t_12 = NULL;
-  PyObject *__pyx_t_13 = NULL;
-  PyObject *__pyx_t_14 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -21101,53 +21093,6 @@ static int __pyx_f_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray__i
  */
     __pyx_t_8 = (__pyx_v_other_aiarray->ail->interval_list[(__pyx_v_label_start + __pyx_v_position_end)]).end;
     (__pyx_v_self->ail->interval_list[__pyx_v_i]).end = __pyx_t_8;
-
-    /* "ailist/LabeledIntervalArray_core.pyx":2448
- * 
- * 
- * 			print("i: %d, start: %d, end: %d, label: %d, label2: %d, label_start: %d\n", i, position_start, position_end, label_code, other_label_code, label_start)             # <<<<<<<<<<<<<<
- * 
- * 		# Change range
- */
-    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 2448, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_position_start); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 2448, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_position_end); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2448, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_11 = __Pyx_PyInt_From_uint16_t(__pyx_v_label_code); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 2448, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_12 = __Pyx_PyInt_From_uint16_t(__pyx_v_other_label_code); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 2448, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_label_start); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 2448, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_14 = PyTuple_New(7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 2448, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_14);
-    __Pyx_INCREF(__pyx_kp_u_i_d_start_d_end_d_label_d_label2);
-    __Pyx_GIVEREF(__pyx_kp_u_i_d_start_d_end_d_label_d_label2);
-    PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_kp_u_i_d_start_d_end_d_label_d_label2);
-    __Pyx_GIVEREF(__pyx_t_6);
-    PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_14, 2, __pyx_t_7);
-    __Pyx_GIVEREF(__pyx_t_5);
-    PyTuple_SET_ITEM(__pyx_t_14, 3, __pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_11);
-    PyTuple_SET_ITEM(__pyx_t_14, 4, __pyx_t_11);
-    __Pyx_GIVEREF(__pyx_t_12);
-    PyTuple_SET_ITEM(__pyx_t_14, 5, __pyx_t_12);
-    __Pyx_GIVEREF(__pyx_t_13);
-    PyTuple_SET_ITEM(__pyx_t_14, 6, __pyx_t_13);
-    __pyx_t_6 = 0;
-    __pyx_t_7 = 0;
-    __pyx_t_5 = 0;
-    __pyx_t_11 = 0;
-    __pyx_t_12 = 0;
-    __pyx_t_13 = 0;
-    __pyx_t_13 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_14, NULL); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 2448, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   }
 
   /* "ailist/LabeledIntervalArray_core.pyx":2451
@@ -21241,10 +21186,6 @@ static int __pyx_f_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray__i
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_14);
   __Pyx_WriteUnraisable("ailist.LabeledIntervalArray_core.LabeledIntervalArray._index_with_aiarray", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
@@ -21654,32 +21595,127 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
 /* "ailist/LabeledIntervalArray_core.pyx":2497
  * 
  * 
- * 	def close(self):             # <<<<<<<<<<<<<<
+ * 	def copy(self):             # <<<<<<<<<<<<<<
  * 		"""
- * 		Close object and clear memory
+ * 		Copy LabeledIntervalArray
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_105close(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104close[] = "LabeledIntervalArray.close(self)\n\n\t\tClose object and clear memory\n\t\t";
-static PyObject *__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_105close(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_105copy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104copy[] = "LabeledIntervalArray.copy(self)\n\n\t\tCopy LabeledIntervalArray\n\t\t";
+static PyObject *__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_105copy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("close (wrapper)", 0);
-  __pyx_r = __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104close(((struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("copy (wrapper)", 0);
+  __pyx_r = __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104copy(((struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104close(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self) {
+static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104copy(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self) {
+  struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_ail_copied = 0;
+  labeled_aiarray_t *__pyx_v_c_ail_copied;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("copy", 0);
+
+  /* "ailist/LabeledIntervalArray_core.pyx":2502
+ * 		"""
+ * 
+ * 		cdef LabeledIntervalArray ail_copied = LabeledIntervalArray()             # <<<<<<<<<<<<<<
+ * 		cdef labeled_aiarray_t * c_ail_copied = labeled_aiarray_copy(self.ail)
+ * 		ail_copied.set_list(c_ail_copied)
+ */
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2502, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_ail_copied = ((struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ailist/LabeledIntervalArray_core.pyx":2503
+ * 
+ * 		cdef LabeledIntervalArray ail_copied = LabeledIntervalArray()
+ * 		cdef labeled_aiarray_t * c_ail_copied = labeled_aiarray_copy(self.ail)             # <<<<<<<<<<<<<<
+ * 		ail_copied.set_list(c_ail_copied)
+ * 
+ */
+  __pyx_v_c_ail_copied = labeled_aiarray_copy(__pyx_v_self->ail);
+
+  /* "ailist/LabeledIntervalArray_core.pyx":2504
+ * 		cdef LabeledIntervalArray ail_copied = LabeledIntervalArray()
+ * 		cdef labeled_aiarray_t * c_ail_copied = labeled_aiarray_copy(self.ail)
+ * 		ail_copied.set_list(c_ail_copied)             # <<<<<<<<<<<<<<
+ * 
+ * 		return ail_copied
+ */
+  ((struct __pyx_vtabstruct_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *)__pyx_v_ail_copied->__pyx_vtab)->set_list(__pyx_v_ail_copied, __pyx_v_c_ail_copied);
+
+  /* "ailist/LabeledIntervalArray_core.pyx":2506
+ * 		ail_copied.set_list(c_ail_copied)
+ * 
+ * 		return ail_copied             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(((PyObject *)__pyx_v_ail_copied));
+  __pyx_r = ((PyObject *)__pyx_v_ail_copied);
+  goto __pyx_L0;
+
+  /* "ailist/LabeledIntervalArray_core.pyx":2497
+ * 
+ * 
+ * 	def copy(self):             # <<<<<<<<<<<<<<
+ * 		"""
+ * 		Copy LabeledIntervalArray
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("ailist.LabeledIntervalArray_core.LabeledIntervalArray.copy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_ail_copied);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ailist/LabeledIntervalArray_core.pyx":2509
+ * 
+ * 
+ * 	def close(self):             # <<<<<<<<<<<<<<
+ * 		"""
+ * 		Close object and clear memory
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_107close(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_106close[] = "LabeledIntervalArray.close(self)\n\n\t\tClose object and clear memory\n\t\t";
+static PyObject *__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_107close(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("close (wrapper)", 0);
+  __pyx_r = __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_106close(((struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_106close(struct __pyx_obj_6ailist_25LabeledIntervalArray_core_LabeledIntervalArray *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("close", 0);
 
-  /* "ailist/LabeledIntervalArray_core.pyx":2503
+  /* "ailist/LabeledIntervalArray_core.pyx":2515
  * 
  * 		# Free labeled_interval_list memory
  * 		if self.ail:             # <<<<<<<<<<<<<<
@@ -21689,7 +21725,7 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
   __pyx_t_1 = (__pyx_v_self->ail != 0);
   if (__pyx_t_1) {
 
-    /* "ailist/LabeledIntervalArray_core.pyx":2504
+    /* "ailist/LabeledIntervalArray_core.pyx":2516
  * 		# Free labeled_interval_list memory
  * 		if self.ail:
  * 			labeled_aiarray_destroy(self.ail)             # <<<<<<<<<<<<<<
@@ -21698,7 +21734,7 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
  */
     labeled_aiarray_destroy(__pyx_v_self->ail);
 
-    /* "ailist/LabeledIntervalArray_core.pyx":2503
+    /* "ailist/LabeledIntervalArray_core.pyx":2515
  * 
  * 		# Free labeled_interval_list memory
  * 		if self.ail:             # <<<<<<<<<<<<<<
@@ -21707,7 +21743,7 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
  */
   }
 
-  /* "ailist/LabeledIntervalArray_core.pyx":2505
+  /* "ailist/LabeledIntervalArray_core.pyx":2517
  * 		if self.ail:
  * 			labeled_aiarray_destroy(self.ail)
  * 		self.ail = NULL             # <<<<<<<<<<<<<<
@@ -21716,14 +21752,14 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
  */
   __pyx_v_self->ail = NULL;
 
-  /* "ailist/LabeledIntervalArray_core.pyx":2507
+  /* "ailist/LabeledIntervalArray_core.pyx":2519
  * 		self.ail = NULL
  * 
  * 		self.is_closed = True             # <<<<<<<<<<<<<<
  */
   __pyx_v_self->is_closed = 1;
 
-  /* "ailist/LabeledIntervalArray_core.pyx":2497
+  /* "ailist/LabeledIntervalArray_core.pyx":2509
  * 
  * 
  * 	def close(self):             # <<<<<<<<<<<<<<
@@ -21738,7 +21774,7 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
   return __pyx_r;
 }
 
-/* "ailist/LabeledIntervalArray_core.pxd":420
+/* "ailist/LabeledIntervalArray_core.pxd":423
  * 	# Define class properties
  * 	cdef labeled_aiarray_t *ail
  * 	cdef public bint is_constructed             # <<<<<<<<<<<<<<
@@ -21768,7 +21804,7 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->is_constructed); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 420, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->is_constructed); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 423, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -21806,7 +21842,7 @@ static int __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_1
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 420, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 423, __pyx_L1_error)
   __pyx_v_self->is_constructed = __pyx_t_1;
 
   /* function exit code */
@@ -21820,7 +21856,7 @@ static int __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_1
   return __pyx_r;
 }
 
-/* "ailist/LabeledIntervalArray_core.pxd":421
+/* "ailist/LabeledIntervalArray_core.pxd":424
  * 	cdef labeled_aiarray_t *ail
  * 	cdef public bint is_constructed
  * 	cdef public bint is_closed             # <<<<<<<<<<<<<<
@@ -21850,7 +21886,7 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->is_closed); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 421, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->is_closed); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 424, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -21888,7 +21924,7 @@ static int __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_9
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 421, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 424, __pyx_L1_error)
   __pyx_v_self->is_closed = __pyx_t_1;
 
   /* function exit code */
@@ -21902,7 +21938,7 @@ static int __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_9
   return __pyx_r;
 }
 
-/* "ailist/LabeledIntervalArray_core.pxd":422
+/* "ailist/LabeledIntervalArray_core.pxd":425
  * 	cdef public bint is_constructed
  * 	cdef public bint is_closed
  * 	cdef public bint is_frozen             # <<<<<<<<<<<<<<
@@ -21932,7 +21968,7 @@ static PyObject *__pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalA
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->is_frozen); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 422, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->is_frozen); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 425, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -21970,7 +22006,7 @@ static int __pyx_pf_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_9
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 422, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 425, __pyx_L1_error)
   __pyx_v_self->is_frozen = __pyx_t_1;
 
   /* function exit code */
@@ -36180,7 +36216,8 @@ static PyMethodDef __pyx_methods_6ailist_25LabeledIntervalArray_core_LabeledInte
   {"has_exact_match", (PyCFunction)__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_99has_exact_match, METH_O, __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_98has_exact_match},
   {"index_with_aiarray", (PyCFunction)__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_101index_with_aiarray, METH_O, __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_100index_with_aiarray},
   {"get_locs", (PyCFunction)__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_103get_locs, METH_O, __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_102get_locs},
-  {"close", (PyCFunction)__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_105close, METH_NOARGS, __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104close},
+  {"copy", (PyCFunction)__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_105copy, METH_NOARGS, __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_104copy},
+  {"close", (PyCFunction)__pyx_pw_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_107close, METH_NOARGS, __pyx_doc_6ailist_25LabeledIntervalArray_core_20LabeledIntervalArray_106close},
   {0, 0, 0, 0}
 };
 
@@ -37392,7 +37429,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
   {&__pyx_n_s_has_hit, __pyx_k_has_hit, sizeof(__pyx_k_has_hit), 0, 0, 1, 1},
   {&__pyx_n_s_has_hit_from_array, __pyx_k_has_hit_from_array, sizeof(__pyx_k_has_hit_from_array), 0, 0, 1, 1},
-  {&__pyx_kp_u_i_d_start_d_end_d_label_d_label2, __pyx_k_i_d_start_d_end_d_label_d_label2, sizeof(__pyx_k_i_d_start_d_end_d_label_d_label2), 0, 1, 0, 0},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_indices, __pyx_k_indices, sizeof(__pyx_k_indices), 0, 0, 1, 1},
@@ -37438,7 +37474,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
   {&__pyx_n_s_pd, __pyx_k_pd, sizeof(__pyx_k_pd), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
-  {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_protection, __pyx_k_protection, sizeof(__pyx_k_protection), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_PickleError, __pyx_k_pyx_PickleError, sizeof(__pyx_k_pyx_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_checksum, __pyx_k_pyx_checksum, sizeof(__pyx_k_pyx_checksum), 0, 0, 1, 1},
@@ -37490,7 +37525,6 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 417, __pyx_L1_error)
   __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(0, 583, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 2276, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 2448, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 947, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(3, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(3, 148, __pyx_L1_error)

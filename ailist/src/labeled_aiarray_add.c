@@ -151,3 +151,19 @@ void labeled_aiarray_append(labeled_aiarray_t *ail, labeled_aiarray_t *ail2)
 
     return;
 }
+
+
+labeled_aiarray_t *labeled_aiarray_copy(labeled_aiarray_t *ail)
+{   /* Copy labeled_aiarray */
+
+    labeled_aiarray_t *ail_copy = labeled_aiarray_init();
+    int i;
+    for (i = 0; i < ail->nr; i++)
+    {
+        const char *label_name = query_rev_label_map(ail, ail->interval_list[i].label);
+        labeled_aiarray_add(ail_copy, ail->interval_list[i].start, ail->interval_list[i].end, label_name);
+    }
+
+    return ail_copy;
+
+}

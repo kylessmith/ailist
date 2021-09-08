@@ -120,6 +120,9 @@ void labeled_aiarray_add(labeled_aiarray_t *ail, uint32_t start, uint32_t end, c
 // Add intervals from another labeled_aiarray
 void labeled_aiarray_append(labeled_aiarray_t *ail, labeled_aiarray_t *ail2);
 
+// Copy labeled_aiarray
+labeled_aiarray_t *labeled_aiarray_copy(labeled_aiarray_t *ail);
+
 
 //-------------------------------------------------------------------------------------
 // labeled_aiarray_get.c
