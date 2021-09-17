@@ -1,0 +1,5 @@
+.DS_Store
+ailist.egg-info
+build
+dist
+ailist/__pycache__
