@@ -293,7 +293,7 @@ void labeled_aiarray_query_with_index(labeled_aiarray_t *ail, overlap_label_inde
 
     // Determine if label is present
     if (label_is_present(ail, label_name) == 1)
-    {
+    {		
         // Determine label
         uint16_t label = query_label_map(ail, label_name);
 

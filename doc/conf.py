@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 from datetime import datetime
 HERE = Path(__file__).parent
-#sys.path[:0] = [str(HERE.parent), str(HERE / 'extensions')]
+sys.path[:0] = [str(HERE.parent), str(HERE / 'extensions')]
 import ailist
 #sys.path.append(os.path.abspath('../ailist'))
 #sys.path.insert(0, os.path.abspath('.'))
@@ -123,7 +123,7 @@ html_context = dict(
     display_github=True,  # Integrate GitHub
     github_user='kylessmith',  # Username
     github_repo='ailist',  # Repo name
-    github_version='master',  # Version
+    github_version='main',  # Version
     conf_py_path='/doc/',  # Path in the checkout to the docs root
     github_url="https://github.com",
 )

@@ -1,4 +1,4 @@
-﻿
+
 
 ailist.Interval
 ===============
@@ -17,8 +17,9 @@ ailist.Interval
       :toctree: .
    
       ~ailist.Interval.end
-      ~ailist.Interval.id_value
+      ~ailist.Interval.index
       ~ailist.Interval.start
+      ~ailist.Interval.value
    
    
 
@@ -29,5 +30,6 @@ ailist.Interval
    .. autosummary::
       :toctree: .
    
+      ~ailist.Interval.to_list
    
    

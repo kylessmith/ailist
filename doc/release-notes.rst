@@ -4,22 +4,10 @@ Release Notes
 .. role:: small
 .. role:: smaller
 
-
-Version 1.0.0
--------------
-
-Complete overhaul
-	- Creation of :class:`~ailist.IntervalArray`
-	- Creation of :class:`~ailist.LabeledIntervalArray`
-	- Overhaul of documentation
-	- Fixed memory leak when deleting an :class:`~ailist.AIList`
-	- Fixed error in :func:`~ailist.AIList.merge`
-
-
 Version 0.1.8
 -------------
 
-Method additions
+Mathod additions
 	- :func:`~ailist.AIList.index_by_ailist`
 
 

@@ -222,13 +222,15 @@ setup(
                     "Topic :: Software Development :: Libraries :: Python Modules",
                     "Topic :: Scientific/Engineering :: Bio-Informatics"
                   ],
-    setup_requires = ["cython", "numpy"],
-    install_requires = ["numpy", "pandas"],
+    setup_requires = ["cython", "numpy", "pandas"],
+    install_requires = ["numpy", "pandas", "cython"],
     provides = ["ailist"],
     keywords = ["cython interval ailist c"],
     ext_modules = my_ext_modules,
     packages = ["ailist"],
-    package_data={'ailist': ['*.pxd', '*.pyx', '*.c', '*.h']},
+    package_data={'ailist': ['*.pxd', '*.pyx', '*.c', '*.h'],
+                   'ailist/src' : ['*.c', '*.h']},
+    include_package_data=True,
     # Disable zip_safe
     zip_safe = False,
     # Custom data files not inside a Python package

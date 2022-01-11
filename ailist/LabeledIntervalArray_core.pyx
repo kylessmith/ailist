@@ -176,10 +176,6 @@ cdef class LabeledIntervalArray(object):
 
 		return (rebuild_LabeledIntervalArray, (data, b_length, b_label_list))
 
-
-	def print_label_map(self):
-		display_label_map(self.ail)
-
 	
 	@property
 	def label_map(self):
@@ -298,10 +294,6 @@ cdef class LabeledIntervalArray(object):
 			ranges[self.rev_label_map[i]] = (self.ail.first[i], self.ail.last[i])
 		
 		return ranges
-
-	@property
-	def _nl(self):
-		return self.ail.nl
 		
 
 	def __len__(self):
@@ -502,6 +494,17 @@ cdef class LabeledIntervalArray(object):
 
 	def get(self, label):
 		"""
+		Get LabeledIntervalArray for given label
+		
+		Parameters
+		----------
+			label : str
+				Label to get
+				
+		Returns
+		-------
+			intervals : LabeledIntervalArray
+				Intervals with given label
 		"""
 
 		# Check if object is still open
@@ -1667,6 +1670,7 @@ cdef class LabeledIntervalArray(object):
 		(array([0, 1, 1]), array([0, 2, 1]))
 
 		"""
+		print("here\n", flush=True)
 
 		# Check if object is still open
 		if self.is_closed:
@@ -1680,8 +1684,8 @@ cdef class LabeledIntervalArray(object):
 		cdef LabeledIntervalArray overlaps
 		cdef np.ndarray indices
 		overlaps, indices = self._intersect_with_index_from_LabeledIntervalArray(ail)
-		# Set label_map
-		overlaps.copy_maps(self)
+		## Set label_map
+		#overlaps.copy_maps(self)
 		
 		return overlaps, indices
 

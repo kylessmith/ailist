@@ -20,13 +20,25 @@
 int label_is_present(labeled_aiarray_t *ail, const char *label_name)
 {   /* Determine if label_name is in array */
 
-    int name_absent;
+    //int name_absent;
     strhash_t *h = (strhash_t*)ail->label_map;
-    int k = kh_put(khStrInt, h, label_name, &name_absent);
-    if (name_absent)
+	
+	khiter_t k = kh_get(khStrInt, h, label_name);
+    
+    //if (kh_exist(h, k))
+	if (k != kh_end(h))
     {
-        return 0;
-    }
+		return 1;
+	}
+	else {
+		return 0;
+	}
+    //k = kh_get(khStrInt, h, label_name);
+	//int k = kh_put(khStrInt, h, label_name, &name_absent);
+    //if (name_absent)
+    //{
+    //    return 0;
+    //}
 
     return 1;
 }
