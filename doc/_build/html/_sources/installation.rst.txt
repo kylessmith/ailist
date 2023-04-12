@@ -7,9 +7,9 @@ Anaconda
 If you do not have a working Python 3.5 or 3.6 installation, consider
 installing Miniconda_. Then run::
 
-    conda install cython numpy pandas
+    conda install numpy 
 
-Pull ailist from `PyPI <https://pypi.org/project/ailist>`__ (consider
+Pull ailist from `PyPI <https://pypi.org/project/cfdna>`__ (consider
 using ``pip3`` to access Python 3)::
 
     pip install ailist

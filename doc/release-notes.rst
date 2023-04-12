@@ -7,7 +7,7 @@ Release Notes
 Version 0.1.8
 -------------
 
-Mathod additions
+Method additions
 	- :func:`~ailist.AIList.index_by_ailist`
 
 

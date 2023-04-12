@@ -4,6 +4,12 @@ Release Notes
 .. role:: small
 .. role:: smaller
 
+Version 0.1.8
+-------------
+
+Method additions
+	- :func:`~ailist.AIList.index_by_ailist`
+
 
 Version 0.1.7
 -------------

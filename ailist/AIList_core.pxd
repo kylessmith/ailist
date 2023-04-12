@@ -1,68 +1,79 @@
 import numpy as np
 cimport numpy as np
 cimport cython
-from libc.stdint cimport uint32_t, int32_t, int64_t
-from libc.stdlib cimport malloc, free
-from ailist.Interval_core cimport Interval, interval_init, interval_t
+from libc.stdint cimport uint32_t, int64_t, uint8_t
+from ailist.Interval_core cimport Interval, interval_t
 from ailist.array_query_core cimport *
 
-cdef extern from "src/augmented_interval_list.c":
+cdef extern from "src/ailist/augmented_interval_list.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_add.c":
+cdef extern from "src/ailist/ailist_add.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_construct.c":
+cdef extern from "src/ailist/ailist_construct.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_index.c":
-	# C is include here so that it doesn't need to be compiled externally
-	pass
-
-cdef extern from "src/ailist_query.c":
+cdef extern from "src/ailist/ailist_query.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 	
-cdef extern from "src/ailist_iter.c":
+cdef extern from "src/ailist/ailist_iter.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_coverage.c":
+cdef extern from "src/ailist/ailist_get_id.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_nhits.c":
+cdef extern from "src/ailist/ailist_coverage.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_wps.c":
+cdef extern from "src/ailist/ailist_nhits.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_merge.c":
+cdef extern from "src/ailist/ailist_wps.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_extract.c":
+cdef extern from "src/ailist/ailist_merge.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_ops.c":
+cdef extern from "src/ailist/ailist_extract.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/ailist_filter.c":
+cdef extern from "src/ailist/ailist_ops.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/utilities.h":
+cdef extern from "src/ailist/ailist_filter.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/augmented_interval_list.h":
+cdef extern from "src/ailist/ailist_simulate.c":
+	# C is include here so that it doesn't need to be compiled externally
+	pass
+
+cdef extern from "src/ailist/overlap_index.c":
+	# C is include here so that it doesn't need to be compiled externally
+	pass
+
+cdef extern from "src/utilities/utilities.h":
+	# C is include here so that it doesn't need to be compiled externally
+	pass
+
+cdef extern from "src/array_query/array_query_utilities.h":
+	# C is include here so that it doesn't need to be compiled externally
+	pass
+
+cdef extern from "src/ailist/augmented_interval_list.h":
 
 	ctypedef struct ailist_t:
 		int64_t nr, mr  					# Number of regions
@@ -80,6 +91,12 @@ cdef extern from "src/augmented_interval_list.h":
 		int *comp_used						# Components used
 		interval_t *intv					# Interval
 		int n								# Current position
+
+	ctypedef struct overlap_index_t:
+		int size;							# Current size
+		int max_size;						# Maximum size
+		ailist_t *ail;						# Store ailist
+		long *indices;						# Store indices
 
 
 	#-------------------------------------------------------------------------------------
@@ -103,6 +120,20 @@ cdef extern from "src/augmented_interval_list.h":
 
 
 	#-------------------------------------------------------------------------------------
+	# overlap_index.c
+	#=====================================================================================
+
+	# Initialize overlap_index_t
+	overlap_index_t *overlap_index_init() nogil
+
+	# Free overlap_index memory
+	void overlap_index_destroy(overlap_index_t *oi) nogil
+
+	# Add interval and index to overlap_index
+	void overlap_index_add(overlap_index_t *aq, interval_t *i) nogil
+
+
+	#-------------------------------------------------------------------------------------
 	# ailist_add.c
 	#=====================================================================================
 
@@ -115,6 +146,9 @@ cdef extern from "src/augmented_interval_list.h":
 	# Append two ailist
 	ailist_t *ailist_append(ailist_t *ail1, ailist_t *ail2) nogil
 
+	# Copy ailist
+	ailist_t *ailist_copy(ailist_t *ail) nogil
+
 
 	#-------------------------------------------------------------------------------------
 	# ailist_construct.c
@@ -123,8 +157,22 @@ cdef extern from "src/augmented_interval_list.h":
 	# Construct ailist: decomposition and augmentation
 	void ailist_construct(ailist_t *ail, int cLen) nogil
 
+	# Construct ailist: decomposition and augmentation v0
+	void ailist_construct_v0(ailist_t *ail, int cLen) nogil
+
+	# Validation that construction ran
+	int ailist_validate_construction(ailist_t *ail) nogil
+
+	# Calculate coverage of midpoints
+	void ailist_midpoint_coverage(ailist_t *ail, double coverage[]) nogil
+
+	# Calculate coverage of midpoints with length
+	void ailist_midpoint_coverage_length(ailist_t *ail, double coverage[], int min_length, int max_length) nogil
+
+
+
 	#-------------------------------------------------------------------------------------
-	# ailist_index.c
+	# ailist_get_id.c
 	#=====================================================================================
 
 	# Get intervals with id
@@ -132,6 +180,12 @@ cdef extern from "src/augmented_interval_list.h":
 
 	# Get intervals with ids
 	ailist_t *ailist_get_id_array(ailist_t *ail, const long ids[], int length) nogil
+
+	# Reset id_values
+	void ailist_reset_id(ailist_t *ail) nogil
+
+	# Reset id_values with shift
+	void ailist_reset_id_shift(ailist_t *ail, int shift) nogil
 
 
 	#-------------------------------------------------------------------------------------
@@ -142,24 +196,39 @@ cdef extern from "src/augmented_interval_list.h":
 	uint32_t binary_search(interval_t* As, uint32_t idxS, uint32_t idxE, uint32_t qe) nogil
 
 	# Query ailist intervals
-	ailist_t *ailist_query(ailist_t *ail, uint32_t qs, uint32_t qe) nogil
+	void ailist_query(ailist_t *ail, ailist_t *overlaps, uint32_t qs, uint32_t qe) nogil
 
 	# Query ailist intervals of a length
-	ailist_t *ailist_query_length(ailist_t *ail, uint32_t qs, uint32_t qe, int min_length, int max_length) nogil
+	void ailist_query_length(ailist_t *ail, ailist_t *overlaps, uint32_t qs, uint32_t qe, int min_length, int max_length) nogil
+
+	# Query number of hits in ailist intervals
+	void ailist_query_nhits(ailist_t *ail, long *nhits, uint32_t qs, uint32_t qe) nogil
+
+	# Query number of hits in ailist intervals of a length
+	void ailist_query_nhits_length(ailist_t *ail, long *nhits, uint32_t qs, uint32_t qe, int min_length, int max_length) nogil
+
+	# Query if interval has any overlap in ailist intervals
+	void ailist_query_has_hit(ailist_t *ail, uint8_t *has_hit, uint32_t qs, uint32_t qe) nogil
 
 	# Query ailist intervals from arrays
-	ailist_t *ailist_query_from_array(ailist_t *ail, const long starts[], const long ends[], int length) nogil
+	void ailist_query_from_array(ailist_t *ail, ailist_t *overlaps, const long starts[], const long ends[], int length) nogil
 
 	# Query ailist intervals from another ailist
-	ailist_t *ailist_query_from_ailist(ailist_t *ail, ailist_t *ail2) nogil
+	void ailist_query_from_ailist(ailist_t *ail, ailist_t *ail2, ailist_t *overlaps) nogil
+
+	# Query aiarray intervals and record original index
+	void ailist_query_with_index(ailist_t *ail, overlap_index_t *overlaps, uint32_t qs, uint32_t qe) nogil
+
+	# Query aiarray intervals and record original index
+	void ailist_query_only_index(ailist_t *ail, array_query_t *aq, uint32_t qs, uint32_t qe, uint32_t id) nogil
 
 	# Query ailist interval ids from array
-	array_query_t *ailist_query_id_from_array(ailist_t *ail, const long starts[], const long ends[], const long ids[], int length) nogil
+	void ailist_query_id_from_array(ailist_t *ail, array_query_t *aq, const long starts[], const long ends[], const long ids[], int length) nogil
 
 	# Query ailist interval ids from another ailist
-	array_query_t *ailist_query_id_from_ailist(ailist_t *ail, ailist_t *ail2) nogil
-	
-	
+	void ailist_query_id_from_ailist(ailist_t *ail, ailist_t *ail2, array_query_t *aq) nogil
+
+
 	#-------------------------------------------------------------------------------------
 	# ailist_iter.c
 	#=====================================================================================
@@ -187,6 +256,9 @@ cdef extern from "src/augmented_interval_list.h":
 	# Calculate coverage
 	void ailist_coverage(ailist_t *ail, double coverage[]) nogil
 
+	# Calculate coverage of a length
+	void ailist_coverage_length(ailist_t *ail, double coverage[], int min_length, int max_length) nogil
+
 	# Calculate coverage within bins
 	void ailist_bin_coverage(ailist_t *ail, double coverage[], int bin_size) nogil
 
@@ -208,10 +280,10 @@ cdef extern from "src/augmented_interval_list.h":
 										int max_length) nogil
 
 	# Calculate n hits within bins
-	void ailist_bin_nhits(ailist_t *ail, double coverage[], int bin_size) nogil
+	void ailist_bin_nhits(ailist_t *ail, long coverage[], int bin_size) nogil
 
 	# Calculate n hits of a length within bins
-	void ailist_bin_nhits_length(ailist_t *ail, double coverage[], int bin_size, int min_length, int max_length) nogil
+	void ailist_bin_nhits_length(ailist_t *ail, long coverage[], int bin_size, int min_length, int max_length) nogil
 
 	#-------------------------------------------------------------------------------------
 	# ailist_wps.c
@@ -250,16 +322,19 @@ cdef extern from "src/augmented_interval_list.h":
 	#=====================================================================================
 
 	# Subtract intervals from region
-	void subtract_intervals(ailist_t *ref_ail, ailist_t *result_ail, interval_t query_i, int j) nogil
+	void ailist_subtract_intervals(interval_t *intv, ailist_t *ail, ailist_t *result_ail) nogil
 
 	# Subtract two ailist_t intervals
 	ailist_t *ailist_subtract(ailist_t *ref_ail, ailist_t *query_ail) nogil
 
 	# Subtract intervals from region
-	void common_intervals(ailist_t *ref_ail, ailist_t *result_ail, interval_t query_i, int j) nogil
+	void ailist_common_intervals(interval_t *intv, ailist_t *ail, ailist_t *result_ail) nogil
 
 	# Subtract two ailist_t intervals
-	ailist_t *ailist_common(ailist_t *ref_ail, ailist_t *query_ail) nogil
+	ailist_t *ailist_common(ailist_t *ail, ailist_t *other_ail) nogil
+
+	# Union of two ailist_t intervals
+	ailist_t *ailist_union(ailist_t *ail, ailist_t *other_ail) nogil
 
 
 	#-------------------------------------------------------------------------------------
@@ -267,10 +342,18 @@ cdef extern from "src/augmented_interval_list.h":
 	#=====================================================================================
 
 	# Filter ailist by length
-	ailist_t *ailist_length_filter(ailist_t *ail, int min_length, int max_length) nogil
+	void ailist_length_filter(ailist_t *ail, ailist_t *filtered_ail, int min_length, int max_length) nogil
 
 	# Randomly downsample
 	ailist_t *ailist_downsample(ailist_t *ail, double proportion) nogil
+
+
+	#-------------------------------------------------------------------------------------
+	# ailist_simulate.c
+	#=====================================================================================
+
+	# Simulate intervals
+	void ailist_simulate(ailist_t *ail, ailist_t *simulation, int n) nogil
 
 
 cpdef object rebuild_AIList(bytes data, bytes b_length)
@@ -306,6 +389,8 @@ cdef class AIList(object):
 	cdef np.ndarray _bin_coverage_length(AIList self, int bin_size, int min_length, int max_length)
 	cdef np.ndarray _bin_nhits(AIList self, int bin_size)
 	cdef np.ndarray _bin_nhits_length(AIList self, int bin_size, int min_length, int max_length)
+	cdef void _nhits(AIList self, long *nhits, int start, int end)
+	cdef void _nhits_length(AIList self, long *nhits, int start, int end, int min_length, int max_length)
 	cdef np.ndarray _wps(AIList self, int protection)
 	cdef np.ndarray _wps_length(AIList self, int protection, int min_length, int max_length)
 	cdef np.ndarray _length_dist(AIList self)

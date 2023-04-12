@@ -1,0 +1,1696 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ailist.IntervalArray_core &#8212; ailist 2.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/typehints.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/ailist/IntervalArray_core';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        The ailist API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../benchmarking.html">
+                        Benchmarking
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://www.biosciencestack.com/documentation/">
+                    Other tools
+                  </a>
+                </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/kylessmith/ailist" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        The ailist API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../benchmarking.html">
+                        Benchmarking
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://www.biosciencestack.com/documentation/">
+                    Other tools
+                  </a>
+                </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/kylessmith/ailist" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">ailist.IntervalArray_core</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for ailist.IntervalArray_core</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.LabeledIntervalArray_core</span> <span class="kn">import</span> <span class="n">LabeledIntervalArray</span><span class="p">,</span> <span class="n">LabeledInterval</span>
+<span class="kn">from</span> <span class="nn">.Interval_core</span> <span class="kn">import</span> <span class="n">Interval</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="IntervalArray"><a class="viewcode-back" href="../../api/ailist.IntervalArray.html#ailist.IntervalArray">[docs]</a><span class="k">class</span> <span class="nc">IntervalArray</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :class:`~IntervalArray.IntervalArray` stores a list of intervals</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize IntervalArray object</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span> <span class="o">=</span> <span class="n">LabeledIntervalArray</span><span class="p">()</span>
+
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_closed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Whether object is still in memory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">is_closed</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_frozen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Whether object is immutable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">is_frozen</span>
+
+    
+    <span class="nd">@property</span>	
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of intervals in IntervalArray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">size</span>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ranges(start,  end) for each label</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">label_ranges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">label_ranges</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_ranges</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>            
+        
+        <span class="k">return</span> <span class="n">label_ranges</span><span class="p">[</span><span class="s2">&quot;_IntervalArray&quot;</span><span class="p">]</span>
+
+	
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_constructed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Whether IntervalArray is constructed or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">is_constructed</span>
+	
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">starts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">starts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">starts</span>
+
+        <span class="k">return</span> <span class="n">starts</span>
+
+	
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ends</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        End values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ends</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">ends</span>
+
+        <span class="k">return</span> <span class="n">ends</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return size of IntervalArray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+
+	
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate over IntervalArray object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="c1"># Iterate through intervals</span>
+        <span class="k">for</span> <span class="n">interval</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">Interval</span><span class="p">(</span><span class="n">interval</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">interval</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+
+	
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get hash value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_wrap_laia</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">laia</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">laia</span><span class="p">,</span> <span class="n">LabeledInterval</span><span class="p">):</span>
+            <span class="n">laia</span> <span class="o">=</span> <span class="n">laia</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span> <span class="o">=</span> <span class="n">laia</span>
+    
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Index Intervals by value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check that key given id 1D</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Incorrect number of dimensions given.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Index</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">new_labeled_intervals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">new_interval</span> <span class="o">=</span> <span class="n">Interval</span><span class="p">(</span><span class="n">new_labeled_intervals</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">new_labeled_intervals</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">new_interval</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_intervals</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+            <span class="n">new_labeled_intervals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">new_intervals</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">new_labeled_intervals</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">new_intervals</span>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Representation of IntervalArray object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Initialize string</span>
+        <span class="n">repr_string</span> <span class="o">=</span> <span class="s2">&quot;IntervalArray</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Iterate over labeled_interval_list</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+                <span class="n">repr_string</span> <span class="o">+=</span> <span class="s2">&quot;   (</span><span class="si">%d</span><span class="s2">-</span><span class="si">%d</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+            <span class="n">repr_string</span> <span class="o">+=</span> <span class="s2">&quot;   ...</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">repr_string</span> <span class="o">+=</span> <span class="s2">&quot;   (</span><span class="si">%d</span><span class="s2">-</span><span class="si">%d</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+                <span class="n">repr_string</span> <span class="o">+=</span> <span class="s2">&quot;   (</span><span class="si">%d</span><span class="s2">-</span><span class="si">%d</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">repr_string</span>
+
+
+<div class="viewcode-block" id="IntervalArray.freeze"><a class="viewcode-back" href="../../api/ailist.IntervalArray.freeze.html#ailist.IntervalArray.freeze">[docs]</a>    <span class="k">def</span> <span class="nf">freeze</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make :class:`~ailist.IntervalArray` immutable</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            None</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.unfreeze: Make mutable</span>
+<span class="sd">        IntervalArray.sort: Sort intervals inplace</span>
+<span class="sd">        IntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from ailist import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; ail = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (3-6)</span>
+<span class="sd">        &gt;&gt;&gt; ail.freeze()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(9, 10)</span>
+<span class="sd">        TypeError: IntervalArray is frozen and currently immutatable. Try &#39;.unfreeze()&#39; to reverse.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Make sure it is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="c1"># Change to frozen</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_frozen</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.unfreeze"><a class="viewcode-back" href="../../api/ailist.IntervalArray.unfreeze.html#ailist.IntervalArray.unfreeze">[docs]</a>    <span class="k">def</span> <span class="nf">unfreeze</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make :class:`~ailist.IntervalArray` mutable</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            None</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.freeze: Make immutable</span>
+<span class="sd">        IntervalArray.sort: Sort intervals inplace</span>
+<span class="sd">        IntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from aiarray import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; ail = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (3-6)</span>
+<span class="sd">        &gt;&gt;&gt; ail.freeze()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(9, 10)</span>
+<span class="sd">        TypeError: IntervalArray is frozen and currently immutatable. Try &#39;.unfreeze()&#39; to reverse.</span>
+<span class="sd">        &gt;&gt;&gt; ail.unfreeze()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(9, 10)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Change to not frozen</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_frozen</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.add"><a class="viewcode-back" href="../../api/ailist.IntervalArray.add.html#ailist.IntervalArray.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add an interval to IntervalArray inplace</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            start : int</span>
+<span class="sd">                Start position of interval</span>
+<span class="sd">            end : int</span>
+<span class="sd">                End position of interval</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            None</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.from_array: Add intervals from arrays</span>
+<span class="sd">        IntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect</span>
+<span class="sd">        IntervalArray.intersect: Find intervals overlapping given range</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from ailist import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; ail = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (3-6)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check that object is not frozen</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_frozen</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;IntervalArray is frozen and currently immutatable. Try &#39;.unfreeze()&#39; to reverse.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;_IntervalArray&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">start</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span></div>
+
+	
+<div class="viewcode-block" id="IntervalArray.append"><a class="viewcode-back" href="../../api/ailist.IntervalArray.append.html#ailist.IntervalArray.append">[docs]</a>    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_ail</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add intervals from arrays to IntervalArray inplace</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            other_ail : IntervalArray</span>
+<span class="sd">                Intervals to add to current IntervalArray</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            None</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.add: Add interval to IntervalArray</span>
+<span class="sd">        IntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect</span>
+<span class="sd">        IntervalArray.intersect: Find intervals overlapping given range</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from ailist import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; starts = np.arange(100)</span>
+<span class="sd">        &gt;&gt;&gt; ends = starts + 10</span>
+<span class="sd">        &gt;&gt;&gt; labels = np.repeat(&#39;a&#39;, len(starts))</span>
+<span class="sd">        &gt;&gt;&gt; ail = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail.from_array(starts, ends, labels)</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (0-10, a)</span>
+<span class="sd">            (1-11, a)</span>
+<span class="sd">            (2-12, a)</span>
+<span class="sd">            (3-13, a)</span>
+<span class="sd">            (4-14, a)</span>
+<span class="sd">            ...</span>
+<span class="sd">            (95-105, a)</span>
+<span class="sd">            (96-106, a)</span>
+<span class="sd">            (97-107, a)</span>
+<span class="sd">            (98-108, a)</span>
+<span class="sd">            (99-109, a)</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; len(ail)</span>
+<span class="sd">        100</span>
+
+<span class="sd">        &gt;&gt;&gt; ail2 = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail2.from_array(starts, ends, labels)</span>
+<span class="sd">        &gt;&gt;&gt; ail.append(ail2)</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (0-10, a)</span>
+<span class="sd">            (1-11, a)</span>
+<span class="sd">            (2-12, a)</span>
+<span class="sd">            (3-13, a)</span>
+<span class="sd">            (4-14, a)</span>
+<span class="sd">            ...</span>
+<span class="sd">            (95-105, a)</span>
+<span class="sd">            (96-106, a)</span>
+<span class="sd">            (97-107, a)</span>
+<span class="sd">            (98-108, a)</span>
+<span class="sd">            (99-109, a)</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; len(ail)</span>
+<span class="sd">        200</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check that object is not frozen</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_frozen</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;IntervalArray is frozen and currently immutatable. Try &#39;.unfreeze()&#39; to reverse.&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">other_ail</span><span class="o">.</span><span class="n">_laia</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.construct"><a class="viewcode-back" href="../../api/ailist.IntervalArray.construct.html#ailist.IntervalArray.construct">[docs]</a>    <span class="k">def</span> <span class="nf">construct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_length</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct labeled_aiarray_t *Required to call intersect</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            min_length : int</span>
+<span class="sd">                Minimum length</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            None</span>
+
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.sort: Sort intervals inplace</span>
+<span class="sd">        IntervalArray.intersect: Find intervals overlapping given range</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from ailist import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; ail = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(2, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (2-6)</span>
+<span class="sd">        &gt;&gt;&gt; ail.construct()</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (2-6)</span>
+<span class="sd">            (3-4)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;Labledaiarray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if already constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.iter_sorted"><a class="viewcode-back" href="../../api/ailist.IntervalArray.iter_sorted.html#ailist.IntervalArray.iter_sorted">[docs]</a>    <span class="k">def</span> <span class="nf">iter_sorted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate over an IntervalArray in sorted way</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            None</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            sorted_iter : Generator</span>
+<span class="sd">                Generator of LabeledIntervals</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.sort: Sort intervals inplace</span>
+<span class="sd">        IntervalArray.intersect: Find intervals overlapping given range</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from ailist import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; ail = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(2, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        LabledIntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (2-6)</span>
+<span class="sd">        &gt;&gt;&gt; s_iter = ail.iter_sorted()</span>
+<span class="sd">        &gt;&gt;&gt; for i in s_iter:</span>
+<span class="sd">        &gt;&gt;&gt;		print(i)</span>
+<span class="sd">        Interval(1-2)</span>
+<span class="sd">        Interval(2-6)</span>
+<span class="sd">        Interval(3-4)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="c1"># Iterate over labels in ail</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">iter_sorted</span><span class="p">():</span>
+            <span class="n">interval</span> <span class="o">=</span> <span class="n">Interval</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">interval</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.iter_intersect"><a class="viewcode-back" href="../../api/ailist.IntervalArray.iter_intersect.html#ailist.IntervalArray.iter_intersect">[docs]</a>    <span class="k">def</span> <span class="nf">iter_intersect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">query_laia</span><span class="p">,</span>
+                        <span class="n">return_intervals</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">return_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">return_intervals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_index</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">overlaps</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">iter_intersect</span><span class="p">(</span><span class="n">query_laia</span><span class="o">.</span><span class="n">_laia</span><span class="p">,</span>
+                                                           <span class="n">return_intervals</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                                           <span class="n">return_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+                    <span class="n">i_overlaps</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+                    <span class="n">i_overlaps</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">overlaps</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">i_overlaps</span><span class="p">,</span> <span class="n">index</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">overlaps</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">laia</span><span class="o">.</span><span class="n">iter_intersect</span><span class="p">(</span><span class="n">query_laia</span><span class="o">.</span><span class="n">_laia</span><span class="p">,</span>
+                                                        <span class="n">return_intervals</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                                        <span class="n">return_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="n">i_overlaps</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+                    <span class="n">i_overlaps</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">overlaps</span><span class="p">)</span>
+                    <span class="k">yield</span> <span class="n">i_overlaps</span>
+
+        <span class="k">elif</span> <span class="n">return_index</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_intersect</span><span class="p">(</span><span class="n">query_laia</span><span class="o">.</span><span class="n">_laia</span><span class="p">,</span>
+                                             <span class="n">return_intervals</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                             <span class="n">return_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">index</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.intersect"><a class="viewcode-back" href="../../api/ailist.IntervalArray.intersect.html#ailist.IntervalArray.intersect">[docs]</a>    <span class="k">def</span> <span class="nf">intersect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                    <span class="n">start</span><span class="p">,</span> 
+                    <span class="n">end</span><span class="p">,</span> 
+                    <span class="n">return_intervals</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">return_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find intervals overlapping given range</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            start : int | np.ndarray</span>
+<span class="sd">                Start position of query range</span>
+<span class="sd">            end : int | np.ndarray</span>
+<span class="sd">                End position of query range</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            overlaps : IntervalArray</span>
+<span class="sd">                Overlapping intervals</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            This requires :func:`~aiarray.IntervalArray.construct` and will run it if not already run. This will re-sort intervals inplace is ail.track_index = False.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect</span>
+<span class="sd">        IntervalArray.add: Add interval to IntervalArray</span>
+<span class="sd">        IntervalArray.intersect_index: Find interval indices overlapping given range</span>
+<span class="sd">        IntervalArray.intersect_from_array: Find interval indices overlapping given ranges</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from ailist import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; ail = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail.add(3, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (3-6)</span>
+<span class="sd">            (3-6)</span>
+<span class="sd">        &gt;&gt;&gt; q = ail.intersect(2, 10)</span>
+<span class="sd">        &gt;&gt;&gt; q</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (3-6)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="c1"># Intersect</span>
+        <span class="k">if</span> <span class="n">return_intervals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_index</span><span class="p">:</span>
+                <span class="n">label_overlaps</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span>
+                                                               <span class="n">return_intervals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                               <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">overlaps</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+                <span class="n">overlaps</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_overlaps</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">overlaps</span><span class="p">,</span> <span class="n">indices</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">label_overlaps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span>
+                                                      <span class="n">return_intervals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                      <span class="n">return_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">overlaps</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+                <span class="n">overlaps</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_overlaps</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">overlaps</span>
+
+        <span class="k">elif</span> <span class="n">return_index</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span>
+                                            <span class="n">return_intervals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">indices</span></div>
+
+	
+<div class="viewcode-block" id="IntervalArray.has_hit"><a class="viewcode-back" href="../../api/ailist.IntervalArray.has_hit.html#ailist.IntervalArray.has_hit">[docs]</a>    <span class="k">def</span> <span class="nf">has_hit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find interval indices overlapping given ranges</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            starts : int | numpy.ndarray {long}</span>
+<span class="sd">                Start positions of intervals</span>
+<span class="sd">            ends : int | numpy.ndarray {long}</span>
+<span class="sd">                End positions of intervals</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            has_hit : np.ndarray {bool}</span>
+<span class="sd">                Bool array indicated overlap detected</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            This requires :func:`~aiarray.IntervalArray.construct` and will run it if not already run. This will re-sort intervals inplace if ail.track_index = False.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect</span>
+<span class="sd">        IntervalArray.add: Add interval to IntervalArray</span>
+<span class="sd">        IntervalArray.intersect: Find intervals overlapping given range</span>
+<span class="sd">        IntervalArray.intersect_index: Find interval indices overlapping given range</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from aiarray import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; ail1 = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail1.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail1.add(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; ail1.add(2, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail1</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (2-6)</span>
+<span class="sd">        &gt;&gt;&gt; ail2 = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail2.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail2.add(3, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail2</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-6)</span>
+<span class="sd">        &gt;&gt;&gt; q = ail1.intersect_from_array(ail2)</span>
+<span class="sd">        &gt;&gt;&gt; q</span>
+<span class="sd">        (array([2, 1]), array([]))</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if object is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="c1"># Initialize variables</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">has_hit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">has_hit</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;_IntervalArray&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">start</span><span class="p">))</span>
+            <span class="n">has_hit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">has_hit</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">has_hit</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.intersect_from_IntervalArray"><a class="viewcode-back" href="../../api/ailist.IntervalArray.intersect_from_IntervalArray.html#ailist.IntervalArray.intersect_from_IntervalArray">[docs]</a>    <span class="k">def</span> <span class="nf">intersect_from_IntervalArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                     <span class="n">ail_query</span><span class="p">,</span>
+                                     <span class="n">return_intervals</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">return_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find interval indices overlapping given ranges</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            ail_query : IntervalArray</span>
+<span class="sd">                Intervals to query</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            ref_index : np.ndarray{int}</span>
+<span class="sd">                Overlapping interval indices from IntervalArray</span>
+<span class="sd">            query_index : np.ndarray{int}</span>
+<span class="sd">                Overlapping interval indices from query IntervalArray</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        IntervalArray.construct: Construct IntervalArray, required to call IntervalArray.intersect</span>
+<span class="sd">        IntervalArray.add: Add interval to IntervalArray</span>
+<span class="sd">        IntervalArray.intersect: Find intervals overlapping given range</span>
+<span class="sd">        IntervalArray.intersect_from_array: Find interval indices overlapping given range</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from ailist import IntervalArray</span>
+<span class="sd">        &gt;&gt;&gt; ail1 = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail1.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail1.add(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; ail1.add(2, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail1</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            range: (1-6)</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-4)</span>
+<span class="sd">            (2-6)</span>
+<span class="sd">        &gt;&gt;&gt; ail2 = IntervalArray()</span>
+<span class="sd">        &gt;&gt;&gt; ail2.add(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; ail2.add(3, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail2.add(3, 6)</span>
+<span class="sd">        &gt;&gt;&gt; ail2</span>
+<span class="sd">        IntervalArray</span>
+<span class="sd">            (1-2)</span>
+<span class="sd">            (3-6)</span>
+<span class="sd">        &gt;&gt;&gt; q = ail1.intersect_from_IntervalArray(ail2)</span>
+<span class="sd">        &gt;&gt;&gt; q</span>
+<span class="sd">        (array([0, 1, 1]), array([0, 2, 1]))</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if object is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">return_intervals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_index</span><span class="p">:</span>
+                <span class="n">label_overlaps</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">intersect_from_LabeledIntervalArray</span><span class="p">(</span><span class="n">ail_query</span><span class="o">.</span><span class="n">_laia</span><span class="p">,</span>
+                                                                                    <span class="n">return_intervals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                                    <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">overlaps</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+                <span class="n">overlaps</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_overlaps</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">overlaps</span><span class="p">,</span> <span class="n">indices</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">label_overlaps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">intersect_from_LabeledIntervalArray</span><span class="p">(</span><span class="n">ail_query</span><span class="o">.</span><span class="n">_laia</span><span class="p">,</span>
+                                                                                    <span class="n">return_intervals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                                    <span class="n">return_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">overlaps</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+                <span class="n">overlaps</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_overlaps</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">overlaps</span>
+
+        <span class="k">elif</span> <span class="n">return_index</span><span class="p">:</span>
+            <span class="n">query_index</span><span class="p">,</span> <span class="n">ref_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">intersect_from_LabeledIntervalArray</span><span class="p">(</span><span class="n">ail_query</span><span class="o">.</span><span class="n">_laia</span><span class="p">,</span>
+                                                                                    <span class="n">return_intervals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                                                    <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">query_index</span><span class="p">,</span> <span class="n">ref_index</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.nhits"><a class="viewcode-back" href="../../api/ailist.IntervalArray.nhits.html#ailist.IntervalArray.nhits">[docs]</a>    <span class="k">def</span> <span class="nf">nhits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find number of intervals overlapping given</span>
+<span class="sd">        positions</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            starts : numpy.ndarray {long}</span>
+<span class="sd">                Start positions to intersect</span>
+<span class="sd">            ends : numpy.ndarray {long}</span>
+<span class="sd">                End positions to intersect</span>
+<span class="sd">            min_length : int</span>
+<span class="sd">                Minimum length of intervals to include [default = None]</span>
+<span class="sd">            max_length : int</span>
+<span class="sd">                Maximum length of intervals to include [default = None]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            nhits : numpy.ndarray{int}</span>
+<span class="sd">                Number of hits per position</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;aiarray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Make sure list is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">nhits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">nhits</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="p">,</span> <span class="n">min_length</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">start</span><span class="p">))</span>
+            <span class="n">nhits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">nhits</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">max_length</span><span class="p">,</span> <span class="n">min_length</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nhits</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.bin_nhits"><a class="viewcode-back" href="../../api/ailist.IntervalArray.bin_nhits.html#ailist.IntervalArray.bin_nhits">[docs]</a>    <span class="k">def</span> <span class="nf">bin_nhits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find number of intervals overlapping binned</span>
+<span class="sd">        positions</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            bin_size : int</span>
+<span class="sd">                Size of the bin to use</span>
+<span class="sd">            min_length : int</span>
+<span class="sd">                Minimum length of intervals to include [default = None]</span>
+<span class="sd">            max_length : int</span>
+<span class="sd">                Maximum length of intervals to include [default = None]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            bins : pandas.Series {double}</span>
+<span class="sd">                Position on index and coverage as values</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Determine bins</span>
+        <span class="n">label_bins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">bin_nhits</span><span class="p">(</span><span class="n">bin_size</span><span class="p">,</span> <span class="n">min_length</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+        <span class="n">bins</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_bins</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">bins</span></div>
+
+	
+<div class="viewcode-block" id="IntervalArray.nhits_from_IntervalArray"><a class="viewcode-back" href="../../api/ailist.IntervalArray.nhits_from_IntervalArray.html#ailist.IntervalArray.nhits_from_IntervalArray">[docs]</a>    <span class="k">def</span> <span class="nf">nhits_from_IntervalArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_laia</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find number of intervals overlapping </span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            query_laia : IntervalArray</span>
+<span class="sd">                Intervals to query</span>
+<span class="sd">            min_length : int</span>
+<span class="sd">                Minimum length of intervals to include [default = None]</span>
+<span class="sd">            max_length : int</span>
+<span class="sd">                Maximum length of intervals to include [default = None]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            bins : pandas.Series {double}</span>
+<span class="sd">                Position on index and coverage as values</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">query_laia</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Initialize nhits</span>
+        <span class="n">nhits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">nhits_from_LabeledIntervalArray</span><span class="p">(</span><span class="n">query_laia</span><span class="p">,</span> <span class="n">min_length</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">nhits</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.wps"><a class="viewcode-back" href="../../api/ailist.IntervalArray.wps.html#ailist.IntervalArray.wps">[docs]</a>    <span class="k">def</span> <span class="nf">wps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protection</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate Window Protection Score</span>
+<span class="sd">        for each position in IntervalArray range</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            protection : int</span>
+<span class="sd">                Protection window to use</span>
+<span class="sd">            min_length : int</span>
+<span class="sd">                Minimum length of intervals to include [default = None]</span>
+<span class="sd">            max_length : int</span>
+<span class="sd">                Maximum length of intervals to include [default = None]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            wps : pandas.Series {double}</span>
+<span class="sd">                Position on index and WPS as values</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;aiarray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if empty</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">laia</span><span class="o">.</span><span class="n">total_nr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Determine which labels to calculate</span>
+        <span class="n">wps_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">wps</span><span class="p">(</span><span class="n">protection</span><span class="p">,</span> <span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span> <span class="n">min_length</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+        <span class="n">wps</span> <span class="o">=</span> <span class="n">wps_results</span><span class="p">[</span><span class="s2">&quot;_IntervalArray&quot;</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">wps</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.coverage"><a class="viewcode-back" href="../../api/ailist.IntervalArray.coverage.html#ailist.IntervalArray.coverage">[docs]</a>    <span class="k">def</span> <span class="nf">coverage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate coverage</span>
+<span class="sd">        for each position in IntervalArray range</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            min_length : int</span>
+<span class="sd">                Minimum length of intervals to include [default = None]</span>
+<span class="sd">            max_length : int</span>
+<span class="sd">                Maximum length of intervals to include [default = None]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            cov_results : dict {str:numpy.ndarray}</span>
+<span class="sd">                Coverage as values</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;aiarray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if empty</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">laia</span><span class="o">.</span><span class="n">total_nr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Determine which labels to calculate</span>
+        <span class="n">cov_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span><span class="s2">&quot;_IntervalArray&quot;</span><span class="p">,</span> <span class="n">min_length</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+        <span class="n">cov</span> <span class="o">=</span> <span class="n">cov_results</span><span class="p">[</span><span class="s2">&quot;_IntervalArry&quot;</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">cov</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.merge"><a class="viewcode-back" href="../../api/ailist.IntervalArray.merge.html#ailist.IntervalArray.merge">[docs]</a>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merge intervals within a gap</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            gap : int</span>
+<span class="sd">                Gap between intervals to merge</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            merged_list : IntervalArray</span>
+<span class="sd">                Merged intervals</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;aiarray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Make sure list is constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="c1"># Create merged</span>
+        <span class="n">label_merged_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">gap</span><span class="p">)</span>
+        <span class="n">merged_list</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+        <span class="n">merged_list</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_merged_list</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">merged_list</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.filter"><a class="viewcode-back" href="../../api/ailist.IntervalArray.filter.html#ailist.IntervalArray.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">400</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filter out intervals outside of a length range</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            min_length : int</span>
+<span class="sd">                Minimum length to keep</span>
+<span class="sd">            max_length : int</span>
+<span class="sd">                Maximum langth to keep</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            filtered_ail : IntervalArray</span>
+<span class="sd">                Filtered intervals</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Initialize filtered list</span>
+        <span class="n">label_filtered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">min_length</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+        <span class="n">filtered</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+        <span class="n">filtered</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_filtered</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filtered</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.downsample"><a class="viewcode-back" href="../../api/ailist.IntervalArray.downsample.html#ailist.IntervalArray.downsample">[docs]</a>    <span class="k">def</span> <span class="nf">downsample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">proportion</span><span class="p">,</span>
+                    <span class="n">return_intervals</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">return_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Randomly downsample IntervalArray</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            proportion : double</span>
+<span class="sd">                Proportion of intervals to keep</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            filtered_ail : IntervalArray</span>
+<span class="sd">                Downsampled IntervalArray</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_intervals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_index</span><span class="p">:</span>
+                <span class="n">label_filtered</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">proportion</span><span class="p">,</span>
+                                                                <span class="n">return_intervals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                <span class="n">return_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">filtered</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+                <span class="n">filtered</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_filtered</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">filtered</span><span class="p">,</span> <span class="n">indices</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">label_filtered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">proportion</span><span class="p">,</span>
+                                                        <span class="n">return_intervals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                        <span class="n">return_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">filtered</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+                <span class="n">filtered</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_filtered</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">filtered</span>
+
+        <span class="k">elif</span> <span class="n">return_index</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">proportion</span><span class="p">,</span> <span class="n">return_intervals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">indices</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.length_dist"><a class="viewcode-back" href="../../api/ailist.IntervalArray.length_dist.html#ailist.IntervalArray.length_dist">[docs]</a>    <span class="k">def</span> <span class="nf">length_dist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate length distribution of intervals</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            None</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            distribution : numpy.ndarray{int}</span>
+<span class="sd">                Interval length distribution</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;AIList object has been closed.&quot;</span><span class="p">)</span>
+
+
+        <span class="c1"># Calculate distribution</span>
+        <span class="n">distribution</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">length_dist</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">distribution</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.filter_exact_match"><a class="viewcode-back" href="../../api/ailist.IntervalArray.filter_exact_match.html#ailist.IntervalArray.filter_exact_match">[docs]</a>    <span class="k">def</span> <span class="nf">filter_exact_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_aiarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine which intervals are present</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;AIList object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check construction</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">other_aiarray</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">other_aiarray</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="n">label_matched_ail</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">filter_exact_match</span><span class="p">(</span><span class="n">other_aiarray</span><span class="o">.</span><span class="n">_laia</span><span class="p">)</span>
+        <span class="n">matched_ail</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+        <span class="n">matched_ail</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_matched_ail</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">matched_ail</span><span class="p">,</span> <span class="n">indices</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.has_exact_match"><a class="viewcode-back" href="../../api/ailist.IntervalArray.has_exact_match.html#ailist.IntervalArray.has_exact_match">[docs]</a>    <span class="k">def</span> <span class="nf">has_exact_match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_aiarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine which intervals are present</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span> <span class="ow">or</span> <span class="n">other_aiarray</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if objects are constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">other_aiarray</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">other_aiarray</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="c1"># Find matches</span>
+        <span class="n">has_match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">has_exact_match</span><span class="p">(</span><span class="n">other_aiarray</span><span class="o">.</span><span class="n">_laia</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">has_match</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.index_with_aiarray"><a class="viewcode-back" href="../../api/ailist.IntervalArray.index_with_aiarray.html#ailist.IntervalArray.index_with_aiarray">[docs]</a>    <span class="k">def</span> <span class="nf">index_with_aiarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_aiarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span> <span class="ow">or</span> <span class="n">other_aiarray</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="n">return_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">index_with_aiarray</span><span class="p">(</span><span class="n">other_aiarray</span><span class="o">.</span><span class="n">_laia</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_code</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;Failed to run properly. Values are likely currupted now.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.create_bin"><a class="viewcode-back" href="../../api/ailist.IntervalArray.create_bin.html#ailist.IntervalArray.create_bin">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">create_bin</span><span class="p">(</span><span class="n">bin_range</span><span class="p">,</span> <span class="n">bin_size</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">label_range</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;_IntervalArray&quot;</span><span class="p">:</span> <span class="n">bin_range</span><span class="p">}</span>
+        <span class="n">laia</span> <span class="o">=</span> <span class="n">LabeledIntervalArray</span><span class="o">.</span><span class="n">create_bin</span><span class="p">(</span><span class="n">label_range</span><span class="p">,</span> <span class="n">bin_size</span><span class="p">)</span>
+        <span class="n">aia</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+        <span class="n">aia</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">laia</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">aia</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.simulate"><a class="viewcode-back" href="../../api/ailist.IntervalArray.simulate.html#ailist.IntervalArray.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="n">label_simulation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+        <span class="n">simulation</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+        <span class="n">simulation</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">label_simulation</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">simulation</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.sorted_index"><a class="viewcode-back" href="../../api/ailist.IntervalArray.sorted_index.html#ailist.IntervalArray.sorted_index">[docs]</a>    <span class="k">def</span> <span class="nf">sorted_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if objects are constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="n">sorted_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">sorted_index</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">sorted_index</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.sort"><a class="viewcode-back" href="../../api/ailist.IntervalArray.sort.html#ailist.IntervalArray.sort">[docs]</a>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if objects are constructed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_constructed</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">construct</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.validate_construction"><a class="viewcode-back" href="../../api/ailist.IntervalArray.validate_construction.html#ailist.IntervalArray.validate_construction">[docs]</a>    <span class="k">def</span> <span class="nf">validate_construction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+        
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">validate_construction</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.copy"><a class="viewcode-back" href="../../api/ailist.IntervalArray.copy.html#ailist.IntervalArray.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copy IntervalArray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check if object is still open</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;IntervalArray object has been closed.&quot;</span><span class="p">)</span>
+
+        <span class="n">laia_copied</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">aia_copied</span> <span class="o">=</span> <span class="n">IntervalArray</span><span class="p">()</span>
+        <span class="n">aia_copied</span><span class="o">.</span><span class="n">_wrap_laia</span><span class="p">(</span><span class="n">laia_copied</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">aia_copied</span></div>
+
+
+<div class="viewcode-block" id="IntervalArray.close"><a class="viewcode-back" href="../../api/ailist.IntervalArray.close.html#ailist.IntervalArray.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Close object and clear memory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Free IntervalArray memory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_laia</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Kyles Smith..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

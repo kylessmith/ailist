@@ -1,15 +1,13 @@
 import numpy as np
 cimport numpy as np
-cimport cython
-from libc.stdint cimport uint32_t, int32_t, int64_t
-from libc.stdlib cimport malloc, free
+from libc.stdint cimport uint32_t, int32_t
 
 
-cdef extern from "src/interval.c":
+cdef extern from "src/ailist/interval.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/interval.h":
+cdef extern from "src/ailist/interval.h":
 	# C is include here so that it doesn't need to be compiled externally
 	ctypedef struct interval_t:
 		uint32_t start      				# Region start: 0-based
@@ -25,8 +23,6 @@ cdef class Interval(object):
 	Wrapper for C interval
 	"""
 
-	# C instance of struct
-	cdef interval_t *i
-
-	# Methods for serialization
-	cdef void set_i(self, interval_t *i)
+	# Interval attributes
+	cdef public int start
+	cdef public int end

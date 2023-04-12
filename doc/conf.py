@@ -14,19 +14,17 @@ import os
 import sys
 from pathlib import Path
 from datetime import datetime
-HERE = Path(__file__).parent
-sys.path[:0] = [str(HERE.parent), str(HERE / 'extensions')]
 import ailist
 #sys.path.append(os.path.abspath('../ailist'))
 #sys.path.insert(0, os.path.abspath('.'))
-#sys.path.insert(0, os.path.abspath('..'))
+#sys.path.insert(0, os.path.abspath('../'))
 
 
 # -- Project information -----------------------------------------------------
 project = 'ailist'
-author = ailist.__author__
+author = "Kyles Smith"
 copyright = f'{datetime.now():%Y}, {author}.'
-version = ailist.__version__.replace('.dirty', '')
+version = "2.0.0"
 release = version
 
 
@@ -42,7 +40,6 @@ master_doc = 'index'
 default_role = 'literal'
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 #pygments_style = 'sphinx'
-pygments_style = 'default'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -52,6 +49,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.autosummary',
               'sphinx.ext.intersphinx',
               'sphinx.ext.napoleon',
+              'sphinx_autodoc_typehints',
               'scanpydoc'
           ]
 
@@ -89,9 +87,8 @@ intersphinx_mapping = dict(
 #
 #html_theme = 'sphinx_rtd_theme'
 html_theme = "pydata_sphinx_theme"
-#html_theme = 'scikit_learn_modern'
-#html_theme = "dask_sphinx_theme"
-#html_theme = 'bootstrap'
+#html_theme = 'alabaster'
+#html_theme = 'scikit-learn-modern'
 
 html_logo = "_static/logo.svg"
 
@@ -115,7 +112,10 @@ html_theme_options = dict(github_url="https://github.com/kylessmith/ailist",
                             ("Benchmark", "benchmarking"),
                             ("Tutorial", "tutorial"),
                             ("BioscienceStack", "http://biosciencestack.com", True)
-                          ],)
+                          ],
+                          logo = {"image_light": "_static/logo.svg",
+                                  "image_dark": "_static/logo.svg"},
+                        )
 
 html_sidebars = {"**": []}
 
@@ -123,7 +123,7 @@ html_context = dict(
     display_github=True,  # Integrate GitHub
     github_user='kylessmith',  # Username
     github_repo='ailist',  # Repo name
-    github_version='main',  # Version
+    github_version='master',  # Version
     conf_py_path='/doc/',  # Path in the checkout to the docs root
     github_url="https://github.com",
 )

@@ -9,8 +9,8 @@ import math
 cimport cython
 import pandas as pd
 from libc.string cimport memcpy
+from .Interval_core import Interval
 np.import_array()
-from time import time
 
 # Set byteorder for __reduce__
 byteorder = sys.byteorder
@@ -38,14 +38,14 @@ cpdef AIList rebuild_AIList(bytes data, bytes b_length):
 
 	Parameters
 	----------
-		data : bytes 
+		data : bytes
 			Bytes representation of ailist_t
-		b_length : bytes 
+		b_length : bytes
 			Length of ailist_t
 
 	Returns
 	-------
-		c : ailist_t* 
+		c : ailist_t*
 			Translated ailist_t from data
 	"""
 
@@ -99,9 +99,6 @@ cdef class AIList(object):
 		"""
 		Free AIList.c_ailist
 		"""
-		
-		#if hasattr(self, "interval_list"):
-			#ailist_destroy(self.c_ailist)
 
 		ailist_destroy(self.c_ailist)
 
@@ -122,29 +119,30 @@ cdef class AIList(object):
 
 		Parameters
 		----------
-			data : bytes 
+			data : bytes
 				Bytes representation of ailist_t
 			b_length : bytes
 				Length of ailist_t
 
 		Returns
-		---------
+		-------
 			interval_list : ailist_t*
 				Translated ailist_t for bytes
 		"""
-		
+
 		# Convert bytes to ints
 		cdef int length = int.from_bytes(b_length, byteorder)
-		
+
 		# Create new ailist_t
 		cdef ailist_t *ail = ailist_init()
 		cdef interval_t *interval_list = <interval_t*>malloc(length * sizeof(interval_t))
 		memcpy(interval_list, <char*>data, sizeof(interval_t)*length)
 
-		# Iteratively add intervals to interval_list		
+		# Iteratively add intervals to interval_list
 		cdef int i
 		for i in range(length):
-			ailist_add(ail, interval_list[i].start, interval_list[i].end, interval_list[i].id_value)
+			ailist_add(ail, interval_list[i].start, interval_list[i].end,
+						interval_list[i].id_value)
 
 		return ail
 
@@ -157,7 +155,7 @@ cdef class AIList(object):
 		# Check if object is still open
 		if self.is_closed:
 			raise NameError("AIList object has been closed.")
-		
+
 		# Convert ints to bytes
 		b_length = int(self.c_ailist.nr).to_bytes(4, byteorder)
 
@@ -166,7 +164,7 @@ cdef class AIList(object):
 
 		return (rebuild_AIList, (data, b_length))
 
-	
+
 	@property
 	def nc(self):
 		"""
@@ -200,7 +198,7 @@ cdef class AIList(object):
 		else:
 			return None
 
-	
+
 	@property
 	def idxC(self):
 		"""
@@ -218,7 +216,7 @@ cdef class AIList(object):
 			return None
 
 
-	@property	
+	@property
 	def size(self):
 		"""
 		Number of intervals in AIList
@@ -229,7 +227,7 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		return self.c_ailist.nr
-	
+
 	@property
 	def first(self):
 		"""
@@ -239,7 +237,7 @@ cdef class AIList(object):
 		# Check if object is still open
 		if self.is_closed:
 			raise NameError("AIList object has been closed.")
-		
+
 		# Check if there are any intervals
 		if self.size == 0:
 			return None
@@ -277,20 +275,20 @@ cdef class AIList(object):
 			return 0
 		else:
 			return self.last - self.first
-		
+
 
 	def __len__(self):
 		"""
 		Return size of interval_list
 		"""
-		
+
 		# Check if object is still open
 		if self.is_closed:
 			raise NameError("AIList object has been closed.")
 
 		return self.size
 
-	
+
 	def __iter__(self):
 		"""
 		Iterate over AIList object
@@ -301,13 +299,15 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Iterate over interval list
-		cdef Interval interval
+		#cdef Interval interval
 		cdef int i
-		
+
 		for i in range(self.size):
-			interval = Interval()
-			interval.set_i(&self.c_ailist.interval_list[i])
-			
+			#interval = Interval()
+			#interval.set_i(&self.c_ailist.interval_list[i])
+			interval = Interval(self.c_ailist.interval_list[i].start,
+								self.c_ailist.interval_list[i].end)
+
 			yield interval
 
 
@@ -346,7 +346,7 @@ cdef class AIList(object):
 
 		return self.append(query_ail)
 
-	
+
 	def __hash__(self):
 		"""
 		Get hash value
@@ -357,23 +357,23 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		return hash(self)
-		
-		
+
+
 	cdef ailist_t *_array_id(AIList self, const long[::1] ids):
 		cdef int length = len(ids)
 		cdef ailist_t *cindexed_ailist
-		
+
 		# Call C function
 		cindexed_ailist = ailist_get_id_array(self.c_ailist, &ids[0], length)
-		
+
 		return cindexed_ailist
-	
+
 	cdef ailist_t *_interval_id(AIList self, int id_value):
 		cdef ailist_t *cindexed_ailist
-		
+
 		# Call C function
 		cindexed_ailist = ailist_get_id(self.c_ailist, id_value)
-		
+
 		return cindexed_ailist
 
 	def __getitem__(self, key):
@@ -388,13 +388,15 @@ cdef class AIList(object):
 		# Initialize variables
 		cdef AIList indexed_ailist
 		cdef ailist_t *cindexed_ailist
+		cdef interval_t cinterval
 
 		# Initialize results
 		indexed_ailist = AIList()
 
 		# Check if key is iterable
 		try:
-			iter(key) # Test if iterable
+			# Test if iterable
+			iter(key)
 
 			# Check if keys are booleans
 			if isinstance(key[0], np.bool_):
@@ -403,7 +405,7 @@ cdef class AIList(object):
 			# Must be integers
 			else:
 				cindexed_ailist = self._array_id(key)
-		
+
 		# key is not iterable, treat as int
 		except TypeError:
 			# Check if key is slice
@@ -411,11 +413,16 @@ cdef class AIList(object):
 				raise IndexError("Cannot use slice as key")
 
 			# Find id
-			cindexed_ailist = self._interval_id(key)
+			#cindexed_ailist = self._interval_id(key)
+			cinterval = self.c_ailist.interval_list[key]
+			interval = Interval(cinterval.start, cinterval.end)
+			#interval.set_i(cinterval)
+
+			return interval
 
 		# Wrap c object
 		indexed_ailist.set_list(cindexed_ailist)
-		
+
 		return indexed_ailist
 
 
@@ -438,15 +445,15 @@ cdef class AIList(object):
 		# Iterate over interval_list
 		if self.c_ailist.nr > 10:
 			for i in range(5):
-				repr_string += "   (%d-%d, %s)\n" % (self[i].start, self[i].end, self[i].id_value)
+				repr_string += "   (%d-%d)\n" % (self[i].start, self[i].end)
 			repr_string += "   ...\n"
 			for i in range(-5, 0, 1):
-				repr_string += "   (%d-%d, %s)\n" % (self[i].start, self[i].end, self[i].id_value)
+				repr_string += "   (%d-%d)\n" % (self[i].start, self[i].end)
 		else:
 			for i in range(self.c_ailist.nr):
-				repr_string += "   (%d-%d, %s)\n" % (self[i].start, self[i].end, self[i].id_value)
+				repr_string += "   (%d-%d)\n" % (self[i].start, self[i].end)
 
-		return repr_string		
+		return repr_string
 
 
 	cdef void set_list(AIList self, ailist_t *input_list):
@@ -463,11 +470,8 @@ cdef class AIList(object):
 			None
 		"""
 
-		# Free old skiplist
-		#if self.c_ailist:
-			#ailist_destroy(self.c_ailist)
 		ailist_destroy(self.c_ailist)
-		
+
 		# Replace new skiplist
 		self.c_ailist = input_list
 		self.is_closed = False
@@ -515,7 +519,7 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Make sure it is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		# Change to frozen
@@ -568,14 +572,14 @@ cdef class AIList(object):
 		# Change to not frozen
 		self.is_frozen = False
 
-	
+
 	cdef void _insert(AIList self, int start, int end, int id_value):
 		ailist_add(self.c_ailist, start, end, id_value)
 
 	def add(self, int start, int end, id_value=None):
 		"""
 		Add an interval to AIList inplace
-		
+
 		Parameters
 		----------
 			start : int
@@ -610,7 +614,7 @@ cdef class AIList(object):
 		   (3-6, 2)
 
 		"""
-		
+
 		# Check if object is still open
 		if self.is_closed:
 			raise NameError("AIList object has been closed.")
@@ -619,12 +623,16 @@ cdef class AIList(object):
 		if self.is_frozen:
 			raise TypeError("AIList is frozen and currently immutatable. Try '.unfreeze()' to reverse.")
 
+		# Check interval
+		if start > end:
+			raise IndexError("Start is greater than end.")
+
 		# Insert interval
 		if id_value is None:
 			self._insert(start, end, self.c_ailist.nr)
 		else:
 			self._insert(start, end, id_value)
-		
+
 		# Object is no longer constructed
 		self.is_constructed = False
 
@@ -632,7 +640,7 @@ cdef class AIList(object):
 	def from_array(self, const long[::1] starts, const long[::1] ends, const long[::1] ids):
 		"""
 		Add intervals from arrays to AIList inplace
-		
+
 		Parameters
 		----------
 			starts : ~numpy.ndarray{long}
@@ -693,6 +701,7 @@ cdef class AIList(object):
 	cdef void _construct(AIList self, int min_length):
 		# Contruct
 		ailist_construct(self.c_ailist, min_length)
+		#ailist_construct_v0(self.c_ailist, min_length)
 
 	def construct(self, int min_length=20):
 		"""
@@ -743,13 +752,13 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Check if already constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self._construct(min_length)
 			self.is_constructed = True
 		else:
 			pass
-			
-			
+
+
 	def iter_sorted(self):
 		"""
 		Iterate over an AIList in sorted way
@@ -765,34 +774,35 @@ cdef class AIList(object):
 		"""
 
 		# Check if is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		# Iterate over  ail
 		cdef interval_t *cintv
-		cdef Interval output_interval
-		
+		#cdef Interval output_interval
+
 		# Create sorted iterators
 		cdef ailist_sorted_iter_t *ail_iter = ailist_sorted_iter_init(self.c_ailist)
 		while ailist_sorted_iter_next(ail_iter) != 0:
 			cintv = ail_iter.intv
 			# Create Interval wrapper
-			output_interval = Interval()
-			output_interval.set_i(cintv)
+			output_interval = Interval(cintv.start, cintv.end)
+			#output_interval.set_i(cintv)
 			yield output_interval
 
 		ailist_sorted_iter_destroy(ail_iter)
-	
+
 
 	cdef ailist_t *_intersect(AIList self, int start, int end):
-		cdef ailist_t *overlaps = ailist_query(self.c_ailist, start, end)
+		cdef ailist_t *overlaps = ailist_init()
+		ailist_query(self.c_ailist, overlaps, start, end)
 
 		return overlaps
 
 	def intersect(self, int start, int end):
 		"""
 		Find intervals overlapping given range
-		
+
 		Parameters
 		----------
 			start : int
@@ -806,7 +816,8 @@ cdef class AIList(object):
 				Overlapping intervals
 
 		.. warning::
-			This requires :func:`~ailist.AIList.construct` and will run it if not already run. This will re-sort intervals inplace.
+			This requires :func:`~ailist.AIList.construct` and will run it if not already run.
+			This will re-sort intervals inplace.
 
 		See Also
 		--------
@@ -842,7 +853,7 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Check if is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		# Intersect
@@ -854,7 +865,8 @@ cdef class AIList(object):
 
 
 	cdef np.ndarray _intersect_ids(AIList self, int start, int end):
-		cdef ailist_t *overlaps = ailist_query(self.c_ailist, start, end)
+		cdef ailist_t *overlaps = ailist_init()
+		ailist_query(self.c_ailist, overlaps, start, end)
 		cdef long[::1] ids = np.zeros(overlaps.nr, dtype=np.long)
 
 		# Extract IDs
@@ -865,7 +877,7 @@ cdef class AIList(object):
 	def intersect_ids(self, int start, int end):
 		"""
 		Find interval indices overlapping given range
-		
+
 		Parameters
 		----------
 			start : int
@@ -879,7 +891,8 @@ cdef class AIList(object):
 				Overlapping interval indices
 
 		.. warning::
-			This requires :func:`~ailist.AIList.construct` and will run it if not already run. This will re-sort intervals inplace.
+			This requires :func:`~ailist.AIList.construct` and will run it if not already run.
+			This will re-sort intervals inplace.
 
 		See Also
 		--------
@@ -912,7 +925,7 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Check if object has been constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		# Intersect
@@ -924,20 +937,25 @@ cdef class AIList(object):
 	@cython.boundscheck(False)
 	@cython.wraparound(False)
 	@cython.initializedcheck(False)
-	cpdef _intersect_ids_from_array(AIList self, const long[::1] starts, const long[::1] ends, const long[::1] ids):
+	cpdef _intersect_ids_from_array(AIList self, const long[::1] starts, const long[::1] ends,
+									const long[::1] ids):
 		cdef int length = len(starts)
-		cdef array_query_t *total_overlaps
-		total_overlaps = ailist_query_id_from_array(self.c_ailist, &starts[0], &ends[0], &ids[0], length)
+		cdef array_query_t *total_overlaps = array_query_init()
+		ailist_query_id_from_array(self.c_ailist, total_overlaps, &starts[0],
+									&ends[0], &ids[0], length)
 
-		cdef np.ndarray ref_index = pointer_to_numpy_array(total_overlaps.ref_index, total_overlaps.size)
-		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index, total_overlaps.size)
+		cdef np.ndarray ref_index = pointer_to_numpy_array(total_overlaps.ref_index,
+														   total_overlaps.size)
+		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index,
+															 total_overlaps.size)
 
 		return ref_index, query_index
 
-	def intersect_from_array(self, const long[::1] starts, const long[::1] ends, const long[::1] ids):
+	def intersect_from_array(self, const long[::1] starts, const long[::1] ends,
+							 const long[::1] ids):
 		"""
 		Find interval indices overlapping given ranges
-		
+
 		Parameters
 		----------
 			starts : numpy.ndarray{long}
@@ -955,7 +973,8 @@ cdef class AIList(object):
 				Overlapping interval indices from query AIList
 
 		.. warning::
-			This requires :func:`~ailist.AIList.construct` and will run it if not already run. This will re-sort intervals inplace.
+			This requires :func:`~ailist.AIList.construct` and will run it if not already run.
+			This will re-sort intervals inplace.
 
 		See Also
 		--------
@@ -996,27 +1015,30 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Check if object is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		ref_index, query_index = self._intersect_ids_from_array(starts, ends, ids)
-		
+
 		return ref_index, query_index
 
 
 	cpdef _intersect_ids_from_ailist(AIList self, AIList ail):
 		# Intersect with other AIList
-		cdef array_query_t *total_overlaps = ailist_query_id_from_ailist(self.c_ailist, ail.c_ailist)
+		cdef array_query_t *total_overlaps = array_query_init()
+		ailist_query_id_from_ailist(self.c_ailist, ail.c_ailist, total_overlaps)
 
-		cdef np.ndarray ref_index = pointer_to_numpy_array(total_overlaps.ref_index, total_overlaps.size)
-		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index, total_overlaps.size)
+		cdef np.ndarray ref_index = pointer_to_numpy_array(total_overlaps.ref_index,
+														   total_overlaps.size)
+		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index,
+															 total_overlaps.size)
 
 		return ref_index, query_index
 
 	def intersect_from_ailist(self, AIList ail_query):
 		"""
 		Find interval indices overlapping given ranges
-		
+
 		Parameters
 		----------
 			ail_query : AIList
@@ -1030,7 +1052,8 @@ cdef class AIList(object):
 				Overlapping interval indices from query AIList
 
 		.. warning::
-			This requires :func:`~ailist.AIList.construct` and will run it if not already run. This will re-sort intervals inplace.
+			This requires :func:`~ailist.AIList.construct` and will run it if not already run.
+			This will re-sort intervals inplace.
 
 		See Also
 		--------
@@ -1072,14 +1095,14 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Check if object is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		# Intersect
 		ref_index, query_index = self._intersect_from_ailist(ail_query)
-		
+
 		return ref_index, query_index
-		
+
 
 	cdef np.ndarray _coverage(AIList self):
 		# Initialize coverage
@@ -1114,7 +1137,7 @@ cdef class AIList(object):
 
 		# Calculate coverage
 		coverage = self._coverage()
-		
+
 		return pd.Series(coverage, index=np.arange(self.first, self.last))
 
 
@@ -1128,7 +1151,8 @@ cdef class AIList(object):
 
 		return np.asarray(bins)
 
-	cdef np.ndarray _bin_coverage_length(AIList self, int bin_size, int min_length, int max_length):
+	cdef np.ndarray _bin_coverage_length(AIList self, int bin_size, int min_length,
+										 int max_length):
 		# Initialize coverage
 		cdef int n_bins = math.ceil(self.last / bin_size) - (self.first // bin_size)
 		cdef double[::1] bins = np.zeros(n_bins, dtype=np.double)
@@ -1142,7 +1166,7 @@ cdef class AIList(object):
 		"""
 		Find sum of coverage within binned
 		positions
-		
+
 		Parameters
 		----------
 			bin_size : int
@@ -1171,15 +1195,15 @@ cdef class AIList(object):
 			bins = self._bin_coverage(bin_size)
 		else:
 			bins = self._bin_coverage_length(bin_size, min_length, max_length)
-		
+
 		return pd.Series(bins, index=(np.arange(len(bins)) + int(self.first / bin_size)) * bin_size)
 
 
 	cdef np.ndarray _bin_nhits(AIList self, int bin_size):
 		# Initialize coverage
 		cdef int n_bins = math.ceil(self.last / bin_size) - (self.first // bin_size)
-		cdef double[::1] bins = np.zeros(n_bins, dtype=np.double)
-		
+		cdef long[::1] bins = np.zeros(n_bins, dtype=np.double)
+
 		# Call C function
 		ailist_bin_nhits(self.c_ailist, &bins[0], bin_size)
 
@@ -1188,7 +1212,7 @@ cdef class AIList(object):
 	cdef np.ndarray _bin_nhits_length(AIList self, int bin_size, int min_length, int max_length):
 		# Initialize coverage
 		cdef int n_bins = math.ceil(self.last / bin_size) - (self.first // bin_size)
-		cdef double[::1] bins = np.zeros(n_bins, dtype=np.double)
+		cdef long[::1] bins = np.zeros(n_bins, dtype=np.double)
 
 		# Call C function
 		ailist_bin_nhits_length(self.c_ailist, &bins[0], bin_size, min_length, max_length)
@@ -1199,7 +1223,7 @@ cdef class AIList(object):
 		"""
 		Find number of intervals overlapping binned
 		positions
-		
+
 		Parameters
 		----------
 			bin_size : int
@@ -1222,14 +1246,64 @@ cdef class AIList(object):
 
 		# Initialize coverage
 		cdef np.ndarray bins
-		
+
 		# Calculate coverage
 		if min_length is None or max_length is None:
 			bins = self._bin_nhits(bin_size)
 		else:
 			bins = self._bin_nhits_length(bin_size, min_length, max_length)
-		
+
 		return pd.Series(bins, index=(np.arange(len(bins)) + int(self.first / bin_size)) * bin_size)
+
+
+	cdef void _nhits(AIList self, long *nhits, int start, int end):
+
+		# Call C function
+		ailist_query_nhits(self.c_ailist, nhits, start, end)
+
+		return
+
+	cdef void _nhits_length(AIList self, long *nhits, int start, int end, int min_length,
+							int max_length):
+
+		# Call C function
+		ailist_query_nhits_length(self.c_ailist, nhits, start, end, min_length, max_length)
+
+		return
+
+	def nhits(self, start, end, min_length=None, max_length=None):
+		"""
+		Find number of intervals overlapping binned
+		positions
+
+		Parameters
+		----------
+			min_length : int
+				Minimum length of intervals to include [default = None]
+			max_length : int
+				Maximum length of intervals to include [default = None]
+
+		Returns
+		-------
+			nhits : int
+				Number of overlaps
+
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("AIList object has been closed.")
+
+		# Initialize nhits
+		cdef long nhits = 0
+
+		# Calculate coverage
+		if min_length is None or max_length is None:
+			bins = self._nhits(&nhits, start, end)
+		else:
+			bins = self._nhits_length(&nhits, start, end, min_length, max_length)
+
+		return nhits
 
 
 	def display(self):
@@ -1247,7 +1321,7 @@ cdef class AIList(object):
 	def merge(self, int gap=0):
 		"""
 		Merge intervals within a gap
-		
+
 		Parameters
 		----------
 			gap : int
@@ -1265,7 +1339,7 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Make sure list is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		# Create merged
@@ -1281,7 +1355,7 @@ cdef class AIList(object):
 	def subtract(self, AIList query_ail):
 		"""
 		Subtract intervals within another AIList
-		
+
 		Parameters
 		----------
 			query_ail : AIList
@@ -1298,17 +1372,17 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Make sure list is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
-		if query_ail.is_constructed == False:
+		if query_ail.is_constructed is False:
 			query_ail.construct()
 
 		# Create subracted
 		cdef AIList subtracted_list = AIList()
 
 		# Call Cfunction
-		cdef ailist_t *subtracted_clist = ailist_subtract(query_ail.c_ailist,
-														  self.c_ailist)
+		cdef ailist_t *subtracted_clist = ailist_subtract(self.c_ailist,
+														  query_ail.c_ailist)
 		subtracted_list.set_list(subtracted_clist)
 
 		return subtracted_list
@@ -1317,7 +1391,7 @@ cdef class AIList(object):
 	def common(self, AIList query_ail):
 		"""
 		Common intervals within another AIList
-		
+
 		Parameters
 		----------
 			query_ail : AIList
@@ -1335,15 +1409,15 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Make sure list is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
-		if query_ail.is_constructed == False:
+		if query_ail.is_constructed is False:
 			query_ail.construct()
 
 		# Create common
 		cdef AIList common_list = AIList()
-		cdef ailist_t *common_clist = ailist_common(query_ail.c_ailist,
-													self.c_ailist)
+		cdef ailist_t *common_clist = ailist_common(self.c_ailist,
+													query_ail.c_ailist)
 		common_list.set_list(common_clist)
 
 		return common_list
@@ -1352,7 +1426,7 @@ cdef class AIList(object):
 	def append(self, AIList query_ail):
 		"""
 		Union of intervals within two AIList
-		
+
 		Parameters
 		----------
 			query_ail : AIList
@@ -1398,7 +1472,7 @@ cdef class AIList(object):
 		"""
 		Calculate Window Protection Score
 		for each position in AIList range
-		
+
 		Parameters
 		----------
 			protection : int
@@ -1420,9 +1494,9 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Make sure list is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
-		
+
 		# Initialize wps
 		cdef np.ndarray wps
 
@@ -1433,14 +1507,14 @@ cdef class AIList(object):
 			wps = self._wps(protection)
 		else:
 			wps = self._wps_length(protection, min_length, max_length)
-		
+
 		return pd.Series(wps, index=np.arange(self.first, self.last))
 
-	
+
 	def filter(self, int min_length=1, int max_length=400):
 		"""
 		Filter out intervals outside of a length range
-		
+
 		Parameters
 		----------
 			min_length : int
@@ -1463,8 +1537,8 @@ cdef class AIList(object):
 		cdef AIList filtered_ail = AIList()
 
 		# Call C function
-		cdef ailist_t *cfiltered_ail = ailist_length_filter(self.c_ailist, min_length, max_length)
-		filtered_ail.set_list(cfiltered_ail)
+		ailist_length_filter(self.c_ailist, filtered_ail.c_ailist, min_length, max_length)
+		#filtered_ail.set_list(cfiltered_ail)
 
 		return filtered_ail
 
@@ -1486,7 +1560,7 @@ cdef class AIList(object):
 		Parameters
 		----------
 			None
-		
+
 		Returns
 		-------
 			distribution : numpy.ndarray{int}
@@ -1517,21 +1591,25 @@ cdef class AIList(object):
 
 		return np.asarray(nhits, dtype=np.intc)
 
-	cdef np.ndarray _nhits_from_array_length(AIList self, const long[::1] starts, const long[::1] ends, int min_length, int max_length):
+	cdef np.ndarray _nhits_from_array_length(AIList self, const long[::1] starts,
+											 const long[::1] ends, int min_length,
+											 int max_length):
 		# Initialize hits
 		cdef int length = starts.size
 		cdef int[::1] nhits = np.zeros(length, dtype=np.intc)
 
 		# Calculate distribution
-		ailist_nhits_from_array_length(self.c_ailist, &starts[0], &ends[0], length, &nhits[0], min_length, max_length)
+		ailist_nhits_from_array_length(self.c_ailist, &starts[0], &ends[0], length,
+										&nhits[0], min_length, max_length)
 
 		return np.asarray(nhits, dtype=np.intc)
 
-	def nhits_from_array(self, const long[::1] starts, const long[::1] ends, min_length=None, max_length=None):
+	def nhits_from_array(self, const long[::1] starts, const long[::1] ends,
+						 min_length=None, max_length=None):
 		"""
 		Find number of intervals overlapping given
 		positions
-		
+
 		Parameters
 		----------
 			starts : numpy.ndarray{long}
@@ -1555,7 +1633,7 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Make sure list is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		# Initialize distribution
@@ -1577,12 +1655,12 @@ cdef class AIList(object):
 		ailist_interval_coverage(self.c_ailist, start, end, &coverage[0])
 
 		return np.asarray(coverage, dtype=np.intc)
-	
+
 	def interval_coverage(self, int start, int end):
 		"""
 		Find number of intervals overlapping each
 		position in given interval
-		
+
 		Parameters
 		----------
 			start : int
@@ -1602,7 +1680,7 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Make sure list is constructed
-		if self.is_constructed == False:
+		if self.is_constructed is False:
 			self.construct()
 
 		# Initialize distribution
@@ -1613,11 +1691,11 @@ cdef class AIList(object):
 
 		return pd.Series(coverage, index=np.arange(start, end))
 
-	
+
 	def downsample(self, double proportion):
 		"""
 		Randomly downsample AIList
-		
+
 		Parameters
 		----------
 			proportion : double
@@ -1693,7 +1771,7 @@ cdef class AIList(object):
 
 		return np.asarray(starts, dtype=np.intc)
 
-	
+
 	def extract_ends(self):
 		"""
 		Return the end values
@@ -1718,16 +1796,27 @@ cdef class AIList(object):
 
 		return np.asarray(ends, dtype=np.intc)
 
-	
+	def copy(self):
+		"""
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("AIList object has been closed.")
+
+		cdef AIList new_ail = AIList()
+		cdef ailist_t *c_new_ail = ailist_copy(self.c_ailist)
+		new_ail.set_list(c_new_ail)
+
+		return new_ail
+
+
 	def close(self):
 		"""
 		Close object and clear memory
 		"""
 
-		# Free interval_list memory
-		#if self.c_ailist:
-			#ailist_destroy(self.c_ailist)
 		ailist_destroy(self.c_ailist)
 		self.c_ailist = NULL
-		
+
 		self.is_closed = True

@@ -5,12 +5,7 @@ import os
 import sys
 import numpy as np
 cimport numpy as np
-import math
-cimport cython
-import pandas as pd
-from libc.string cimport memcpy
 np.import_array()
-from time import time
 
 # Set byteorder for __reduce__
 byteorder = sys.byteorder
@@ -65,7 +60,7 @@ cdef np.ndarray pointer_to_numpy_array(void *ptr, np.npy_intp size):
 
 	# Create ndarray from C pointer
 	cdef np.ndarray arr = np.PyArray_SimpleNewFromData(1, &dims[0], np.NPY_LONG, ptr)
-	
+
 	# Hand control of data freeing to numpy
 	PyArray_ENABLEFLAGS(arr, np.NPY_ARRAY_OWNDATA)
 	#np.PyArray_UpdateFlags(arr, arr.flags.num | np.NPY_OWNDATA)

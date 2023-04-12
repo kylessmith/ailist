@@ -1,5 +1,3 @@
-
-
 {{ fullname | escape | underline }}
 
 .. rubric:: Description

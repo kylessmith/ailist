@@ -1,12 +1,11 @@
 from __future__ import absolute_import
-from .Interval_core import Interval, get_include
-from .LabeledInterval_core import LabeledInterval
 from .AIList_core import AIList
 from .IntervalArray_core import IntervalArray
-from .LabeledIntervalArray_core import LabeledIntervalArray
+from .Interval_core import Interval
+from .LabeledIntervalArray_core import LabeledIntervalArray, LabeledInterval, get_include
 
 # This is extracted automatically by the top-level setup.py.
-__version__ = '1.0.4'
+__version__ = '2.0.1'
 __author__ = "Kyle S. Smith"
 
 

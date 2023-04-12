@@ -36,7 +36,7 @@ if sys.version_info < (3,0):
 
 import os
 
-from setuptools import setup
+from setuptools import setup, find_namespace_packages
 from setuptools.extension import Extension
 
 try:
@@ -57,7 +57,7 @@ extra_link_args_math_optimized       = []
 extra_link_args_math_debug           = []
 
 # Modules that do not involve numerical computations
-extra_compile_args_nonmath_optimized = ['-O2']
+extra_compile_args_nonmath_optimized = ['-O3']
 extra_compile_args_nonmath_debug     = ['-O0', '-g']
 extra_link_args_nonmath_optimized    = []
 extra_link_args_nonmath_debug        = []
@@ -174,15 +174,12 @@ except MyFileNotFoundError:
 
 # declare Cython extension modules here
 ext_module_interval = declare_cython_extension( "ailist.Interval_core", use_math=False, use_openmp=False , include_dirs=my_include_dirs )
-ext_module_labeled_interval = declare_cython_extension( "ailist.LabeledInterval_core", use_math=False, use_openmp=False , include_dirs=my_include_dirs )
 ext_module_ailist = declare_cython_extension( "ailist.AIList_core", use_math=False, use_openmp=False , include_dirs=my_include_dirs )
-ext_module_aiarray = declare_cython_extension( "ailist.IntervalArray_core", use_math=False, use_openmp=False , include_dirs=my_include_dirs )
 ext_module_aiarray_labeled = declare_cython_extension( "ailist.LabeledIntervalArray_core", use_math=False, use_openmp=False , include_dirs=my_include_dirs )
 ext_module_array_query = declare_cython_extension( "ailist.array_query_core", use_math=False, use_openmp=False , include_dirs=my_include_dirs )
 
 # this is mainly to allow a manual logical ordering of the declared modules
-cython_ext_modules = [ext_module_interval, ext_module_ailist, ext_module_aiarray, ext_module_aiarray_labeled,
-                      ext_module_labeled_interval, ext_module_array_query]
+cython_ext_modules = [ext_module_interval, ext_module_ailist, ext_module_aiarray_labeled, ext_module_array_query]
 
 # Call cythonize() explicitly, as recommended in the Cython documentation. See
 # This will favor Cython's own handling of '.pyx' sources over that provided by setuptools.
@@ -227,7 +224,7 @@ setup(
     provides = ["ailist"],
     keywords = ["cython interval ailist c"],
     ext_modules = my_ext_modules,
-    packages = ["ailist"],
+    packages = find_namespace_packages(include=["ailist", "ailist.*", "ailist.src*"]),
     package_data={'ailist': ['*.pxd', '*.pyx', '*.c', '*.h'],
                    'ailist/src' : ['*.c', '*.h']},
     include_package_data=True,

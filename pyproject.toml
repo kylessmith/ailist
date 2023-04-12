@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "ailist"
+version = "2.0.2"
+description = "Python package for Augmented Interval List"
+authors = ["Kyle S. Smith <kyle.smith@stjude.org>"]
+maintainers = ["Kyle S. Smith <kyle.smith@stjude.org>"]
+repository = "https://github.com/kylessmith/ailist"
+documentation = "https://www.biosciencestack.com/static/ailist/docs/index.html"
+keywords = ["cython", "interval", "ailist", "c"]
+readme = 'README.md'
+license = "GPL-2.0-or-later"
+classifiers = [ "Development Status :: 4 - Beta",
+                    "Environment :: Console",
+                    "Intended Audience :: Developers",
+                    "Intended Audience :: Science/Research",
+                    "Operating System :: POSIX :: Linux",
+                    "Programming Language :: Cython",
+                    "Programming Language :: Python",
+                    "Programming Language :: Python :: 3",
+                    "Programming Language :: Python :: 3.6",
+                    "Topic :: Scientific/Engineering",
+                    "Topic :: Scientific/Engineering :: Mathematics",
+                    "Topic :: Software Development :: Libraries",
+                    "Topic :: Software Development :: Libraries :: Python Modules",
+                    "Topic :: Scientific/Engineering :: Bio-Informatics"
+                  ]
+packages = [{ include = "ailist" }]
+include = ["ailist/*.pyx", "ailist/*.pxd", "ailist/src/*.h", "ailist/src/*.c", "ailist/**/*.so"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.23.5"
+cython = "^0.29.32"
+pandas = "^1.5.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0",
+            "cython>=0.29.32",
+            "numpy>=1.23.5",
+            "pandas>=1.5.2",
+            "setuptools>=65.5.0",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.build]
+generate-setup-file = false
+script = "build.py"
+
+[tool.cibuildwheel]
+skip = "cp36-* cp37-* pp37-* *-manylinux_i686 *_ppc64le *_s390x *-musllinux*"
+build-verbosity = "3"
+
+[tool.cython-lint]
+max-line-length = 100
+ignore = ['W191','E265','E303','E101','E128']

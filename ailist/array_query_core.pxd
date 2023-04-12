@@ -5,11 +5,11 @@ from libc.stdint cimport uint32_t, int32_t, int64_t
 from libc.stdlib cimport malloc, free
 
 
-cdef extern from "src/array_query_utilities.c":
+cdef extern from "src/array_query/array_query_utilities.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
-cdef extern from "src/array_query_utilities.h":
+cdef extern from "src/array_query/array_query_utilities.h":
 	# C is include here so that it doesn't need to be compiled externally
 	ctypedef struct array_query_t:
 		long *ref_index
