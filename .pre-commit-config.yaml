@@ -1,0 +1,18 @@
+default_stages: [
+    commit,
+    merge-commit,
+    push,
+    prepare-commit-msg,
+    commit-msg,
+    post-checkout,
+    post-commit,
+    post-merge,
+    post-rewrite
+]
+
+repos:
+-   repo: https://github.com/MarcoGorelli/cython-lint
+    rev: v0.15.0
+    hooks:
+    -   id: cython-lint
+    -   id: double-quote-cython-strings
