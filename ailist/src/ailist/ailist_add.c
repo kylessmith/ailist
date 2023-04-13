@@ -23,7 +23,9 @@ void ailist_add(ailist_t *ail, uint32_t start, uint32_t end, uint32_t id)
 
     // If max region reached, expand array
 	if (ail->nr == ail->mr)
+    {
 		EXPAND(ail->interval_list, ail->mr);
+    }
 
     // Set new interval values
 	interval_t *i = &ail->interval_list[ail->nr++];
