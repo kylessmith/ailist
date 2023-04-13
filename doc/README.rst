@@ -22,13 +22,13 @@ Test numpy random integers, see `benchmarking <benchmarking.html>`__
 +-----------+----------------+-----------+
 | Library   | Function       | Time (µs) |
 +===========+================+===========+
-| ncls      | single overlap |      1170 |
+| ncls      | single overlap |      916  |
 +-----------+----------------+-----------+
 | quicksect | single overlap |      1050 |
 +-----------+----------------+-----------+
-| pandas    | single overlap |       241 |
+| pandas    | single overlap |       94 |
 +-----------+----------------+-----------+
-| ailist    | single overlap |       102 |
+| ailist    | single overlap |       30 |
 +-----------+----------------+-----------+
 
 As of conducting these benchmarks, only ncls and ailist have bulk query functions.
@@ -36,9 +36,9 @@ As of conducting these benchmarks, only ncls and ailist have bulk query function
 +-----------+--------------+----------+-----------------+
 | Library   | Function     | Time (s) | Max Memory (GB) |
 +===========+==============+==========+=================+
-| ncls      | bulk overlap | ~151     | >50             |
+| ncls      | bulk overlap | ~79      | >50             |
 +-----------+--------------+----------+-----------------+
-| ailist    | bulk overlap | ~17.9    | ~9              |
+| ailist    | bulk overlap | ~5.4     | ~9              |
 +-----------+--------------+----------+-----------------+
 
 Querying intervals is much faster and more efficient with ailist

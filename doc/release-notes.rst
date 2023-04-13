@@ -4,6 +4,13 @@ Release Notes
 .. role:: small
 .. role:: smaller
 
+
+Version 2.0.3
+-------------
+
+Large breaking changes to simplify maintance.
+
+
 Version 0.1.8
 -------------
 

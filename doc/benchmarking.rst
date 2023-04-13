@@ -3,13 +3,13 @@ Benchmarking
 
 .. code-block:: python
 
-	# ailist version: 0.1.7
+	# ailist version: 2.0.3
 	from ailist import AIList
-	# ncls version: 0.0.53
+	# ncls version: 0.0.66
 	from ncls import NCLS
-	# numpy version: 1.18.4
+	# numpy version: 1.23.5
 	import numpy as np
-	# pandas version: 1.0.3
+	# pandas version: 1.5.3
 	import pandas as pd
 	# quicksect version: 0.2.2
 	import quicksect
@@ -32,44 +32,44 @@ Benchmarking
 	###### Test AIList ######
 	i = AIList()
 	
-	%time i.from_array(starts1, ends1, ids1, values1)
-	# CPU times: user 2.12 ms, sys: 1.55 ms, total: 3.67 ms
-	# Wall time: 9.6 ms
+	%time i.from_array(starts1, ends1, ids1)
+	# CPU times: user 787 µs, sys: 924 µs, total: 1.71 ms
+	# Wall time: 2.75 ms
 	
 	%time i.construct()
-	# CPU times: user 11.9 ms, sys: 1.35 ms, total: 13.3 ms
-	# Wall time: 18.7 ms
+	# CPU times: user 12.9 ms, sys: 759 µs, total: 13.7 ms
+	# Wall time: 13.6 ms
 	
 	%time ai_res = i.intersect_from_array(starts2, ends2, ids2)
-	# CPU times: user 11.9 s, sys: 5.96 s, total: 17.9 s
-	# Wall time: 17.9 s
-	### Resulting memory usage: ~5GB
+	# CPU times: user 3.23 s, sys: 2.3 s, total: 5.54 s
+	# Wall time: 5.71 s
+	### Resulting memory usage: ~6.77GB
 	### Max memory usage: ~9GB
 	
 	%timeit i.intersect(starts2[50], ends2[50])
-	# 102 µs ± 1.05 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+	# 29.5 µs ± 2.38 µs per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
 	
 	###### Test NCLS ######
 	%time n = NCLS(starts1, ends1, ids1)
-	# CPU times: user 36.5 ms, sys: 1.65 ms, total: 38.1 ms
-	# Wall time: 38.2 ms
+	# CPU times: user 41.3 ms, sys: 4.65 ms, total: 46 ms
+	# Wall time: 44.5 ms
 	
 	%time n_res = n.all_overlaps_both(starts2, ends2, ids2)
-	# CPU times: user 53.6 s, sys: 1min 18s, total: 2min 12s
-	# Wall time: 2min 31s
+	# CPU times: user 24.9 s, sys: 29 s, total: 53.9 s
+	# Wall time: 1min 19s
 	### Resulting memory usage: >30GB
 	### Max memory usage: >50GB
 	
 	%timeit list(n.find_overlap(starts2[50], ends2[50]))
-	# 1.17 ms ± 22.2 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+	# 916 µs ± 6.75 µs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
 	
 	###### Test pandas IntervalIndex ######
 	%time p = pd.IntervalIndex.from_tuples(list(zip(starts1, ends1)))
-	# CPU times: user 873 ms, sys: 10.2 ms, total: 883 ms
-	# Wall time: 884 ms
+	# CPU times: user 167 ms, sys: 8.25 ms, total: 175 ms
+	# Wall time: 176 ms
 	
 	%timeit p.overlaps(pd.Interval(starts2[50], ends2[50]))
-	# 241 µs ± 6.05 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+	# 90.4 µs ± 716 ns per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
 	
 	###### Test quicksect ######
 	b = quicksect.IntervalTree()
