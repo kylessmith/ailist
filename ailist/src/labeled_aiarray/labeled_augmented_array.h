@@ -61,7 +61,7 @@ typedef struct {
 typedef struct {
 	labeled_aiarray_t *laia;			// Labeled aiarray
 	int n;								// Current position
-	labeled_interval_t *intv;					// Interval
+	labeled_interval_t *intv;			// Interval
 	const char *name;					// Label
 } labeled_aiarray_iter_t;
 

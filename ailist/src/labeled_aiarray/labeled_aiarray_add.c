@@ -160,19 +160,15 @@ labeled_aiarray_t *labeled_aiarray_copy(labeled_aiarray_t *laia)
     labeled_aiarray_t *laia_copy = labeled_aiarray_init();
 
 	// Iterate over labels
-	int t;
-    for (t = 0; t < laia->n_labels; t++)
-    {
-        label_t *p = &laia->labels[t];
-		ailist_t *ail = p->ail;
+	labeled_aiarray_iter_t *laia_iter = labeled_aiarray_iter_init(laia);
 
-		// Iterate over intervals in p
-		int i;
-		for (i = 0; i < ail->nr; i++)
-		{
-			labeled_aiarray_add(laia_copy, ail->interval_list[i].start, ail->interval_list[i].end, p->name);
-		}
+	while (labeled_aiarray_iter_next(laia_iter))
+	{
+
+		labeled_aiarray_add(laia_copy, laia_iter->intv->i->start, laia_iter->intv->i->end, laia_iter->intv->name);
 	}
+
+	labeled_aiarray_iter_destroy(laia_iter);
 
     return laia_copy;
 
