@@ -178,7 +178,7 @@ void labeled_aiarray_append_ail(labeled_aiarray_t *laia, ailist_t *ail, const ch
 	int i;
 	for (i = 0; i < ail->nr; i++)
 	{
-		labeled_aiarray_add(laia, ail->interval_list[i].start, ail->interval_list[i].start, label_name);
+		labeled_aiarray_add(laia, ail->interval_list[i].start, ail->interval_list[i].end, label_name);
 	}
 
 	return;
