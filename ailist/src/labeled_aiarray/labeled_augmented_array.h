@@ -144,6 +144,9 @@ void labeled_aiarray_append(labeled_aiarray_t *laia, labeled_aiarray_t *laia2);
 // Copy labeled_aiarray
 labeled_aiarray_t *labeled_aiarray_copy(labeled_aiarray_t *laia);
 
+// Append AIList in labeled_aiarry
+void labeled_aiarray_append_ail(labeled_aiarray_t *laia, ailist_t *ail, const char *label_name);
+
 // Wrap AIList in labeled_aiarry
 void labeled_aiarray_wrap_ail(labeled_aiarray_t *laia, ailist_t *ail, const char *label_name);
 

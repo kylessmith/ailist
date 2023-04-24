@@ -130,21 +130,17 @@ void labeled_aiarray_from_array(labeled_aiarray_t *laia, const long starts[], co
 
 void labeled_aiarray_append(labeled_aiarray_t *laia, labeled_aiarray_t *laia2)
 {   /* Add intervals from another labeled_aiarray */
-    
-	// Iterate through labels in laia2
-	int t;
-    for (t = 0; t < laia2->n_labels; t++)
-    {
-        label_t *p2 = &laia2->labels[t];
-		ailist_t *ail2 = p2->ail;
-		
-		// Iterate over intervals in p2
-		int i;
-		for (i = 0; i < ail2->nr; i++)
-		{
-			labeled_aiarray_add(laia, ail2->interval_list[i].start, ail2->interval_list[i].end, p2->name);
-		}
+
+	// Iterate over labels
+	labeled_aiarray_iter_t *laia2_iter = labeled_aiarray_iter_init(laia2);
+
+	while (labeled_aiarray_iter_next(laia2_iter))
+	{
+
+		labeled_aiarray_add(laia, laia2_iter->intv->i->start, laia2_iter->intv->i->end, laia2_iter->intv->name);
 	}
+
+	labeled_aiarray_iter_destroy(laia2_iter);
 
 	// No longer constructed
 	laia->is_constructed = 0;
@@ -175,6 +171,20 @@ labeled_aiarray_t *labeled_aiarray_copy(labeled_aiarray_t *laia)
 }
 
 
+void labeled_aiarray_append_ail(labeled_aiarray_t *laia, ailist_t *ail, const char *label_name)
+{	/* Append AIList in labeled_aiarry */
+
+	// Add intervals
+	int i;
+	for (i = 0; i < ail->nr; i++)
+	{
+		labeled_aiarray_add(laia, ail->interval_list[i].start, ail->interval_list[i].start, label_name);
+	}
+
+	return;
+}
+
+
 void labeled_aiarray_wrap_ail(labeled_aiarray_t *laia, ailist_t *ail, const char *label_name)
 {	/* Wrap AIList in labeled_aiarry */
 
@@ -196,6 +206,9 @@ void labeled_aiarray_wrap_ail(labeled_aiarray_t *laia, ailist_t *ail, const char
 
 	// Adjust total_nr
 	laia->total_nr = laia->total_nr + ail->nr;
+
+	labeled_aiarray_print(laia);
+	printf("\n");
 
 	return;
 }

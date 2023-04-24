@@ -384,8 +384,8 @@ cdef class LabeledIntervalArray(object):
 
 	def set_ail(self, AIList ail, str label):
 		cdef bytes b_label = label.encode()
-		cdef ailist_t *copied_ail = ailist_copy(ail.c_ailist)
-		labeled_aiarray_wrap_ail(self.laia, copied_ail, b_label)
+		#cdef ailist_t *copied_ail = ailist_copy(ail.c_ailist)
+		labeled_aiarray_append_ail(self.laia, ail.c_ailist, b_label)
 
 		return
 
@@ -1273,7 +1273,7 @@ cdef class LabeledIntervalArray(object):
 
 		# Iterate over labels in dict
 		for label_name in interval_dict:
-			self.set_ail(interval_dict[label_name], label_name)
+			self.set_ail(interval_dict[label_name], str(label_name))
 
 		return None
 
