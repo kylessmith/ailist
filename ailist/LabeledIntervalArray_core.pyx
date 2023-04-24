@@ -561,6 +561,35 @@ cdef class LabeledIntervalArray(object):
 
 		return repr_string
 
+	
+	def __getstate__(self):
+		"""
+		Get state of LabeledIntervalArray object
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("LabeledIntervalArray object has been closed.")
+
+		# Get state
+		state = self.to_dict()
+
+		return state
+
+
+	def __setstate__(self, state):
+		"""
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("LabeledIntervalArray object has been closed.")
+
+		# Set state
+		self.from_dict(state)
+
+		return None
+
 
 	cdef void set_list(LabeledIntervalArray self, labeled_aiarray_t *input_list):
 		"""
@@ -1198,6 +1227,102 @@ cdef class LabeledIntervalArray(object):
 				yield output_interval
 
 			label_sorted_iter_destroy(laia_iter)
+
+
+	def from_dict(self, 
+				  dict interval_dict):
+		"""
+		Construct LabeledIntervalArray from dictionary
+
+		Parameters
+		----------
+			interval_dict : dict
+				Dictionary of intervals
+
+		Returns
+		-------
+			None
+
+		See Also
+		--------
+		LabeledIntervalArray.sort: Sort intervals inplace
+		LabeledIntervalArray.intersect: Find intervals overlapping given range
+
+		Examples
+		--------
+		>>> from ailist import LabeledIntervalArray
+		>>> ail = LabeledIntervalArray()
+		>>> ail.from_dict({'a': [(1, 2), (3, 4), (2, 6)]})
+		>>> ail
+		LabeledIntervalArray
+		   (1-2, a)
+		   (3-4, a)
+		   (2-6, a)
+
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("LabeledIntervalArray object has been closed.")
+
+		# Check if already constructed
+		if self.is_constructed is False:
+			self.construct()
+		else:
+			pass
+
+		# Iterate over labels in dict
+		for label_name in interval_dict:
+			self.set_ail(interval_dict[label_name], label_name)
+
+		return None
+
+
+	def to_dict(self):
+		"""
+		Convert LabeledIntervalArray to dictionary
+
+		Parameters
+		----------
+			None
+
+		Returns
+		-------
+			interval_dict : dict
+				Dictionary of intervals
+
+		See Also
+		--------
+		LabeledIntervalArray.sort: Sort intervals inplace
+		LabeledIntervalArray.intersect: Find intervals overlapping given range
+
+		Examples
+		--------
+		>>> from ailist import LabeledIntervalArray
+		>>> ail = LabeledIntervalArray()
+		>>> ail.add(1, 2, 'a')
+		>>> ail.add(3, 4, 'a')
+		>>> ail.add(2, 6, 'a')
+		>>> ail
+		LabeledIntervalArray
+		   (1-2, a)
+		   (3-4, a)
+		   (2-6, a)
+		>>> ail.to_dict()
+		{'a': [(1, 2), (2, 6), (3, 4)]}
+
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("LabeledIntervalArray object has been closed.")
+
+		# Get ail
+		interval_dict = {}
+		for label in self.unique_labels:
+			interval_dict[label] = self.get_ail(label)
+
+		return interval_dict
 
 
 	def iter_intersect(self,

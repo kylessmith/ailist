@@ -186,6 +186,15 @@ void labeled_aiarray_wrap_ail(labeled_aiarray_t *laia, ailist_t *ail, const char
 	label_t *p = &laia->labels[t];
 	ailist_destroy(p->ail);
 	p->ail = ail;
+
+	// Adjust ail id_value
+	int i;
+	for (i = 0; i < ail->nr; i++)
+	{
+		p->ail->interval_list[i].id_value = laia->total_nr + i;
+	}
+
+	// Adjust total_nr
 	laia->total_nr = laia->total_nr + ail->nr;
 
 	return;
