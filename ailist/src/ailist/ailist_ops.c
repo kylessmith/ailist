@@ -64,7 +64,7 @@ void ailist_subtract_intervals(interval_t *intv, ailist_t *ail, ailist_t *result
             if (subtraction_start >= end)
             {
                 ailist_add(result_ail, start, end, intv->id_value);
-                start = subtraction_end;
+                start = end;
                 end = intv->end;
             }
         }
