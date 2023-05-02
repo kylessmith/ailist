@@ -1,4 +1,4 @@
-|Stars| |PyPIDownloads| |PyPI| |Build Status|
+|Stars| |PyPIDownloads| |PyPI| |Build Status| |Coffee|
 
 .. |Stars| image:: https://img.shields.io/github/stars/kylessmith/ailist?logo=GitHub&color=yellow
    :target: https://github.com/kylessmith/ailist/stargazers
@@ -8,6 +8,8 @@
    :target: https://pypi.org/project/ailist
 .. |Build Status| image:: https://travis-ci.org/kylessmith/ailist.svg?branch=master
    :target: https://travis-ci.org/kylessmith/ailist
+.. |Coffee| image:: https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee&color=ff69b4
+   :target: https://www.buymeacoffee.com/kylessmith
 
 ailist – Augmented Interval List implemented in Cython/C
 ========================================================
@@ -26,9 +28,9 @@ Test numpy random integers, see `benchmarking <benchmarking.html>`__
 +-----------+----------------+-----------+
 | quicksect | single overlap |      1050 |
 +-----------+----------------+-----------+
-| pandas    | single overlap |       94 |
+| pandas    | single overlap |       94  |
 +-----------+----------------+-----------+
-| ailist    | single overlap |       30 |
+| ailist    | single overlap |       30  |
 +-----------+----------------+-----------+
 
 As of conducting these benchmarks, only ncls and ailist have bulk query functions.

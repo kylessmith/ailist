@@ -21,6 +21,16 @@ overlap_label_index_t *labeled_aiarray_exact_match(labeled_aiarray_t *laia1, lab
     {
         labeled_aiarray_construct(laia2, 20);
     }
+
+    // Check index is initialized
+    if (laia1->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia1);
+    }
+    if (laia2->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia2);
+    }
     
     // Initiatilize matched
     overlap_label_index_t *matched_laia = overlap_label_index_init();

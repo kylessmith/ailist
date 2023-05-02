@@ -299,12 +299,8 @@ cdef class AIList(object):
 			raise NameError("AIList object has been closed.")
 
 		# Iterate over interval list
-		#cdef Interval interval
 		cdef int i
-
 		for i in range(self.size):
-			#interval = Interval()
-			#interval.set_i(&self.c_ailist.interval_list[i])
 			interval = Interval(self.c_ailist.interval_list[i].start,
 								self.c_ailist.interval_list[i].end)
 
@@ -477,6 +473,57 @@ cdef class AIList(object):
 		self.is_closed = False
 
 
+	@property
+	def ids(self):
+		"""
+		Return the ID values
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("AIList object has been closed.")
+
+		# Extract id_values
+		cdef long[::1] ids = np.zeros(self.size, dtype=np.int_)
+		ailist_extract_ids(self.c_ailist, &ids[0])
+
+		return np.asarray(ids, dtype=np.intc)
+
+
+	@property
+	def starts(self):
+		"""
+		Return the start values
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("AIList object has been closed.")
+
+		# Extract start values
+		cdef long[::1] starts = np.zeros(self.size, dtype=np.int_)
+		ailist_extract_starts(self.c_ailist, &starts[0])
+
+		return np.asarray(starts, dtype=np.intc)
+
+
+	@property
+	def ends(self):
+		"""
+		Return the end values
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("AIList object has been closed.")
+
+		# Extract end values
+		cdef long[::1] ends = np.zeros(self.size, dtype=np.int_)
+		ailist_extract_ends(self.c_ailist, &ends[0])
+
+		return np.asarray(ends, dtype=np.intc)
+
+
 	def freeze(self):
 		"""
 		Make :class:`~ailist.AIList` immutable
@@ -576,7 +623,7 @@ cdef class AIList(object):
 	cdef void _insert(AIList self, int start, int end, int id_value):
 		ailist_add(self.c_ailist, start, end, id_value)
 
-	def add(self, int start, int end, id_value=None):
+	def add(self, start, end, id_value=None):
 		"""
 		Add an interval to AIList inplace
 
@@ -609,9 +656,30 @@ cdef class AIList(object):
 		>>> ail
 		AIList
 		  range: (1-6)
-		   (1-2, 0)
-		   (3-4, 1)
-		   (3-6, 2)
+		   (1-2)
+		   (3-4)
+		   (3-6)
+		>>> import numpy as np
+		>>> starts = np.arange(100)
+		>>> ends = starts + 10
+		>>> index = np.arange(len(starts))
+		>>> ail = AIList()
+		>>> ail.add(starts, ends, index)
+		>>> ail
+		AIList
+		 range: (0-109)
+			(0-10)
+			(1-11)
+			(2-12)
+			(3-13)
+			(4-14)
+			...
+			(95-105)
+			(96-106)
+			(97-107)
+			(98-108)
+			(99-109)
+
 
 		"""
 
@@ -623,21 +691,37 @@ cdef class AIList(object):
 		if self.is_frozen:
 			raise TypeError("AIList is frozen and currently immutatable. Try '.unfreeze()' to reverse.")
 
-		# Check interval
-		if start > end:
-			raise IndexError("Start is greater than end.")
+		# Check if start is int
+		cdef int array_length
+		cdef const long[::1] starts
+		cdef const long[::1] ends
+		cdef const long[::1] ids
+		if isinstance(start, int):
+			# Check interval
+			if start > end:
+				raise IndexError("Start is greater than end.")
 
-		# Insert interval
-		if id_value is None:
-			self._insert(start, end, self.c_ailist.nr)
+			# Insert interval
+			if id_value is None:
+				self._insert(start, end, self.c_ailist.nr)
+			else:
+				self._insert(start, end, id_value)
+
+		elif isinstance(start, np.ndarray):
+			array_length = len(start)
+			starts = start
+			ends = end
+			ids = id_value
+			ailist_from_array(self.c_ailist, &starts[0], &ends[0], &ids[0], array_length)
+
 		else:
-			self._insert(start, end, id_value)
+			raise TypeError("Start must be int or np.ndarray.")
 
 		# Object is no longer constructed
 		self.is_constructed = False
 
-
-	def from_array(self, const long[::1] starts, const long[::1] ends, const long[::1] ids):
+	@staticmethod
+	def from_array(const long[::1] starts, const long[::1] ends, const long[::1] ids):
 		"""
 		Add intervals from arrays to AIList inplace
 
@@ -667,9 +751,8 @@ cdef class AIList(object):
 		>>> starts = np.arange(100)
 		>>> ends = starts + 10
 		>>> index = np.arange(len(starts))
-		>>> ail = AIList()
-		>>> ail.from_array(starts, ends, index)
-		>>> ail.
+		>>> ail = AIList.from_array(starts, ends, index)
+		>>> ail
 		AIList
 		  range: (0-109)
 		   (0-10, 0)
@@ -685,17 +768,11 @@ cdef class AIList(object):
 
 		"""
 
-		# Check if object is still open
-		if self.is_closed:
-			raise NameError("AIList object has been closed.")
-
-		# Check that object is not frozen
-		if self.is_frozen:
-			raise TypeError("AIList is frozen and currently immutatable. Try '.unfreeze()' to reverse.")
-
+		ail = AIList()
 		cdef int array_length = len(starts)
-		ailist_from_array(self.c_ailist, &starts[0], &ends[0], &ids[0], array_length)
-		self.is_constructed = False
+		ailist_from_array(ail.c_ailist, &starts[0], &ends[0], &ids[0], array_length)
+
+		return ail
 
 
 	cdef void _construct(AIList self, int min_length):
@@ -799,15 +876,24 @@ cdef class AIList(object):
 
 		return overlaps
 
-	def intersect(self, int start, int end):
+	cdef ailist_t *_intersect_from_array(AIList self,
+										 const long[::1] starts,
+										 const long[::1] ends):
+		cdef int length = starts.size
+		cdef ailist_t *overlaps = ailist_init()
+		ailist_query_from_array(self.c_ailist, overlaps, &starts[0], &ends[0], length)
+
+		return overlaps
+
+	def intersect(self, start, end):
 		"""
 		Find intervals overlapping given range
 
 		Parameters
 		----------
-			start : int
+			start : int | np.ndarray{int}
 				Start position of query range
-			end : int
+			end : int | np.ndarray{int}
 				End position of query range
 
 		Returns
@@ -857,8 +943,16 @@ cdef class AIList(object):
 			self.construct()
 
 		# Intersect
-		cdef ailist_t *i_list = self._intersect(start, end)
+		cdef const long[::1] starts
+		cdef const long[::1] ends
+		cdef ailist_t *i_list
 		cdef AIList overlaps = AIList()
+		if isinstance(start, int):
+			i_list = self._intersect(start, end)
+		elif isinstance(start, np.ndarray):
+			starts = start
+			ends = end
+			i_list = self._intersect_from_array(starts, ends)
 		overlaps.set_list(i_list)
 
 		return overlaps
@@ -874,15 +968,32 @@ cdef class AIList(object):
 
 		return np.asarray(ids)
 
-	def intersect_ids(self, int start, int end):
+	@cython.boundscheck(False)
+	@cython.wraparound(False)
+	@cython.initializedcheck(False)
+	cpdef _intersect_ids_from_array(AIList self, const long[::1] starts, const long[::1] ends,
+									const long[::1] ids):
+		cdef int length = len(starts)
+		cdef array_query_t *total_overlaps = array_query_init()
+		ailist_query_id_from_array(self.c_ailist, total_overlaps, &starts[0],
+									&ends[0], &ids[0], length)
+
+		cdef np.ndarray ref_index = pointer_to_numpy_array(total_overlaps.ref_index,
+														   total_overlaps.size)
+		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index,
+															 total_overlaps.size)
+
+		return ref_index, query_index
+
+	def intersect_ids(self, start, end):
 		"""
 		Find interval indices overlapping given range
 
 		Parameters
 		----------
-			start : int
+			start : int | np.ndarray{int}
 				Start position of query range
-			end : int
+			end : int | np.ndarray{int}
 				End position of query range
 
 		Returns
@@ -929,111 +1040,31 @@ cdef class AIList(object):
 			self.construct()
 
 		# Intersect
-		cdef np.ndarray ids = self._intersect_ids(start, end)
+		cdef const long[::1] starts
+		cdef const long[::1] ends
+		cdef np.ndarray ref_ids
+		cdef np.ndarray query_ids
+		if isinstance(start, int):
+			ref_ids = self._intersect_ids(start, end)
+			return ref_ids
 
-		return ids
+		elif isinstance(start, np.ndarray):
+			starts = start
+			ends = end
+			ids = np.arange(len(starts), dtype=np.long)
+			ref_ids, query_ids = self._intersect_ids_from_array(starts, ends, ids)
+			return ref_ids, query_ids
 
-
-	@cython.boundscheck(False)
-	@cython.wraparound(False)
-	@cython.initializedcheck(False)
-	cpdef _intersect_ids_from_array(AIList self, const long[::1] starts, const long[::1] ends,
-									const long[::1] ids):
-		cdef int length = len(starts)
-		cdef array_query_t *total_overlaps = array_query_init()
-		ailist_query_id_from_array(self.c_ailist, total_overlaps, &starts[0],
-									&ends[0], &ids[0], length)
-
-		cdef np.ndarray ref_index = pointer_to_numpy_array(total_overlaps.ref_index,
-														   total_overlaps.size)
-		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index,
-															 total_overlaps.size)
-
-		return ref_index, query_index
-
-	def intersect_from_array(self, const long[::1] starts, const long[::1] ends,
-							 const long[::1] ids):
-		"""
-		Find interval indices overlapping given ranges
-
-		Parameters
-		----------
-			starts : numpy.ndarray{long}
-				Start positions of intervals
-			ends : numpy.ndarray{long}
-				End positions of intervals
-			ids : numpy.ndarray{long}
-				ID of intervals
-
-		Returns
-		-------
-			ref_index : np.ndarray{int}
-				Overlapping interval indices from AIList
-			query_index : np.ndarray{int}
-				Overlapping interval indices from query AIList
-
-		.. warning::
-			This requires :func:`~ailist.AIList.construct` and will run it if not already run.
-			This will re-sort intervals inplace.
-
-		See Also
-		--------
-		AIList.construct: Construct AIList, required to call AIList.intersect
-		AIList.add: Add interval to AIList
-		AIList.intersect: Find intervals overlapping given range
-		AIList.intersect_index: Find interval indices overlapping given range
-
-		Examples
-		--------
-		>>> from ailist import AIList
-		>>> ail1 = AIList()
-		>>> ail1.add(1, 2)
-		>>> ail1.add(3, 4)
-		>>> ail1.add(2, 6)
-		>>> ail1
-		AIList
-		  range: (1-6)
-		   (1-2, 0)
-		   (3-4, 1)
-		   (2-6, 2)
-		>>> ail2 = AIList()
-		>>> ail2.add(1, 2)
-		>>> ail2.add(3, 6)
-		>>> ail2
-		AIList
-		  range: (1-6)
-		    (1-2, 0)
-		    (3-6, 1)
-		>>> q = ail1.intersect_from_array(ail2)
-		>>> q
-		(array([2, 1]), array([]))
-
-		"""
-
-		# Check if object is still open
-		if self.is_closed:
-			raise NameError("AIList object has been closed.")
-
-		# Check if object is constructed
-		if self.is_constructed is False:
-			self.construct()
-
-		ref_index, query_index = self._intersect_ids_from_array(starts, ends, ids)
-
-		return ref_index, query_index
+		else:
+			raise TypeError("Start must be int or np.ndarray.")
 
 
-	cpdef _intersect_ids_from_ailist(AIList self, AIList ail):
+	cdef ailist_t *_intersect_from_ailist(AIList self, AIList ail):
 		# Intersect with other AIList
-		cdef array_query_t *total_overlaps = array_query_init()
-		ailist_query_id_from_ailist(self.c_ailist, ail.c_ailist, total_overlaps)
+		cdef ailist_t *overlaps = ailist_init()
+		ailist_query_from_ailist(self.c_ailist, ail.c_ailist, overlaps)
 
-		cdef np.ndarray ref_index = pointer_to_numpy_array(total_overlaps.ref_index,
-														   total_overlaps.size)
-		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index,
-															 total_overlaps.size)
-
-		return ref_index, query_index
+		return overlaps
 
 	def intersect_from_ailist(self, AIList ail_query):
 		"""
@@ -1099,9 +1130,11 @@ cdef class AIList(object):
 			self.construct()
 
 		# Intersect
-		ref_index, query_index = self._intersect_from_ailist(ail_query)
+		cdef ailist_t *c_ailist = self._intersect_from_ailist(ail_query)
+		cdef AIList ail = AIList()
+		ail.set_list(c_ailist)
 
-		return ref_index, query_index
+		return ail
 
 
 	cdef np.ndarray _coverage(AIList self):
@@ -1722,82 +1755,9 @@ cdef class AIList(object):
 		return filtered_ail
 
 
-	def extract_id(self):
-		"""
-		Return the ID values
-
-		Parameters
-		----------
-			None
-
-		Returns
-		-------
-			ids : numpy.ndarray
-				ID values
-		"""
-
-		# Check if object is still open
-		if self.is_closed:
-			raise NameError("AIList object has been closed.")
-
-		# Extract id_values
-		cdef long[::1] ids = np.zeros(self.size, dtype=np.int_)
-		ailist_extract_ids(self.c_ailist, &ids[0])
-
-		return np.asarray(ids, dtype=np.intc)
-
-
-	def extract_starts(self):
-		"""
-		Return the start values
-
-		Parameters
-		----------
-			None
-
-		Returns
-		-------
-			numpy.ndarray
-				Start values
-		"""
-
-		# Check if object is still open
-		if self.is_closed:
-			raise NameError("AIList object has been closed.")
-
-		# Extract start values
-		cdef long[::1] starts = np.zeros(self.size, dtype=np.int_)
-		ailist_extract_starts(self.c_ailist, &starts[0])
-
-		return np.asarray(starts, dtype=np.intc)
-
-
-	def extract_ends(self):
-		"""
-		Return the end values
-
-		Parameters
-		----------
-			None
-
-		Returns
-		-------
-			numpy.ndarray
-				End values
-		"""
-
-		# Check if object is still open
-		if self.is_closed:
-			raise NameError("AIList object has been closed.")
-
-		# Extract end values
-		cdef long[::1] ends = np.zeros(self.size, dtype=np.int_)
-		ailist_extract_ends(self.c_ailist, &ends[0])
-
-		return np.asarray(ends, dtype=np.intc)
-
 	def copy(self):
 		"""
+		Make a copy of the AIList
 		"""
 
 		# Check if object is still open

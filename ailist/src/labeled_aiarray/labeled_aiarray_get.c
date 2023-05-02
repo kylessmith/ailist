@@ -11,6 +11,18 @@
 labeled_aiarray_t *labeled_aiarray_get_label(labeled_aiarray_t *laia, const char *label_name)
 {   /* Get intervals with label name */
 
+    // Determine if constructed yet
+    if (laia->is_constructed == 0)
+    {
+        labeled_aiarray_construct(laia, 20);
+    }
+
+    // Check index is initialized
+    if (laia->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia);
+    }
+
     // Initialize interval
     labeled_aiarray_t *label_laia = labeled_aiarray_init();
 
@@ -38,6 +50,18 @@ labeled_aiarray_t *labeled_aiarray_get_label(labeled_aiarray_t *laia, const char
 labeled_aiarray_t *labeled_aiarray_view_label(labeled_aiarray_t *laia, const char *label_name)
 {   /* Get intervals with label name */
 
+    // Determine if constructed yet
+    if (laia->is_constructed == 0)
+    {
+        labeled_aiarray_construct(laia, 20);
+    }
+
+    // Check index is initialized
+    if (laia->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia);
+    }
+
     // Initialize interval
     labeled_aiarray_t *label_laia = labeled_aiarray_init();
 
@@ -58,6 +82,18 @@ labeled_aiarray_t *labeled_aiarray_view_label(labeled_aiarray_t *laia, const cha
 
 overlap_label_index_t *labeled_aiarray_get_label_with_index(labeled_aiarray_t *laia, const char *label_name)
 {   /* Get intervals with label name and original index */
+
+    // Determine if constructed yet
+    if (laia->is_constructed == 0)
+    {
+        labeled_aiarray_construct(laia, 20);
+    }
+
+    // Check index is initialized
+    if (laia->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia);
+    }
 
     // Initialize interval
     overlap_label_index_t *label_laia = overlap_label_index_init();
@@ -84,6 +120,18 @@ overlap_label_index_t *labeled_aiarray_get_label_with_index(labeled_aiarray_t *l
 
 labeled_aiarray_t *labeled_aiarray_get_label_array(labeled_aiarray_t *laia, const char label_names[], int n_labels, int label_str_len)
 {   /* Get intervals with labels names from array */
+
+    // Determine if constructed yet
+    if (laia->is_constructed == 0)
+    {
+        labeled_aiarray_construct(laia, 20);
+    }
+
+    // Check index is initialized
+    if (laia->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia);
+    }
 
     // Initialize interval
     labeled_aiarray_t *label_laia = labeled_aiarray_init();
@@ -122,6 +170,18 @@ labeled_aiarray_t *labeled_aiarray_get_label_array(labeled_aiarray_t *laia, cons
 
 overlap_label_index_t *labeled_aiarray_get_label_array_with_index(labeled_aiarray_t *laia, const char label_names[], int n_labels, int label_str_len)
 {   /* Get intervals with labels from array and original index */
+
+    // Determine if constructed yet
+    if (laia->is_constructed == 0)
+    {
+        labeled_aiarray_construct(laia, 20);
+    }
+
+    // Check index is initialized
+    if (laia->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia);
+    }
 
     // Initialize interval
     overlap_label_index_t *label_intervals = overlap_label_index_init();

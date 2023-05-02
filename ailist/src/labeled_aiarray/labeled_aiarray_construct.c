@@ -23,6 +23,7 @@ void labeled_aiarray_construct(labeled_aiarray_t *laia, int cLen)
 
 	// Record
 	laia->is_constructed = 1;
+	laia->id_index = NULL;
 
     return;
 }

@@ -19,14 +19,20 @@ void labeled_aiarray_query_with_index(labeled_aiarray_t *laia, const char *label
     {
         labeled_aiarray_construct(laia, 20);
     }
+
+    // Check index is initialized
+    if (laia->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia);
+    }
     
     // Get label
-    int32_t t = get_label(laia, label_name);
+    int32_t l = get_label(laia, label_name);
 
     // Check if label present
-    if (t != -1)
+    if (l != -1)
     {
-        label_t *p = &laia->labels[t];
+        label_t *p = &laia->labels[l];
 
         // Initialize overlaps
         int k;
@@ -78,6 +84,12 @@ void labeled_aiarray_query_with_index_from_array(labeled_aiarray_t *laia, overla
     {
         labeled_aiarray_construct(laia, 20);
     }
+
+    // Check index is initialized
+    if (laia->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia);
+    }
     
     // Iterate over queries
     int i;
@@ -100,6 +112,18 @@ void labeled_aiarray_query_with_index_from_array(labeled_aiarray_t *laia, overla
 
 void labeled_aiarray_query_with_index_from_labeled_aiarray(labeled_aiarray_t *laia, labeled_aiarray_t *other_laia, overlap_label_index_t *overlaps)
 {   /* Query with index from labeled_aiarray */
+
+    // Determine if constructed yet
+    if (laia->is_constructed == 0)
+    {
+        labeled_aiarray_construct(laia, 20);
+    }
+
+    // Check index is initialized
+    if (laia->id_index == NULL)
+    {
+        labeled_aiarray_cache_id(laia);
+    }
 
     // Iterate over queries
     int t2;
