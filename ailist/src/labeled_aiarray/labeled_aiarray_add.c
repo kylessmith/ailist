@@ -27,7 +27,7 @@ void labeled_aiarray_add_label(labeled_aiarray_t *laia, const char*label_name)
         }
 
 		// Add label_name to label_map
-        int ret_name = kh_name_set(khStrInt, h, label_name, laia->n_labels);
+        kh_name_set(khStrInt, h, label_name, laia->n_labels);
 		laia->n_labels++;
 
 		// Determine label code
@@ -206,9 +206,6 @@ void labeled_aiarray_wrap_ail(labeled_aiarray_t *laia, ailist_t *ail, const char
 
 	// Adjust total_nr
 	laia->total_nr = laia->total_nr + ail->nr;
-
-	labeled_aiarray_print(laia);
-	printf("\n");
 
 	return;
 }

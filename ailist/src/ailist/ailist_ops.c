@@ -24,68 +24,46 @@ void ailist_subtract_intervals(interval_t *intv, ailist_t *ail, ailist_t *result
 
     // Initialize iterator
     ailist_sorted_iter_t *ail_iter = ailist_sorted_iter_init(ail);
-    int res = ailist_sorted_iter_next(ail_iter);
-    interval_t *current_sub_intv;
-    current_sub_intv = ail_iter->intv;
-    uint32_t subtraction_start = current_sub_intv->start;
-    uint32_t subtraction_end = current_sub_intv->end;
+    uint32_t iv_start;
+    uint32_t iv_end;
+    uint32_t i = 0;
 
     // Iterate through intervals    
     while (ailist_sorted_iter_next(ail_iter) != 0)
     {   
-        // Get current interval
-        current_sub_intv = ail_iter->intv;
+        iv_start = ail_iter->intv->start;
+        iv_end = ail_iter->intv->end;
 
-        // Check if current interval overlaps previous interval
-        if (subtraction_end > current_sub_intv->start)
+        if (end <= iv_start || start >= iv_end)
         {
-            // If previous overlaps current, merge
-            subtraction_end = MAX(subtraction_end, current_sub_intv->end);
+            ailist_add(result_ail, start, end, i);
+            i++;
         }
-        else
+        else if (start < iv_start && end > iv_end)
         {
-            // If previous does not overlap current, subtract
-            if (subtraction_start <= start)
-            {
-                // Subtract previous interval from query interval
-                start = subtraction_end;
-            }
-            else
-            {
-                // Subtract previous interval from query interval
-                end = subtraction_start;
-            }
-
-            // Update previous interval
-            subtraction_start = current_sub_intv->start;
-            subtraction_end = current_sub_intv->end;
-
-            // Add subtracted interval to result
-            if (subtraction_start >= end)
-            {
-                ailist_add(result_ail, start, end, intv->id_value);
-                start = end;
-                end = intv->end;
-            }
+            ailist_add(result_ail, start, iv_start, i);
+            i++;
+            start = iv_end;
+        }
+        else if (start < iv_start && end <= iv_end)
+        {
+            ailist_add(result_ail, start, iv_start, i);
+            i++;
+        }
+        else if (start >= iv_start && end > iv_end)
+        {
+            start = iv_end;
+        }
+        else if (start >= iv_start && end <= iv_end)
+        {
+            start = end;
+            break;
         }
     }
 
-    // Add last interval to result
-    // If previous does not overlap current, subtract
-    if (subtraction_start <= start)
+    if (start < end && start >= iv_end)
     {
-        // Subtract previous interval from query interval
-        start = subtraction_end;
-    }
-    else
-    {
-        // Subtract previous interval from query interval
-        end = subtraction_start;
-    }
-
-    if (start < end)
-    {
-        ailist_add(result_ail, start, end, intv->id_value);
+        ailist_add(result_ail, start, end, i);
     }
 
     // Free memory
@@ -130,7 +108,7 @@ void ailist_common_intervals(interval_t *intv, ailist_t *ail, ailist_t *result_a
 
     // Initialize iterator
     ailist_sorted_iter_t *ail_iter = ailist_sorted_iter_init(ail);
-    int res = ailist_sorted_iter_next(ail_iter);
+    ailist_sorted_iter_next(ail_iter);
     interval_t *current_com_intv;
     current_com_intv = ail_iter->intv;
     uint32_t common_start = current_com_intv->start;

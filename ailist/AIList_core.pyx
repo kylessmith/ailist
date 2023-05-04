@@ -949,11 +949,14 @@ cdef class AIList(object):
 		cdef AIList overlaps = AIList()
 		if isinstance(start, int):
 			i_list = self._intersect(start, end)
+			overlaps.set_list(i_list)
 		elif isinstance(start, np.ndarray):
 			starts = start
 			ends = end
 			i_list = self._intersect_from_array(starts, ends)
-		overlaps.set_list(i_list)
+			overlaps.set_list(i_list)
+		else:
+			raise TypeError("Start must be int or np.ndarray.")
 
 		return overlaps
 
@@ -1077,10 +1080,8 @@ cdef class AIList(object):
 
 		Returns
 		-------
-			ref_index : np.ndarray{int}
-				Overlapping interval indices from AIList
-			query_index : np.ndarray{int}
-				Overlapping interval indices from query AIList
+			ail : AIList
+				Overlapping intervals
 
 		.. warning::
 			This requires :func:`~ailist.AIList.construct` and will run it if not already run.

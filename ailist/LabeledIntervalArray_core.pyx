@@ -591,6 +591,42 @@ cdef class LabeledIntervalArray(object):
 		return None
 
 
+	def __sub__(self, LabeledIntervalArray query_laia):
+		"""
+		Subtract values
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("LabeledIntervalArray object has been closed.")
+
+		return self.subtract(query_laia)
+
+	
+	def __add__(self, LabeledIntervalArray query_laia):
+		"""
+		Common values
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("LabeledIntervalArray object has been closed.")
+
+		return self.common(query_laia)
+
+
+	def __or__(self, LabeledIntervalArray query_laia):
+		"""
+		Common values
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("LabeledIntervalArray object has been closed.")
+
+		return self.append(query_laia)
+
+
 	cdef void set_list(LabeledIntervalArray self, labeled_aiarray_t *input_list):
 		"""
 		Set wrapper of C aiarray

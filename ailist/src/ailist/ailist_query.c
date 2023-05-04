@@ -25,7 +25,8 @@ uint32_t binary_search(interval_t* As, uint32_t idxS, uint32_t idxE, uint32_t qe
 
     while (tL < tR - 1)
     {
-        tM = (tL + tR) / 2; 
+        //tM = (tL + tR) / 2;
+        tM = tL + (tR - tL)/2;
 
         if (As[tM].start >= qe)
         {
