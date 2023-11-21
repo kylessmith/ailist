@@ -194,7 +194,10 @@ cdef class AIList(object):
 
 		# Check if object is constructed
 		if self.is_constructed:
-			return self.c_ailist.lenC[self.c_ailist.nc]
+			lenC = np.zeros(self.c_ailist.nc, dtype=np.intc)
+			for i in range(self.c_ailist.nc):
+				lenC[i] = self.c_ailist.lenC[i]
+			return lenC
 		else:
 			return None
 
@@ -211,7 +214,10 @@ cdef class AIList(object):
 
 		# Check if object is constructed
 		if self.is_constructed:
-			return self.c_ailist.idxC[self.c_ailist.nc]
+			idxC = np.zeros(self.c_ailist.nc, dtype=np.intc)
+			for i in range(self.c_ailist.nc):
+				idxC[i] = self.c_ailist.idxC[i]
+			return idxC
 		else:
 			return None
 
@@ -408,11 +414,17 @@ cdef class AIList(object):
 			if isinstance(key, slice):
 				raise IndexError("Cannot use slice as key")
 
-			# Find id
-			#cindexed_ailist = self._interval_id(key)
+			# Must be integer
+			# Check if key is greater than length
+			if key >= self.c_ailist.nr:
+				raise IndexError("Value larger than AIList length")
+
+			# Check if negative
+			if key < 0:
+				key = self.c_ailist.nr + key
+
 			cinterval = self.c_ailist.interval_list[key]
 			interval = Interval(cinterval.start, cinterval.end)
-			#interval.set_i(cinterval)
 
 			return interval
 
@@ -1754,6 +1766,42 @@ cdef class AIList(object):
 		filtered_ail.set_list(cfiltered_ail)
 
 		return filtered_ail
+
+
+	def closest(self,
+				start,
+				end,
+				k = 5):
+		"""
+		Find k closest intervals to given interval
+
+		Parameters
+		----------
+			start : int
+				Start position of interval
+			end : int
+				End position of interval
+			k : int
+				Number of closest intervals to find [default = 5]
+
+		Returns
+		-------
+			closest_ail : AIList
+				AIList of closest intervals
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("AIList object has been closed.")
+
+		# Initialize closest list
+		cdef AIList closest_ail = AIList()
+
+		# Call C function
+		cdef ailist_t *c_closest_ail = ailist_closest(start, end, self.c_ailist, k)
+		closest_ail.set_list(c_closest_ail)
+
+		return closest_ail
 
 
 	def copy(self):

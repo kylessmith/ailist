@@ -24,7 +24,7 @@
 //-------------------------------------------------------------------------------------
 
 static const int khStrInt = 32;
-KHASH_MAP_INIT_STR(khStrInt, uint32_t)
+KHASH_MAP_INIT_STR(khStrInt, uint32_t);
 typedef khash_t(khStrInt) strhash_t;
 
 #define kh_name_set(kname, hash, key, val) ({int ret; k = kh_put(kname, hash,key,&ret); kh_value(hash,k) = val, kh_key(hash,k) = strdup(key); ret;})

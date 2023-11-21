@@ -61,6 +61,10 @@ cdef extern from "src/ailist/ailist_simulate.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
 
+cdef extern from "src/ailist/ailist_closest.c":
+	# C is include here so that it doesn't need to be compiled externally
+	pass
+
 cdef extern from "src/ailist/overlap_index.c":
 	# C is include here so that it doesn't need to be compiled externally
 	pass
@@ -93,10 +97,10 @@ cdef extern from "src/ailist/augmented_interval_list.h":
 		int n								# Current position
 
 	ctypedef struct overlap_index_t:
-		int size;							# Current size
-		int max_size;						# Maximum size
-		ailist_t *ail;						# Store ailist
-		long *indices;						# Store indices
+		int size							# Current size
+		int max_size						# Maximum size
+		ailist_t *ail						# Store ailist
+		long *indices						# Store indices
 
 
 	#-------------------------------------------------------------------------------------
@@ -354,6 +358,13 @@ cdef extern from "src/ailist/augmented_interval_list.h":
 
 	# Simulate intervals
 	void ailist_simulate(ailist_t *ail, ailist_t *simulation, int n) nogil
+
+
+	#-------------------------------------------------------------------------------------
+	# ailist_closest.c
+	#=====================================================================================
+
+	ailist_t *ailist_closest(int start, int end, ailist_t *ail, int k) nogil
 
 
 cpdef object rebuild_AIList(bytes data, bytes b_length)

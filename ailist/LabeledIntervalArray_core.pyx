@@ -525,7 +525,7 @@ cdef class LabeledIntervalArray(object):
 
 			# Check if negative
 			if key < 0:
-				key = self.laia.total_nr - key
+				key = self.laia.total_nr + key
 
 			# Create LabeledInterval wrapper
 			output_interval = LabeledInterval()
@@ -1848,6 +1848,31 @@ cdef class LabeledIntervalArray(object):
 			nhits : numpy.ndarray{int}
 				Number of hits per position
 
+		.. warning::
+			This requires :func:`~aiarray.LabeledIntervalArray.construct` and will run it if not already run.
+
+		See Also
+		--------
+		LabeledIntervalArray.construct: Construct LabeledIntervalArray
+		LabeledIntervalArray.add: Add interval to LabeledIntervalArray
+		LabeledIntervalArray.intersect: Find intervals overlapping given range
+
+		Examples
+		--------
+		>>> from aiarray import LabeledIntervalArray
+		>>> ail = LabeledIntervalArray()
+		>>> ail.add(1, 2, 'a')
+		>>> ail.add(3, 4, 'a')
+		>>> ail.add(2, 6, 'a')
+		>>> ail
+		LabeledIntervalArray
+		   (1-2, 'a')
+		   (3-4, 'a')
+		   (2-6, 'a')
+		>>> q = ail.nhits(2, 10, 'a')
+		>>> q
+		2
+
 		"""
 
 		# Check if object is still open
@@ -3143,7 +3168,7 @@ cdef class LabeledIntervalArray(object):
 			return False
 		else:
 			return True
-
+			
 
 	def copy(self):
 		"""

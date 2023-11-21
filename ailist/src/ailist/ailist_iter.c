@@ -90,9 +90,10 @@ int ailist_sorted_iter_next(ailist_sorted_iter_t *iter)
             selected_comp = j;
         }
 
-        // Increment label_comp_counter for selected comp
-        iter->comp_used[selected_comp] = iter->comp_used[selected_comp] + 1;
     }
+
+     // Increment label_comp_counter for selected comp
+    iter->comp_used[selected_comp] = iter->comp_used[selected_comp] + 1;
 
     return 1;
 }

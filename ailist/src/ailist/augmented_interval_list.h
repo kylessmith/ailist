@@ -18,6 +18,8 @@
 #include "interval.h"
 
 //-------------------------------------------------------------------------------------
+#define MAXFLOAT 3.4028234664e+38
+//-------------------------------------------------------------------------------------
 
 typedef struct {
 	int64_t nr, mr;						// Number of intervals
@@ -298,5 +300,11 @@ ailist_t *ailist_downsample(ailist_t *ail, double proportion);
 // Simulate intervals
 void ailist_simulate(ailist_t *ail, ailist_t *simulation, int n);
 
+
+//-------------------------------------------------------------------------------------
+// ailist_closest.c
+//=====================================================================================
+
+ailist_t *ailist_closest(int start, int end, ailist_t *ail, int k);
 
 #endif
