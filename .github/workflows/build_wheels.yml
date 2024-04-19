@@ -36,6 +36,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install numpy
+        run: pip install numpy
+
+      - name: Install pandas
+        run: pip install pandas
+
+      - name: Install cython
+        run: pip install cython
+
       - name: Build sdist
         run: pipx run build --sdist
 
