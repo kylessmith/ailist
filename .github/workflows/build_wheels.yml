@@ -23,7 +23,8 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         timeout-minutes: 30
         # to supply options, put them in 'env', like:
-        # env:
+         env:
+          CIBW_SKIP: "cp3[0-9]-* pp3*"
         #   CIBW_SOME_OPTION: value
 
       - uses: actions/upload-artifact@v4
