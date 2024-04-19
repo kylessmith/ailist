@@ -21,7 +21,6 @@ jobs:
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
-        timeout-minutes: 30
         env:
           CIBW_SKIP: "cp3[0-9]-* pp3*"
         #   CIBW_SOME_OPTION: value
