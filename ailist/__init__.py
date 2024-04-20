@@ -5,7 +5,7 @@ from .Interval_core import Interval
 from .LabeledIntervalArray_core import LabeledIntervalArray, LabeledInterval, get_include
 
 # This is extracted automatically by the top-level setup.py.
-__version__ = '2.1.2'
+__version__ = '2.1.4'
 __author__ = "Kyle S. Smith"
 
 
