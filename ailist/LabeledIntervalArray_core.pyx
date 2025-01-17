@@ -169,6 +169,38 @@ cdef class LabeledInterval(object):
 
 		return laia
 
+	
+	def __reduce__(self):
+		"""
+		Define how to pickle the object.
+
+		Returns
+		-------
+		A tuple with the class, arguments for reconstruction, and optional state.
+		"""
+		
+		return (
+			self.__class__,
+			(self.start, self.end, self.id_value, self._label),
+		)
+
+
+	def __setstate__(self, state):
+		"""
+		Restore the state of the object after unpickling.
+		"""
+
+		self.i = interval_init(state[0], state[1], state[2])
+		self._label = state[3]
+
+
+	def __getstate__(self):
+		"""
+		Define what state to serialize.
+		"""
+
+		return (self.start, self.end, self.id_value, self._label)
+
 
 #@cython.auto_pickle(True)
 cdef class LabeledIntervalArray(object):
@@ -3146,6 +3178,50 @@ cdef class LabeledIntervalArray(object):
 		cdef np.ndarray percent_coverage = self._percent_coverage(other_laia)
 
 		return percent_coverage
+
+
+	def closest(self,
+				start,
+				end,
+				label,
+				k = 5):
+		"""
+		Find k closest intervals to given interval
+
+		Parameters
+		----------
+			start : int
+				Start position of interval
+			end : int
+				End position of interval
+			label : str
+				Label of interval
+			k : int
+				Number of closest intervals to find [default = 5]
+
+		Returns
+		-------
+			closest_laia : LabeledIntervalArray
+				LabeledIntervalArray of closest intervals
+		"""
+
+		# Check if object is still open
+		if self.is_closed:
+			raise NameError("LabeledIntervalArray object has been closed.")
+
+		# Initialize closest list
+		cdef AIList closest_ail = AIList()
+
+		# Call C function
+		cdef AIList ail = self.get_ail(label)
+		cdef ailist_t *c_closest_ail = ailist_closest(start, end, ail.c_ailist, k)
+		closest_ail.set_list(c_closest_ail)
+
+		# Set
+		cdef LabeledIntervalArray closest_laia = LabeledIntervalArray()
+		closest_laia.set_ail(closest_ail, label)
+
+		return closest_laia
 
 
 	def validate_construction(self):

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ailist"
-version = "2.1.4"
+version = "2.1.6"
 description = "Python package for Augmented Interval List"
 authors = ["Kyle S. Smith <kyle.smith@stjude.org>"]
 maintainers = ["Kyle S. Smith <kyle.smith@stjude.org>"]
