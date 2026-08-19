@@ -8,6 +8,47 @@
 
 //-----------------------------------------------------------------------------
 
+// Find an interval in `ail` (must be constructed) exactly matching [qs, qe).
+// Returns its id_value, or -1 if none. Mirrors labeled_aiarray_where_interval's
+// component traversal. Used by the exact-match family below.
+static int32_t ail_exact_match_id(ailist_t *ail, uint32_t qs, uint32_t qe)
+{
+    int k;
+    for (k = 0; k < ail->nc; k++)
+    {   // Search each component
+        int32_t cs = ail->idxC[k];
+        int32_t ce = cs + ail->lenC[k];
+        int32_t t;
+
+        if (ail->lenC[k] > 15)
+        {
+            t = binary_search(ail->interval_list, cs, ce, qe);
+            while (t >= cs && ail->maxE[t] > qs)
+            {
+                if (ail->interval_list[t].start == qs && ail->interval_list[t].end == qe)
+                {
+                    return ail->interval_list[t].id_value;
+                }
+                t--;
+            }
+        }
+        else
+        {
+            for (t = cs; t < ce; t++)
+            {
+                if (ail->interval_list[t].start == qs && ail->interval_list[t].end == qe)
+                {
+                    return ail->interval_list[t].id_value;
+                }
+            }
+        }
+    }
+
+    return -1;
+}
+
+//-----------------------------------------------------------------------------
+
 
 overlap_label_index_t *labeled_aiarray_exact_match(labeled_aiarray_t *laia1, labeled_aiarray_t *laia2)
 {   /* Return all exact matches between labeled_aiarrays */
@@ -45,29 +86,20 @@ overlap_label_index_t *labeled_aiarray_exact_match(labeled_aiarray_t *laia1, lab
 
         if (t != -1)
         {
-            // Create sorted iterators
-            label_sorted_iter_t *laia1_iter = label_sorted_iter_init(laia1, label_name);
-            label_sorted_iter_t *laia2_iter = label_sorted_iter_init(laia2, label_name);
-            
-            // Iterate over ail1
-            int laia2_end = label_sorted_iter_next(laia2_iter);
-            while (label_sorted_iter_next(laia1_iter) != 0 && laia2_end != 0)
+            ailist_t *ail1 = laia1->labels[i].ail;
+            ailist_t *ail2 = laia2->labels[t].ail;
+
+            // For each laia1 interval, probe laia2 for an exact (start,end) match
+            int64_t j;
+            for (j = 0; j < ail1->nr; j++)
             {
-                while (laia2_end !=0 && laia2_iter->intv->start <= laia1_iter->intv->start)
+                uint32_t qs = ail1->interval_list[j].start;
+                uint32_t qe = ail1->interval_list[j].end;
+                if (ail_exact_match_id(ail2, qs, qe) != -1)
                 {
-                    if (laia1_iter->intv->start == laia2_iter->intv->start && laia1_iter->intv->end == laia2_iter->intv->end)
-                    {
-                        overlap_label_index_add(matched_laia, *laia1_iter->intv, label_name);
-                    }
-                    // Increment ail2 iterator
-                    laia2_end = label_sorted_iter_next(laia2_iter);
+                    overlap_label_index_add(matched_laia, ail1->interval_list[j], label_name);
                 }
             }
-
-            // Free iterators
-            label_sorted_iter_destroy(laia1_iter);
-            label_sorted_iter_destroy(laia2_iter);
-            
         }
     }
 
@@ -99,29 +131,19 @@ void labeled_aiarray_has_exact_match(labeled_aiarray_t *laia1, labeled_aiarray_t
 
         if (t != -1)
         {
-            // Create sorted iterators
-            label_sorted_iter_t *laia1_iter = label_sorted_iter_init(laia1, label_name);
-            label_sorted_iter_t *laia2_iter = label_sorted_iter_init(laia2, label_name);
-            
-            // Iterate over ail1
-            int laia2_end = label_sorted_iter_next(laia2_iter);
-            while (label_sorted_iter_next(laia1_iter) != 0 && laia2_end != 0)
+            ailist_t *ail1 = laia1->labels[i].ail;
+            ailist_t *ail2 = laia2->labels[t].ail;
+
+            int64_t j;
+            for (j = 0; j < ail1->nr; j++)
             {
-                while (laia2_end !=0 && laia2_iter->intv->start <= laia1_iter->intv->start)
+                uint32_t qs = ail1->interval_list[j].start;
+                uint32_t qe = ail1->interval_list[j].end;
+                if (ail_exact_match_id(ail2, qs, qe) != -1)
                 {
-                    if (laia1_iter->intv->start == laia2_iter->intv->start && laia1_iter->intv->end == laia2_iter->intv->end)
-                    {
-                        //has_match[laia1->id_index[laia1_iter->intv->id_value]] = 1;
-                        has_match[laia1_iter->intv->id_value] = 1;
-                    }
-                    // Increment ail2 iterator
-                    laia2_end = label_sorted_iter_next(laia2_iter);
+                    has_match[ail1->interval_list[j].id_value] = 1;
                 }
             }
-            
-            // Free iterators
-            label_sorted_iter_destroy(laia1_iter);
-            label_sorted_iter_destroy(laia2_iter);
         }
     }
 
@@ -152,33 +174,21 @@ void labeled_aiarray_is_exact_match(labeled_aiarray_t *laia1, labeled_aiarray_t 
 
         if (t != -1)
         {
-            // Create sorted iterators
-            label_sorted_iter_t *laia1_iter = label_sorted_iter_init(laia1, label_name);
-            label_sorted_iter_t *laia2_iter = label_sorted_iter_init(laia2, label_name);
-            
-            // Iterate over ail1
-            int laia2_end = label_sorted_iter_next(laia2_iter);
-            while (label_sorted_iter_next(laia1_iter) != 0 && laia2_end != 0)
+            ailist_t *ail1 = laia1->labels[i].ail;
+            ailist_t *ail2 = laia2->labels[t].ail;
+
+            int64_t j;
+            for (j = 0; j < ail1->nr; j++)
             {
-                while (laia2_end !=0 && laia2_iter->intv->start <= laia1_iter->intv->start)
+                uint32_t qs = ail1->interval_list[j].start;
+                uint32_t qe = ail1->interval_list[j].end;
+                int32_t laia2_id = ail_exact_match_id(ail2, qs, qe);
+                if (laia2_id != -1)
                 {
-                    if (laia1_iter->intv->start == laia2_iter->intv->start && laia1_iter->intv->end == laia2_iter->intv->end)
-                    {
-                        //has_match[laia1->id_index[laia1_iter->intv->id_value]] = 1;
-                        //has_match_laia1[laia1->id_index[laia1_iter->intv->id_value]] = 1;
-                        //has_match_laia2[laia2->id_index[laia2_iter->intv->id_value]] = 1;
-                        has_match_laia1[laia1_iter->intv->id_value] = 1;
-                        has_match_laia2[laia2_iter->intv->id_value] = 1;
-                    }
-                    // Increment ail2 iterator
-                    laia2_end = label_sorted_iter_next(laia2_iter);
+                    has_match_laia1[ail1->interval_list[j].id_value] = 1;
+                    has_match_laia2[laia2_id] = 1;
                 }
             }
-
-            // Free iterators
-            label_sorted_iter_destroy(laia1_iter);
-            label_sorted_iter_destroy(laia2_iter);
-            
         }
     }
 
@@ -209,29 +219,20 @@ void labeled_aiarray_which_exact_match(labeled_aiarray_t *laia1, labeled_aiarray
 
         if (t != -1)
         {
-            // Create sorted iterators
-            label_sorted_iter_t *laia1_iter = label_sorted_iter_init(laia1, label_name);
-            label_sorted_iter_t *laia2_iter = label_sorted_iter_init(laia2, label_name);
-            
-            // Iterate over ail1
-            int laia2_end = label_sorted_iter_next(laia2_iter);
-            while (label_sorted_iter_next(laia1_iter) != 0 && laia2_end != 0)
+            ailist_t *ail1 = laia1->labels[i].ail;
+            ailist_t *ail2 = laia2->labels[t].ail;
+
+            int64_t j;
+            for (j = 0; j < ail1->nr; j++)
             {
-                while (laia2_end !=0 && laia2_iter->intv->start <= laia1_iter->intv->start)
+                uint32_t qs = ail1->interval_list[j].start;
+                uint32_t qe = ail1->interval_list[j].end;
+                int32_t laia2_id = ail_exact_match_id(ail2, qs, qe);
+                if (laia2_id != -1)
                 {
-                    if (laia1_iter->intv->start == laia2_iter->intv->start && laia1_iter->intv->end == laia2_iter->intv->end)
-                    {
-                        array_query_add(matches, laia1_iter->intv->id_value, laia2_iter->intv->id_value);
-                    }
-                    // Increment ail2 iterator
-                    laia2_end = label_sorted_iter_next(laia2_iter);
+                    array_query_add(matches, ail1->interval_list[j].id_value, laia2_id);
                 }
             }
-
-            // Free iterators
-            label_sorted_iter_destroy(laia1_iter);
-            label_sorted_iter_destroy(laia2_iter);
-            
         }
     }
 

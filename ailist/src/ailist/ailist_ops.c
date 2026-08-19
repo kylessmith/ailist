@@ -24,9 +24,8 @@ void ailist_subtract_intervals(interval_t *intv, ailist_t *ail, ailist_t *result
 
     // Initialize iterator
     ailist_sorted_iter_t *ail_iter = ailist_sorted_iter_init(ail);
-    uint32_t iv_start;
-    uint32_t iv_end;
-    uint32_t i = 0;
+    uint32_t iv_start = 0;
+    uint32_t iv_end = 0;
 
     // Iterate through intervals    
     while (ailist_sorted_iter_next(ail_iter) != 0)
@@ -34,28 +33,39 @@ void ailist_subtract_intervals(interval_t *intv, ailist_t *ail, ailist_t *result
         iv_start = ail_iter->intv->start;
         iv_end = ail_iter->intv->end;
 
-        if (end <= iv_start || start >= iv_end)
+        if (start >= iv_end)
         {
-            ailist_add(result_ail, start, end, i);
-            i++;
+            // Subtrahend lies entirely behind the current remainder; skip it
+            continue;
+        }
+        else if (end <= iv_start)
+        {
+            // Remainder precedes this subtrahend (and all later, since sorted); emit and stop
+            ailist_add(result_ail, start, end, intv->id_value);
+            start = end;
+            break;
         }
         else if (start < iv_start && end > iv_end)
         {
-            ailist_add(result_ail, start, iv_start, i);
-            i++;
+            // Subtrahend strictly inside remainder: emit left gap, advance past it
+            ailist_add(result_ail, start, iv_start, intv->id_value);
             start = iv_end;
         }
         else if (start < iv_start && end <= iv_end)
         {
-            ailist_add(result_ail, start, iv_start, i);
-            i++;
+            // Subtrahend clips the right of remainder: emit left gap, remainder consumed
+            ailist_add(result_ail, start, iv_start, intv->id_value);
+            start = end;
+            break;
         }
         else if (start >= iv_start && end > iv_end)
         {
+            // Subtrahend clips the left of remainder: advance past it
             start = iv_end;
         }
         else if (start >= iv_start && end <= iv_end)
         {
+            // Remainder fully covered by subtrahend
             start = end;
             break;
         }
@@ -63,7 +73,7 @@ void ailist_subtract_intervals(interval_t *intv, ailist_t *ail, ailist_t *result
 
     if (start < end && start >= iv_end)
     {
-        ailist_add(result_ail, start, end, i);
+        ailist_add(result_ail, start, end, intv->id_value);
     }
 
     // Free memory
@@ -76,13 +86,23 @@ void ailist_subtract_intervals(interval_t *intv, ailist_t *ail, ailist_t *result
 ailist_t *ailist_subtract(ailist_t *ail, ailist_t *other_ail)
 {
     ailist_t *result_ail = ailist_init();
-    
-    int i;
+
+    // ailist_query requires other_ail to be indexed; build it if the caller hasn't.
+    // Note: this reorders other_ail->interval_list in place (set of intervals unchanged).
+    if (other_ail->maxE == NULL)
+    {
+        ailist_construct(other_ail, 20);
+    }
+
+    int64_t i;
     for (i = 0; i < ail->nr; i++)
     {
         ailist_t *overlaps = ailist_init();
         ailist_query(other_ail, overlaps, ail->interval_list[i].start, ail->interval_list[i].end);
-        ailist_construct(overlaps, 20);
+        if (overlaps->nr > 0)
+        {
+            ailist_construct(overlaps, 20);
+        }
         ailist_subtract_intervals(&ail->interval_list[i], overlaps, result_ail);
 
         // Free memory
@@ -138,7 +158,10 @@ void ailist_common_intervals(interval_t *intv, ailist_t *ail, ailist_t *result_a
             common_end = current_com_intv->end;
 
             // Add subtracted interval to result
-            ailist_add(result_ail, start, end, intv->id_value);
+            if (start < end)
+            {
+                ailist_add(result_ail, start, end, intv->id_value);
+            }
             start = common_start;
             end = intv->end;
         }
@@ -166,13 +189,23 @@ void ailist_common_intervals(interval_t *intv, ailist_t *ail, ailist_t *result_a
 ailist_t *ailist_common(ailist_t *ail, ailist_t *other_ail)
 {
     ailist_t *result_ail = ailist_init();
-    
-    int i;
+
+    // ailist_query requires other_ail to be indexed; build it if the caller hasn't.
+    // Note: this reorders other_ail->interval_list in place (set of intervals unchanged).
+    if (other_ail->maxE == NULL)
+    {
+        ailist_construct(other_ail, 20);
+    }
+
+    int64_t i;
     for (i = 0; i < ail->nr; i++)
     {
         ailist_t *overlaps = ailist_init();
         ailist_query(other_ail, overlaps, ail->interval_list[i].start, ail->interval_list[i].end);
-        ailist_construct(overlaps, 20);
+        if (overlaps->nr > 0)
+        {
+            ailist_construct(overlaps, 20);
+        }
         ailist_common_intervals(&ail->interval_list[i], overlaps, result_ail);
 
         // Free memory
@@ -186,9 +219,19 @@ ailist_t *ailist_common(ailist_t *ail, ailist_t *other_ail)
 ailist_t *ailist_union(ailist_t *ail, ailist_t *other_ail)
 {
     ailist_t *result_ail = ailist_init();
-    ailist_append(result_ail, ail);
-    ailist_append(result_ail, other_ail);
+
+    // Capture the return value: ailist_append is declared to return ailist_t*, so the
+    // result pointer may differ from result_ail (e.g. if it reallocates/returns a new
+    // list). Discarding it risks a use-after-free or an empty result.
+    result_ail = ailist_append(result_ail, ail);
+    result_ail = ailist_append(result_ail, other_ail);
     ailist_construct(result_ail, 20);
-    
+
+    // NOTE: this concatenates and indexes; it does NOT merge overlapping intervals,
+    // so the result is a multiset union. If set-theoretic union is intended, follow
+    // with ailist_merge(result_ail, 0). Left unchanged pending confirmation of the
+    // intended semantics and of whether ailist_append deep- or shallow-copies maxE/
+    // component arrays (a shallow copy would set up a double-free in ailist_destroy).
+
     return result_ail;
 }

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ailist"
-version = "2.1.6"
+version = "2.2.0"
 description = "Python package for Augmented Interval List"
 authors = ["Kyle S. Smith <kyle.smith@stjude.org>"]
 maintainers = ["Kyle S. Smith <kyle.smith@stjude.org>"]
@@ -28,18 +28,18 @@ packages = [{ include = "ailist" }]
 include = ["ailist/*.pyx", "ailist/*.pxd", "ailist/src/*.h", "ailist/src/*.c", "ailist/**/*.so"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-numpy = "^1.24.2"
-cython = "^3.0.0"
-pandas = "^2.0.0"
+python = ">=3.10"
+numpy = ">=2.0.0"
+cython = ">=3.0.0"
+pandas = ">=2.0.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = ">=5.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0",
             "cython>=3.0.0",
-            "numpy>=1.24.2",
+            "numpy>=2.0.0",
             "pandas>=2.0.0",
             "setuptools>=65.5.0",]
 build-backend = "poetry.core.masonry.api"

@@ -25,6 +25,26 @@ void ailist_construct(ailist_t *ail, int cLen)
     //1. Decomposition
     interval_t *L1 = ail->interval_list;					//L1: to be rebuilt
     nr = ail->nr;
+
+    // Empty list: nothing to decompose/augment (avoids malloc(0) + OOB write)
+    if (nr == 0)
+    {
+        if (ail->maxE)
+        {
+            free(ail->maxE);
+            ail->maxE = NULL;
+        }
+        ail->nc = 0;
+        return;
+    }
+
+    // Free any maxE from a prior construction before it is reallocated below
+    if (ail->maxE)
+    {
+        free(ail->maxE);
+        ail->maxE = NULL;
+    }
+
     //ailist_sort(L1);
     radix_sort_intv(L1, L1+nr);
 
@@ -81,6 +101,7 @@ void ailist_construct(ailist_t *ail, int cLen)
                     ail->idxC[iter] = k;
                     ail->lenC[iter] = lenT;
                     iter++;
+                    lenT = 0;						//exit!
                 }
                 ail->nc = iter;                   
             } else {
@@ -135,6 +156,26 @@ void ailist_construct_v0(ailist_t *ail, int cLen)
     //1. Decomposition
     interval_t *L1 = ail->interval_list;			//L1: to be rebuilt
     nr = ail->nr;
+
+    // Empty list: nothing to decompose/augment (avoids malloc(0) + OOB write)
+    if (nr == 0)
+    {
+        if (ail->maxE)
+        {
+            free(ail->maxE);
+            ail->maxE = NULL;
+        }
+        ail->nc = 0;
+        return;
+    }
+
+    // Free any maxE from a prior construction before it is reallocated below
+    if (ail->maxE)
+    {
+        free(ail->maxE);
+        ail->maxE = NULL;
+    }
+
     radix_sort_intv(L1, L1+nr);
 
     if (nr <= minL)

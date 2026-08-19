@@ -11,9 +11,14 @@
 
 labeled_aiarray_t *labeled_aiarray_init(void)
 {   /* Initialize labeled_aiarray */
-	
+
     // Reserve memory
     labeled_aiarray_t *laia = malloc(1 * sizeof(labeled_aiarray_t));
+    if (laia == NULL)
+    {
+        fprintf (stderr, "Out of memory!!! (init)\n");
+        exit(1);
+    }
 
     // Set attributes
 	laia->label_lookup = kh_init(khStrInt);
@@ -21,11 +26,13 @@ labeled_aiarray_t *labeled_aiarray_init(void)
 	laia->max_labels = 32;
 	laia->labels = malloc(laia->max_labels * sizeof(label_t));
     laia->total_nr = 0;
+    laia->first = NULL;
+    laia->last = NULL;
     laia->id_index = NULL;
     laia->is_constructed = 0;
 
     // Check if memory was allocated
-    if (laia == NULL)
+    if (laia->label_lookup == NULL || laia->labels == NULL)
     {
         fprintf (stderr, "Out of memory!!! (init)\n");
         exit(1);
@@ -57,10 +64,24 @@ void labeled_aiarray_destroy(labeled_aiarray_t *laia)
 	for (i = 0; i < laia->n_labels; ++i)
     {
 		free((char*)laia->labels[i].name);
-		ailist_destroy(laia->labels[i].ail);
+		// Borrowed (view) ails are owned elsewhere; do not free them
+		if (laia->labels[i].is_view == 0)
+		{
+			ailist_destroy(laia->labels[i].ail);
+		}
 	}
 	free(laia->labels);
 	kh_destroy(khStrInt, (strhash_t*)laia->label_lookup);
+
+    if (laia->first)
+    {
+        free(laia->first);
+    }
+
+    if (laia->last)
+    {
+        free(laia->last);
+    }
 
     if (laia->id_index)
     {
@@ -161,15 +182,24 @@ void labeled_aiarray_length_distribution(labeled_aiarray_t *laia, int distributi
         int i;
         for (i = 0; i < ail->nr; i++)
         {
-            // Record length (excluding last position)
-            length = ail->interval_list[i].end - ail->interval_list[i].start - 1;
-            distribution[length] += 1;
+            // Record length (excluding last position). Computed as signed to avoid
+            // uint32 underflow on degenerate (end <= start) intervals.
+            length = (int)ail->interval_list[i].end - (int)ail->interval_list[i].start - 1;
+            if (length >= 0)
+            {
+                distribution[length] += 1;
+            }
         }
     }
 
     return;
 }
 
+
+// Benchmark / smoke-test entry point. Guarded so this translation unit can be
+// linked as a library (no duplicate `main`). Build with -DLAIA_MAIN to enable.
+#ifdef LAIA_MAIN
+#include <inttypes.h>
 
 int main()
 {
@@ -196,26 +226,23 @@ int main()
         }
     }
 
-    printf("ail1->total_nr: %lld\n", ail1->total_nr);
-    printf("ail2->total_nr: %lld\n", ail2->total_nr);
+    printf("ail1->total_nr: %" PRId64 "\n", ail1->total_nr);
+    printf("ail2->total_nr: %" PRId64 "\n", ail2->total_nr);
 
     labeled_aiarray_t *ail3 = labeled_aiarray_init();
     labeled_aiarray_t *ail_array[] = {ail1, ail2};
     labeled_aiarray_multi_merge(ail3, ail_array, 2);
 
-    printf("ail3->total_nr: %lld\n", ail3->total_nr);
-
-    //int i;
-    //for (i = 0; i < 10000000; i++)
-    //{
-    //    labeled_aiarray_add(ail3, "0", i, i+10);
-    //}
+    printf("ail3->total_nr: %" PRId64 "\n", ail3->total_nr);
 
     labeled_aiarray_construct(ail3, 20);
 
-    //labeled_aiarray_destroy(ail1);
-    //labeled_aiarray_destroy(ail2);
+    // NOTE: ail1/ail2 are not destroyed here because multi_merge transfers their
+    // interval-data ownership to ail3 (destroying both would double-free). This
+    // leaks the ail1/ail2 container structs (labels array + label_lookup khash).
+    // Resolve once multi_merge ownership semantics are confirmed.
     labeled_aiarray_destroy(ail3);
 
     return 0;
 }
+#endif

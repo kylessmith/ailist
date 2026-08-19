@@ -9,10 +9,17 @@
 //-----------------------------------------------------------------------------
 
 int distance(int start, int end, interval_t interval)
-{
-    int startDistance = abs(interval.start - start);
-    int endDistance = abs(interval.end - end);
-    return startDistance < endDistance ? startDistance : endDistance;
+{   /* Genomic gap between query [start, end) and interval; 0 if overlapping */
+
+    long left  = (long)interval.start - end;   // > 0 if interval lies right of query
+    long right = (long)start - interval.end;    // > 0 if interval lies left of query
+    long gap = left > right ? left : right;
+    if (gap < 0)
+    {
+        gap = 0;
+    }
+
+    return (int)gap;
 }
 
 
@@ -72,12 +79,44 @@ ailist_t *ailist_closest(int start, int end, ailist_t *ail, int k)
         }
     }
 
-    // Create new list
+    // Sort slots ascending by distance (selection sort over k slots).
+    // Unfilled slots hold MAXFLOAT/-1 and sort to the end.
+    int j;
+    for (i = 0; i < k; i++)
+    {
+        int min_j = i;
+        for (j = i + 1; j < k; j++)
+        {
+            if (distances[j] < distances[min_j])
+            {
+                min_j = j;
+            }
+        }
+        if (min_j != i)
+        {
+            float dtmp = distances[i];
+            distances[i] = distances[min_j];
+            distances[min_j] = dtmp;
+            int itmp = index[i];
+            index[i] = index[min_j];
+            index[min_j] = itmp;
+        }
+    }
+
+    // Create new list (skip unfilled slots when k > ail->nr)
     ailist_t *closest_list = ailist_init();
     for (i = 0; i < k; i++)
     {
+        if (index[i] < 0)
+        {
+            continue;
+        }
         ailist_add(closest_list, ail->interval_list[index[i]].start, ail->interval_list[index[i]].end, ail->interval_list[index[i]].id_value);
     }
+
+    // Free working buffers
+    free(distances);
+    free(index);
 
     return closest_list;
 }

@@ -67,6 +67,12 @@ void labeled_aiarray_bin_nhits(labeled_aiarray_t *laia, long *nhits, int bin_siz
     {
         labeled_aiarray_construct(laia, 20);
     }
+
+    // Guard against division by zero / invalid bin size
+    if (bin_size <= 0)
+    {
+        return;
+    }
     
     int shift = 0;
     int32_t t;
@@ -75,7 +81,10 @@ void labeled_aiarray_bin_nhits(labeled_aiarray_t *laia, long *nhits, int bin_siz
         label_t *p = &laia->labels[t];
         int first = p->ail->first;
         int last = p->ail->last;
-		int n_bins = (ceil(last / bin_size) - (first / bin_size)) + 1;
+        // Number of floor-division bins spanning [first, last]. NOTE: requires
+        // ail->first/last to be populated, and must match ailist_bin_nhits's
+        // internal bin count so per-label writes do not overlap in nhits[].
+        int n_bins = (last / bin_size) - (first / bin_size) + 1;
 
         // Get nhits
         ailist_bin_nhits(p->ail, &nhits[shift], bin_size);
@@ -93,6 +102,12 @@ void labeled_aiarray_bin_nhits_length(labeled_aiarray_t *laia, long *nhits, int 
     {
         labeled_aiarray_construct(laia, 20);
     }
+
+    // Guard against division by zero / invalid bin size
+    if (bin_size <= 0)
+    {
+        return;
+    }
     
     int shift = 0;
     int32_t t;
@@ -101,7 +116,8 @@ void labeled_aiarray_bin_nhits_length(labeled_aiarray_t *laia, long *nhits, int 
         label_t *p = &laia->labels[t];
         int first = p->ail->first;
         int last = p->ail->last;
-		int n_bins = (ceil(last / bin_size) - (first / bin_size)) + 1;
+        // Floor-division bin count spanning [first, last]; see note in bin_nhits.
+        int n_bins = (last / bin_size) - (first / bin_size) + 1;
 
         // Get nhits
         ailist_bin_nhits_length(p->ail, &nhits[shift], bin_size, min_length, max_length);
@@ -200,6 +216,8 @@ void labeled_aiarray_nhits_from_labeled_aiarray(labeled_aiarray_t *laia, labeled
         }
     }
 
+    labeled_aiarray_iter_destroy(iter);
+
     return;
 }
 
@@ -235,6 +253,8 @@ void labeled_aiarray_nhits_from_labeled_aiarray_length(labeled_aiarray_t *laia, 
             nhits[iter->n] = nhits[iter->n] + hits;
         }
     }
+
+    labeled_aiarray_iter_destroy(iter);
 
     return;
 }

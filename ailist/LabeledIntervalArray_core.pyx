@@ -7,6 +7,7 @@ import sys
 import numpy as np
 cimport numpy as np
 import math
+from libc.stdlib cimport free
 np.import_array()
 
 # Set byteorder for __reduce__
@@ -68,6 +69,7 @@ cdef class LabeledInterval(object):
 
 			# Create interval
 			self.i = interval_init(start, end, id_value)
+			self._owns_i = True
 			self._label = label
 
 	# Set the interval
@@ -89,7 +91,18 @@ cdef class LabeledInterval(object):
 
 		# Set i
 		self.i = i
+		self._owns_i = False
 		self._label = label
+
+
+	def __dealloc__(self):
+		"""
+		Free the wrapped interval only if this object owns it. Intervals attached
+		via set_i are borrowed (they point into a LabeledIntervalArray's storage)
+		and must not be freed here.
+		"""
+		if self._owns_i and self.i != NULL:
+			free(self.i)
 
 
 	@property
@@ -191,6 +204,7 @@ cdef class LabeledInterval(object):
 		"""
 
 		self.i = interval_init(state[0], state[1], state[2])
+		self._owns_i = True
 		self._label = state[3]
 
 
@@ -551,19 +565,23 @@ cdef class LabeledIntervalArray(object):
 
 				return indexed_aiarray
 
-			# Check if key is greater than length
-			if key >= self.laia.total_nr:
-				raise IndexError("Value larger than LabeledIntervalArray length")
-
-			# Check if negative
+			# Normalize negative index, then bounds-check both ends
 			if key < 0:
 				key = self.laia.total_nr + key
+			if key < 0 or key >= self.laia.total_nr:
+				raise IndexError("Value larger than LabeledIntervalArray length")
 
 			# Create LabeledInterval wrapper
 			output_interval = LabeledInterval()
 			coutput_interval = labeled_aiarray_get_index(self.laia, key)
+			if coutput_interval == NULL:
+				raise IndexError("Value larger than LabeledIntervalArray length")
 			label_name = coutput_interval.name
+			# set_i borrows coutput_interval.i (points into self.laia storage); the
+			# labeled_interval_t wrapper itself is heap-allocated by get_index and must
+			# be freed (freeing it does not affect the borrowed .i).
 			output_interval.set_i(coutput_interval.i, label_name.decode())
+			free(coutput_interval)
 
 		return output_interval
 
@@ -847,6 +865,10 @@ cdef class LabeledIntervalArray(object):
 					# Create numpy array from C pointer
 					indices = pointer_to_numpy_array(cintervals_index.indices, cintervals_index.size)
 
+					# .laia adopted by set_list, .indices owned by numpy (OWNDATA);
+					# free only the container struct to avoid leaking it.
+					free(cintervals_index)
+
 					return intervals, indices
 
 				cintervals = labeled_aiarray_get_label(self.laia, label_name)
@@ -878,6 +900,9 @@ cdef class LabeledIntervalArray(object):
 
 						# Create numpy array from C pointer
 						indices = pointer_to_numpy_array(cintervals_index.indices, cintervals_index.size)
+
+						# .laia adopted by set_list, .indices owned by numpy; free the struct only.
+						free(cintervals_index)
 
 						return intervals, indices
 
@@ -1453,6 +1478,9 @@ cdef class LabeledIntervalArray(object):
 		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index,
 															total_overlaps.size)
 
+		# ref_index/query_index owned by numpy (OWNDATA); free only the struct.
+		free(total_overlaps)
+
 		return ref_index, query_index
 
 	cpdef _intersect_from_array_with_index(LabeledIntervalArray self, const long[::1] starts,
@@ -1468,6 +1496,9 @@ cdef class LabeledIntervalArray(object):
 		cdef LabeledIntervalArray overlaps = LabeledIntervalArray()
 		overlaps.set_list(total_overlaps.laia)
 
+		# .laia adopted by set_list, .indices owned by numpy; free the struct only.
+		free(total_overlaps)
+
 		return overlaps, indices
 
 	cpdef _intersect_with_index(LabeledIntervalArray self, int start, int end, const char *label_name):
@@ -1479,6 +1510,9 @@ cdef class LabeledIntervalArray(object):
 		cdef np.ndarray indices = pointer_to_numpy_array(total_overlaps.indices, total_overlaps.size)
 		cdef LabeledIntervalArray overlaps = LabeledIntervalArray()
 		overlaps.set_list(total_overlaps.laia)
+
+		# .laia adopted by set_list, .indices owned by numpy; free the struct only.
+		free(total_overlaps)
 
 		return overlaps, indices
 
@@ -1728,6 +1762,9 @@ cdef class LabeledIntervalArray(object):
 		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index,
 																total_overlaps.size)
 
+		# ref_index/query_index owned by numpy; free only the struct.
+		free(total_overlaps)
+
 		return ref_index, query_index
 
 	cpdef _intersect_with_index_from_labeled_aiarray(LabeledIntervalArray self,
@@ -1737,10 +1774,12 @@ cdef class LabeledIntervalArray(object):
 		labeled_aiarray_query_with_index_from_labeled_aiarray(self.laia, laia2.laia, total_overlaps)
 
 		# Create numpy array from C pointer
-		print("total_overlaps.size", total_overlaps.size, flush=True)
 		cdef np.ndarray indices = pointer_to_numpy_array(total_overlaps.indices, total_overlaps.size)
 		cdef LabeledIntervalArray overlaps = LabeledIntervalArray()
 		overlaps.set_list(total_overlaps.laia)
+
+		# .laia adopted by set_list, .indices owned by numpy; free the struct only.
+		free(total_overlaps)
 
 		return overlaps, indices
 
@@ -2340,6 +2379,9 @@ cdef class LabeledIntervalArray(object):
 		cdef LabeledIntervalArray intervals = LabeledIntervalArray()
 		intervals.set_list(new_intervals.laia)
 
+		# .laia adopted by set_list, .indices owned by numpy; free the struct only.
+		free(new_intervals)
+
 		return intervals, indices
 
 	def downsample(self,
@@ -2437,6 +2479,9 @@ cdef class LabeledIntervalArray(object):
 		cdef np.ndarray indices = pointer_to_numpy_array(matched_ail.indices, matched_ail.size)
 		cdef LabeledIntervalArray matched = LabeledIntervalArray()
 		matched.set_list(matched_ail.laia)
+
+		# .laia adopted by set_list, .indices owned by numpy; free the struct only.
+		free(matched_ail)
 
 		return matched, indices
 
@@ -2572,6 +2617,9 @@ cdef class LabeledIntervalArray(object):
 															total_overlaps.size)
 		cdef np.ndarray query_index = pointer_to_numpy_array(total_overlaps.query_index,
 																total_overlaps.size)
+
+		# ref_index/query_index owned by numpy; free only the struct.
+		free(total_overlaps)
 
 		return ref_index, query_index
 

@@ -522,6 +522,9 @@ cdef class LabeledInterval(object):
 	# C instance of struct
 	cdef interval_t *i
 
+	# Whether this object owns (and must free) self.i
+	cdef bint _owns_i
+
 	# Methods for serialization
 	cdef void set_i(self, interval_t *i, str label)
 

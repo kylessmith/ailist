@@ -59,31 +59,27 @@ void overlap_label_index_add(overlap_label_index_t *oi, interval_t i, const char
 
 void overlap_label_index_wrap_ail(overlap_label_index_t * oi, ailist_t *ail, const char *label_name)
 {
-    labeled_aiarray_wrap_ail(oi->laia, ail, label_name);
+    // labeled_aiarray_wrap_ail refuses (and does NOT take ownership of `ail`) when
+    // the label already exists. Skip entirely in that case so oi->indices stays in
+    // lockstep with oi->laia.
+    if (get_label(oi->laia, label_name) != -1)
+    {
+        fprintf(stderr, "overlap_label_index_wrap_ail: label '%s' already exists; skipping\n", label_name);
+        return;
+    }
 
-    int j;
+    // Record each interval's ORIGINAL id_value before wrap_ail renumbers them in
+    // place (it overwrites id_value with total_nr + j). This mirrors the add path,
+    // where oi->indices stores the matched interval's original id. push_indices grows
+    // oi->indices by doubling (was a linear +64 realloc here).
+    int64_t j;
     for (j = 0; j < ail->nr; j++)
     {
-        interval_t i = ail->interval_list[j];
-
-        // Check if size needs to be increased
-        if (oi->size == oi->max_size)
-        {
-            oi->max_size = oi->max_size + 64;
-            oi->indices = (long *)realloc(oi->indices, sizeof(long) * oi->max_size);
-            if (oi->indices == NULL)
-            {
-                printf("Memory allocation failed");
-                exit(1); // exit the program
-            }
-        }
-
-        // Increment size
-        oi->size++;
-
-        // Add new indices
-        oi->indices[oi->size-1] = i.id_value;
+        push_indices(oi, ail->interval_list[j].id_value);
     }
+
+    // Transfer ownership of `ail` into oi->laia (renumbers ail's id_values).
+    labeled_aiarray_wrap_ail(oi->laia, ail, label_name);
 
     return;
 }

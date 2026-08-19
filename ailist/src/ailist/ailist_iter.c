@@ -57,7 +57,7 @@ int ailist_sorted_iter_next(ailist_sorted_iter_t *iter)
         return 0;
     }
 
-    int selected_comp = 0;
+    int selected_comp = -1;
     // Iterate over other components
     int position;
     // Iterate over components
@@ -69,8 +69,15 @@ int ailist_sorted_iter_next(ailist_sorted_iter_t *iter)
         {
             position = iter->comp_used[j];
             iter->intv = &iter->ail->interval_list[position];
+            selected_comp = j;
             break;
         }
+    }
+
+    // No components have intervals left
+    if (selected_comp < 0)
+    {
+        return 0;
     }
 
     for (j = 0; j < iter->nc; j++)
@@ -107,30 +114,11 @@ void ailist_sorted_iter_destroy(ailist_sorted_iter_t *iter)
         return;
     }
 
-    // Free ail
-	//if (iter->ail)
-	//{
-        //free(iter->ail);
-    //}
-
-    // Free intv
-	//if (iter->intv)
-	//{
-        //free(iter->intv);
-    //}
-    
-    // Free label_comp_bounds
-	//if (iter->label_comp_bounds)
-	//{
-        //free(iter->label_comp_bounds);
-    //}
-
-    // Free label_comp_used
-	//if (iter->label_comp_used)
-	//{
-        //free(iter->label_comp_used);
-    //}
-
+    // Free borrowed pointers? No: iter->ail and iter->intv are not owned
+    // (intv points into ail->interval_list), so only the iterator's own
+    // allocations are freed here.
+    free(iter->comp_bounds);
+    free(iter->comp_used);
     free(iter);
 
     return;

@@ -12,9 +12,10 @@ ailist_t *ailist_init(void)
 
     // Initialize variables
     ailist_t *ail = (ailist_t *)malloc(sizeof(ailist_t));
+    if (ail == NULL) { fprintf(stderr, "Out of memory!!! (init)\n"); exit(1); }
     ail->nr = 0;
     ail->mr = 64;
-    ail->first = INT32_MAX;
+    ail->first = UINT32_MAX;
     ail->last = 0;
 	ail->maxE = NULL;
 
@@ -92,8 +93,11 @@ void ailist_length_distribution(ailist_t *ail, int distribution[])
     for (i = 0; i < ail->nr; i++)
     {
         // Record length (excluding last position)
-        length = ail->interval_list[i].end - ail->interval_list[i].start - 1;
-        distribution[length] += 1;
+        if (length >= 0 && length <= UINT32_MAX)
+        {
+            length = ail->interval_list[i].end - ail->interval_list[i].start - 1;
+            distribution[length] += 1;
+        }
     }
 
     return;

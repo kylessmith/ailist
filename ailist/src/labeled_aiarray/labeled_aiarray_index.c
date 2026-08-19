@@ -30,7 +30,12 @@ void labeled_aiarray_cache_id(labeled_aiarray_t *laia)
         int i;
         for (i = 0; i < p->ail->nr; i++)
         {
-            laia->id_index[p->ail->interval_list[i].id_value] = count;
+            int32_t id_value = p->ail->interval_list[i].id_value;
+            // Guard against out-of-range ids (e.g. from an un-renumbered merge)
+            if (id_value >= 0 && id_value < laia->total_nr)
+            {
+                laia->id_index[id_value] = count;
+            }
             count++;
         }
     }
@@ -45,10 +50,9 @@ labeled_interval_t *labeled_aiarray_get_index(labeled_aiarray_t *laia, int32_t i
     // Initialize interval
     labeled_interval_t *id_interval = NULL;
     
-    // Check i is in id_index
-    if (i > laia->total_nr)
+    // Check i is in id_index (valid ids are 0 .. total_nr-1)
+    if (i < 0 || i >= laia->total_nr)
     {
-        printf("IndexError: index outside of bounds.");
         return id_interval;
     }
     
@@ -93,7 +97,7 @@ labeled_aiarray_t *labeled_aiarray_slice_index(labeled_aiarray_t *laia, const lo
     for (i = 0; i < length; i++)
     {   
         // Check values are present
-        if (ids[i] < 0 || ids[i] > laia->total_nr)
+        if (ids[i] < 0 || ids[i] >= laia->total_nr)
         {
             labeled_aiarray_destroy(sliced_laia);
             return NULL;
@@ -108,6 +112,7 @@ labeled_aiarray_t *labeled_aiarray_slice_index(labeled_aiarray_t *laia, const lo
             labeled_aiarray_add(sliced_laia, i_laia->i->start,
                                             i_laia->i->end,
                                             i_laia->name);
+            free(i_laia);
         }
     }
     
@@ -140,6 +145,7 @@ labeled_aiarray_t *labeled_aiarray_slice_range(labeled_aiarray_t *laia, int star
             labeled_aiarray_add(sliced_laia, i_laia->i->start,
                                             i_laia->i->end,
                                             i_laia->name);
+            free(i_laia);
         }
     }
     
@@ -169,6 +175,7 @@ labeled_aiarray_t *labeled_aiarray_slice_bool(labeled_aiarray_t *laia, uint8_t b
                 labeled_aiarray_add(sliced_laia, i_laia->i->start,
                                                 i_laia->i->end,
                                                 i_laia->name);
+                free(i_laia);
             }
         }
     }
@@ -185,35 +192,35 @@ int labeled_aiarray_index_with_aiarray(labeled_aiarray_t *laia, labeled_aiarray_
     for (l = 0; l < other_laia->n_labels; l++)
     {
         const char *label_name = other_laia->labels[l].name;
-        uint32_t t = get_label(laia, label_name);
+        int32_t t = get_label(laia, label_name);
 
-        if (t >= 0)
+        if (t != -1)
         {
             label_t *p1 = &laia->labels[t];
             label_t *p2 = &other_laia->labels[l];
 
-            int first = 0;
-            int last = 0;
+            uint32_t first = UINT32_MAX;
+            uint32_t last = 0;
             int i;
             for (i = 0; i < p1->ail->nr; i++)
             {
                 uint32_t position_start = p1->ail->interval_list[i].start;
                 // Check position
-                if (position_start < 0 || position_start >= p2->ail->nr)
+                if (position_start >= p2->ail->nr)
                 {
                     return 1;
                 }
                 p1->ail->interval_list[i].start = p2->ail->interval_list[position_start].start;
-                first = MIN(INT32_MAX, p1->ail->interval_list[i].start);
+                first = MIN(first, p1->ail->interval_list[i].start);
 
                 uint32_t position_end = p1->ail->interval_list[i].end - 1;
                 // Check position
-                if (position_end < 0 || position_end >= p2->ail->nr)
+                if (position_end >= p2->ail->nr)
                 {
                     return 1;
                 }
                 p1->ail->interval_list[i].end = p2->ail->interval_list[position_end].end;
-                last = MAX(0, p1->ail->interval_list[i].end);
+                last = MAX(last, p1->ail->interval_list[i].end);
             }
 
             p1->ail->first = first;

@@ -18,11 +18,20 @@ void labeled_aiarray_construct(labeled_aiarray_t *laia, int cLen)
     {
 		//1. Decomposition
 		label_t *p = &laia->labels[i];
-		ailist_construct(p->ail, cLen);
+		if (p->ail->nr > 0)
+		{
+			ailist_construct(p->ail, cLen);
+		}
 	}
 
 	// Record
 	laia->is_constructed = 1;
+
+	// Any previously built id index is invalidated by (re)construction
+	if (laia->id_index)
+	{
+		free(laia->id_index);
+	}
 	laia->id_index = NULL;
 
     return;

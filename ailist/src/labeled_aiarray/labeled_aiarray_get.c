@@ -71,9 +71,20 @@ labeled_aiarray_t *labeled_aiarray_view_label(labeled_aiarray_t *laia, const cha
     // Check if label present
     if (t != -1)
     {
-        // Find intervals
+        // Borrow the source ail without copying or renumbering it. The view shares
+        // the source's ail pointer (non-owning), so it must not be modified here
+        // (e.g. via wrap_ail, which would renumber the source's id_values).
+        // NOTE: the borrowed intervals keep the source's global id_values, so a view
+        // is intended for iteration/query, not for re-indexing/slicing on its own.
         labeled_aiarray_add_label(label_laia, laia->labels[t].name);
-        labeled_aiarray_wrap_ail(label_laia, laia->labels[t].ail, laia->labels[t].name);
+        int32_t vt = get_label(label_laia, laia->labels[t].name);
+        label_t *vp = &label_laia->labels[vt];
+
+        // Replace the freshly-allocated empty ail with a borrow of the source's
+        ailist_destroy(vp->ail);
+        vp->ail = laia->labels[t].ail;
+        vp->is_view = 1;
+        label_laia->total_nr = laia->labels[t].ail->nr;
     }
     
     return label_laia;

@@ -11,6 +11,12 @@
 void labeled_aiarray_label_wps(labeled_aiarray_t *laia, double wps[], uint32_t protection, const char *label_name)
 {   /* Calculate Window Protection Score for a label */
     
+    // Determine if constructed yet
+    if (laia->is_constructed == 0)
+    {
+        labeled_aiarray_construct(laia, 20);
+    }
+
     // Get label
     int32_t t = get_label(laia, label_name);
 
@@ -30,6 +36,12 @@ void labeled_aiarray_label_wps(labeled_aiarray_t *laia, double wps[], uint32_t p
 void labeled_aiarray_label_wps_length(labeled_aiarray_t *laia, double wps[], uint32_t protection, int min_length, int max_length, const char *label_name)
 {   /* Calculate Window Protection Score for a label of a length */
     
+    // Determine if constructed yet
+    if (laia->is_constructed == 0)
+    {
+        labeled_aiarray_construct(laia, 20);
+    }
+
     // Get label
     int32_t t = get_label(laia, label_name);
 

@@ -41,8 +41,23 @@ void labeled_aiarray_percent_coverage(labeled_aiarray_t *laia1, labeled_aiarray_
                 coverage[iter->n] += (double)(result_ail->interval_list[k].end - result_ail->interval_list[k].start);
             }
 
-            // Calculate percent coverage
-            coverage[iter->n] /= (double)(iter->intv->i->end - iter->intv->i->start);
+            // Calculate percent coverage (guard against zero-length query intervals)
+            uint32_t query_length = iter->intv->i->end - iter->intv->i->start;
+            if (query_length > 0)
+            {
+                coverage[iter->n] /= (double)query_length;
+            }
+            else
+            {
+                coverage[iter->n] = 0;
+            }
+
+            // Percent coverage is a fraction in [0, 1]; clamp defensively in case
+            // the matched intervals are not perfectly disjoint.
+            if (coverage[iter->n] > 1.0)
+            {
+                coverage[iter->n] = 1.0;
+            }
 
             // Free memory
             ailist_destroy(overlaps);

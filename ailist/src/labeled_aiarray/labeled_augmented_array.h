@@ -34,6 +34,7 @@ typedef khash_t(khStrInt) strhash_t;
 typedef struct{
 	const char *name;    				// Name of the label
 	ailist_t *ail;						// AIList object
+	int8_t is_view;						// Non-owning borrow: destroy skips freeing ail
 } label_t;
 
 typedef struct{
@@ -449,7 +450,5 @@ labeled_aiarray_t *labeled_aiarray_union(labeled_aiarray_t *laia1, labeled_aiarr
 
 // Find percent coverage of intervals in laia1 that are in laia2
 void labeled_aiarray_percent_coverage(labeled_aiarray_t *laia1, labeled_aiarray_t *laia2, double coverage[]);
-
-int main();
 
 #endif

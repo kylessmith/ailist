@@ -94,6 +94,11 @@ int labeled_aiarray_iter_next(labeled_aiarray_iter_t *iter)
         return 0;
     }
     
+    // Free the previous interval before fetching the next (get_index allocates)
+    if (iter->intv != NULL)
+    {
+        free(iter->intv);
+    }
     iter->intv = labeled_aiarray_get_index(iter->laia, iter->n);
     iter->name = iter->intv->name;
 
@@ -108,6 +113,12 @@ void labeled_aiarray_iter_destroy(labeled_aiarray_iter_t *iter)
 	if (iter == 0)
     {
         return;
+    }
+
+    // Free the current interval (allocated by get_index in init/next)
+    if (iter->intv != NULL)
+    {
+        free(iter->intv);
     }
 
     free(iter);
@@ -169,7 +180,7 @@ void labeled_aiarray_overlap_iter_destroy(labeled_aiarray_overlap_iter_t *iter)
         return;
     }
 
-    //labeled_aiarray_destroy(iter->overlaps);
+    labeled_aiarray_destroy(iter->overlaps);
     labeled_aiarray_iter_destroy(iter->query_iter);
     free(iter);
 
